@@ -30,6 +30,9 @@ class FrontController extends Controller
     public function perpustakaan()
     {
         $buku = buku::all();
-        return view('perpustakaan', compact('buku'));
+        $kategori = kategori::all();
+        $penulis = penulis::all();
+        $penerbit = penerbit::all();
+        return view('perpustakaan', compact('buku', 'kategori', 'penulis','penerbit'));
     }
 }

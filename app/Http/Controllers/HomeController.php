@@ -35,7 +35,11 @@ class HomeController extends Controller
             $penerbit = penerbit::all();
             return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit'));
         } else {
-            return view('perpustakaan');
+            $buku = buku::all();
+            $kategori = kategori::all();
+            $penulis = penulis::all();
+            $penerbit = penerbit::all();
+            return view('perpustakaan', compact('buku', 'kategori', 'penulis', 'penerbit'));
         }
         $buku = buku::all();
         $kategori = kategori::all();
