@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\BukuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
 
@@ -27,6 +28,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // user
 Route::get('/', [App\Http\Controllers\FrontController::class, 'perpustakaan']);
+// show buku
+Route::get('buku/{id}', [BukuController::class, 'show']);
 
 
 // admin
@@ -39,4 +42,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], fu
     Route::resource('penerbit', App\Http\Controllers\PenerbitController::class);
     Route::resource('buku', App\Http\Controllers\BukuController::class);
     Route::resource('dashboard', App\Http\Controllers\FrontController::class);
+    Route::resource('user', App\Http\Controllers\UsersController::class);
 });

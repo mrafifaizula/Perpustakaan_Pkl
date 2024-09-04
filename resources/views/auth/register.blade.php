@@ -74,6 +74,16 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
+                                    <label for="alamat">alamat</label>
+                                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="
+                                        alamat" name="alamat" placeholder="Enter your alamat" autofocus />
+                                    @error('alamat')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"" id="
                                         email" name="email" placeholder="Enter your email" />

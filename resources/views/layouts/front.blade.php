@@ -1,59 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <!-- basic -->
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- mobile metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-      <!-- site metas -->
-      <title>Intimate</title>
-      <meta name="keywords" content="">
-      <meta name="description" content="">
-      <meta name="author" content="">
-      <!-- bootstrap css -->
-      <link rel="stylesheet" type="text/css" href="{{asset('front/css/bootstrap.min.css')}}">
-      <!-- style css -->
-      <link rel="stylesheet" type="text/css" href="{{asset('front/css/style.css')}}">
-      <!-- Responsive-->
-      <link rel="stylesheet" href="{{asset('front/css/responsive.css')}}">
-      <!-- fevicon -->
-      <link rel="icon" href="{{asset('front/images/fevicon.png')}}" type="image/gif" />
-      <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="{{asset('front/css/jquery.mCustomScrollbar.min.css')}}">
-      <!-- Tweaks for older IEs-->
-      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-      <!-- css-->
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-      <!-- fonts -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   </head>
-   <body>
-      <!-- header section start -->
-      <div class="header_section">
-         @include('layouts.front.nav')
-        
-         {{-- start content --}}
-         @yield('content')
-         {{-- end content --}}
 
-      <!-- footer section start -->
-      @include('layouts.front.footer')
-      <!-- footer section end -->
-      
-      <!-- Javascript files-->
-      <script src="{{asset('front/js/jquery.min.js')}}"></script>
-      <script src="{{asset('front/js/popper.min.js')}}"></script>
-      <script src="{{asset('front/js/bootstrap.bundle.min.js')}}"></script>
-      <script src="{{asset('front/js/jquery-3.0.0.min.js')}}"></script>
-      <script src="{{asset('front/js/plugin.js')}}"></script>
-      <!-- sidebar -->
-      <script src="{{asset('front/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-      <script src="{{asset('front/js/custom.js')}}"></script>
-      <!-- javascript --> 
-      <script src="{{asset('front/js/owl.carousel.js')}}"></script>
-      <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js')}}"></script>    
-   </body>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Index - Green Bootstrap Template</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="{{ asset('front/assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ asset('front/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('front/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{{ asset('front/assets/css/main.css') }}" rel="stylesheet">
+
+    <!-- =======================================================
+  * Template Name: Green
+  * Template URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+
+    {{-- star nav --}}
+    @include('layouts.front.nav')
+    {{-- end nav --}}
+
+    {{-- start content --}}
+    @yield('content')
+    {{-- end content --}}
+
+    {{-- start footer --}}
+    @include('layouts.front.footer')
+    {{-- end footer --}}
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="{{ asset('front/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('front/assets/vendor/php-email-form/validate.js') }}"></script>
+    <script src="{{ asset('front/assets/vendor/aos/aos.js') }}"></script>
+    <script src="{{ asset('front/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ asset('front/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('front/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ asset('front/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+
+    <!-- Main JS File -->
+    <script src="{{ asset('front/assets/js/main.js') }}"></script>
+
+</body>
+
 </html>

@@ -37,7 +37,8 @@ class BukuController extends Controller
         $validated = $request->validate([
             'judul' => 'required|unique:bukus,judul',
             'jumlah_buku' => 'required',
-            'tahun_terbit' => 'required',
+            'tahun_terbit' => 'required|date',
+            'desc_buku' => 'required',
             'id_kategori' => 'required',
             'id_penulis' => 'required',
             'id_penerbit' => 'required',
@@ -53,6 +54,7 @@ class BukuController extends Controller
         $buku->judul = $request->judul;
         $buku->jumlah_buku = $request->jumlah_buku;
         $buku->tahun_terbit = $request->tahun_terbit;
+        $buku->desc_buku = $request->desc_buku;
         $buku->id_kategori = $request->id_kategori;
         $buku->id_penulis = $request->id_penulis;
         $buku->id_penerbit = $request->id_penerbit;
@@ -70,9 +72,10 @@ class BukuController extends Controller
     }
 
     
-    public function show(buku $buku)
+    public function show($id)
     {
-        //
+        $buku = buku::findorfail($id);
+        return view('detailbuku', compact('buku'));
     }
 
     
@@ -91,7 +94,8 @@ class BukuController extends Controller
         $validated = $request->validate([
             'judul' => 'required|unique:bukus,judul',
             'jumlah_buku' => 'required',
-            'tahun_terbit' => 'required',
+            'tahun_terbit' => 'required|date',
+            'desc_buku' => 'required',
             'id_kategori' => 'required',
             'id_penulis' => 'required',
             'id_penerbit' => 'required',
@@ -107,6 +111,7 @@ class BukuController extends Controller
         $buku->judul = $request->judul;
         $buku->jumlah_buku = $request->jumlah_buku;
         $buku->tahun_terbit = $request->tahun_terbit;
+        $buku->desc_buku = $request->desc_buku;
         $buku->id_kategori = $request->id_kategori;
         $buku->id_penulis = $request->id_penulis;
         $buku->id_penerbit = $request->id_penerbit;

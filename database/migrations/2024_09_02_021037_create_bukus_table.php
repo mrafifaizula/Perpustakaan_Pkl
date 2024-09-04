@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tahun_terbit');
             $table->integer('jumlah_buku');
             $table->string('image_buku');
+            $table->string('desc_buku');
             $table->unsignedBigInteger('id_kategori');
             $table->unsignedBigInteger('id_penulis');
             $table->unsignedBigInteger('id_penerbit');

@@ -25,6 +25,16 @@
                             </span>
                             @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="desc_kategori" class="form-label">Deskripsi</label>
+                            <textarea class="form-control @error('desc_kategori') is-invalid @enderror"
+                                name="desc_kategori"></textarea>
+                            @error('desc_kategori')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
                        <div class="mb-2">
                             <button class="btn btn-sm btn-success" type="submit">
                                 Simpan

@@ -174,12 +174,12 @@
                     <div class="table-responsive">
                         <table class="table align-items-center ">
                             <tbody>
+                                @php $no = 1; @endphp
                                 @foreach ($buku as $item)
                                     <tr>
                                         <td class="w-30">
                                             <div class="d-flex px-2 py-1 align-items-center">
                                                 <div>
-                                                  @php $no = 1; @endphp
                                                   {{$no++}}
                                                 </div>
                                                 <div class="ms-4">
@@ -220,11 +220,11 @@
                     </div>
                     <div class="card-body p-3">
                         <ul class="list-group">
+                            @php $no = 1; @endphp
                             @foreach ($kategori as $item)
                                 <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                                     <div class="d-flex px-2 py-1 align-items-center">
                                       <div>
-                                        @php $no = 1; @endphp
                                         {{$no++}}
                                       </div>
                                       <div class="ms-4">

@@ -1,64 +1,64 @@
-<div class="footer_section layout_padding">
-    <div class="container">
-       <div class="footer_section_2">
-          <div class="row">
-             <div class="col-lg-3 col-sm-6">
-                <div class="footer_social_icon">
-                   <ul>
-                      <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                      <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                      <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                      <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                   </ul>
-                </div>
-                <p class="footer_text">There are many variat
-                   ions of passages of L
-                   orem Ipsum available
-                   , but the majority h
-                   ave suffered altera
-                   tion in some form, by 
-                </p>
-             </div>
-             <div class="col-lg-3 col-sm-6">
-                <h2 class="useful_text">LET US HELP YOU</h2>
-                <p class="footer_text">There are many variat
-                   ions of passages of L
-                   orem Ipsum available
-                   , but the majority h
-                   ave suffered altera
-                   tion in some form, by 
-                </p>
-             </div>
-             <div class="col-lg-3 col-sm-6">
-                <h2 class="useful_text">Information</h2>
-                <div class="footer_menu">
-                   <ul>
-                      <li><a href="about.html">About Us</a></li>
-                      <li><a href="pets.html">Careers</a></li>
-                      <li><a href="#">Sell on shopee</a></li>
-                      <li><a href="#">Press & News</a></li>
-                      <li><a href="#">Competitions</a></li>
-                      <li><a href="#">Terms & Conditions</a></li>
-                   </ul>
-                </div>
-             </div>
-             <div class="col-lg-3 col-sm-6">
-                <h2 class="useful_text">Our Design</h2>
-                <p class="footer_text">There are many variat
-                   ions of passages of L
-                   orem Ipsum available
-                   , but the majority h
-                   ave suffered altera
-                   tion in some form, by 
-                </p>
-             </div>
-          </div>
+
+<footer id="footer" class="footer dark-background">
+
+   <div class="container footer-top">
+     <div class="row gy-4">
+       <div class="col-lg-5 col-md-12 footer-about">
+         <a href="index.html" class="logo d-flex align-items-center">
+           <span class="sitename">Green</span>
+         </a>
+         <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+         <div class="social-links d-flex mt-4">
+           <a href=""><i class="bi bi-twitter-x"></i></a>
+           <a href=""><i class="bi bi-facebook"></i></a>
+           <a href=""><i class="bi bi-instagram"></i></a>
+           <a href=""><i class="bi bi-linkedin"></i></a>
+         </div>
        </div>
-       <div class="input-group mb-3 margin_right">
-          <div class="form">
-             <input type="text" class="address_text" placeholder="Enter your Enail" name="text">
-             <button type="button" class="get_bt">SUBSCRIBE</button>
-          </div>
+
+       <div class="col-lg-2 col-6 footer-links">
+         <h4>Useful Links</h4>
+         <ul>
+           <li><a href="#">Home</a></li>
+           <li><a href="#">About us</a></li>
+           <li><a href="#">Services</a></li>
+           <li><a href="#">Terms of service</a></li>
+           <li><a href="#">Privacy policy</a></li>
+         </ul>
        </div>
-    </div>
- </div>
+
+       <div class="col-lg-2 col-6 footer-links">
+         <h4>Our Services</h4>
+         <ul>
+           <li><a href="#">Web Design</a></li>
+           <li><a href="#">Web Development</a></li>
+           <li><a href="#">Product Management</a></li>
+           <li><a href="#">Marketing</a></li>
+           <li><a href="#">Graphic Design</a></li>
+         </ul>
+       </div>
+
+       <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+         <h4>Contact Us</h4>
+         <p>A108 Adam Street</p>
+         <p>New York, NY 535022</p>
+         <p>United States</p>
+         <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+         <p><strong>Email:</strong> <span>info@example.com</span></p>
+       </div>
+
+     </div>
+   </div>
+
+   <div class="container copyright text-center mt-4">
+     <p>© <span>Copyright</span> <strong class="px-1 sitename">Green</strong> <span>All Rights Reserved</span></p>
+     <div class="credits">
+       <!-- All the links in the footer should remain intact. -->
+       <!-- You can delete the links only if you've purchased the pro version. -->
+       <!-- Licensing information: https://bootstrapmade.com/license/ -->
+       <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+       Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+     </div>
+   </div>
+
+ </footer>

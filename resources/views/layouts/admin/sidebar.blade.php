@@ -25,7 +25,8 @@
             <a class="nav-link " href="{{ url('admin/kategori') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10" style="color: black"></i> --}}
+                    <i class="ni ni-calendar-grid-58 text-sm" style="color: blue;"></i>
                 </div>
                 <span class="nav-link-text ms-1">Kategori</span>
             </a>
@@ -34,7 +35,8 @@
             <a class="nav-link " href="{{ url('admin/penulis') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+                    <i class="ni ni-calendar-grid-58 text-sm" style="color: yellow"></i>
                 </div>
                 <span class="nav-link-text ms-1">Penulis</span>
             </a>
@@ -43,7 +45,8 @@
             <a class="nav-link " href="{{ url('admin/penerbit') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+                    <i class="ni ni-calendar-grid-58 text-sm" style="color: red;"></i>
                 </div>
                 <span class="nav-link-text ms-1">Penerbit</span>
             </a>
@@ -52,9 +55,20 @@
             <a class="nav-link " href="{{ url('admin/buku') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+                    <i class="ni ni-calendar-grid-58 text-sm" style="color: green;"></i>
                 </div>
                 <span class="nav-link-text ms-1">Buku</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="{{ url('admin/user') }}">
+                <div
+                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+                    <i class="ni ni-world-2 text-sm" style="color: black;"></i>
+                </div>
+                <span class="nav-link-text ms-1">User</span>
             </a>
         </li>
     </ul>

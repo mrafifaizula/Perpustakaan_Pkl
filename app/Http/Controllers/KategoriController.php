@@ -27,6 +27,7 @@ class KategoriController extends Controller
     {
         $validated = $request->validate([
             'nama_kategori' => 'required|unique:kategoris,nama_kategori',
+            'desc_kategori' => 'required',
         ],
 
         [
@@ -37,6 +38,7 @@ class KategoriController extends Controller
         // new object
         $kategori = new kategori();
         $kategori->nama_kategori = $request->nama_kategori;
+        $kategori->desc_kategori = $request->desc_kategori;
         $kategori->save();
 
         Alert::success('Success', 'Data Berhasil Disimpan')->autoClose(1000);
@@ -58,6 +60,7 @@ class KategoriController extends Controller
     {
         $validated = $request->validate([
             'nama_kategori' => 'required|unique:kategoris,nama_kategori',
+            'desc_kategori' => 'required',
         ],
 
         [
@@ -67,6 +70,7 @@ class KategoriController extends Controller
 
         $kategori = kategori::findOrFail($id);
         $kategori->nama_kategori = $request->nama_kategori;
+        $kategori->desc_kategori = $request->desc_kategori;
 
         $kategori->save();
         Alert::success('Success', 'Data Berhasil Diubah')->autoClose(1000);

@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class buku extends Model
 {
     use HasFactory;
-    public $fillable = ['judul','tahun_terbit','jumlah_buku'];
-    public $visible = ['judul','tahun_terbit','jumlah_buku'];
+    public $fillable = ['judul','tahun_terbit','jumlah_buku', 'desc_buku'];
+    public $visible = ['judul','tahun_terbit','jumlah_buku', 'desc_buku'];
     public $timestamps = true;
 
     public function deleteImage()

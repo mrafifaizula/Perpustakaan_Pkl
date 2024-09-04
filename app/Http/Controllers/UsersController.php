@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
 use Alert;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
+
     public function index()
     {
         $users = User::all();
