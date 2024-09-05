@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 use Auth;
-use App\Models\buku;
-use App\Models\kategori;
-use App\Models\penulis;
-use App\Models\penerbit;
+use App\Models\Buku;
+use App\Models\Kategori;
+use App\Models\Penulis;
+use App\Models\Penerbit;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -29,22 +29,22 @@ class HomeController extends Controller
     {
         $users = Auth::user();
         if ($users->isAdmin == 1) {
-            $buku = buku::all();
-            $kategori = kategori::all();
-            $penulis = penulis::all();
-            $penerbit = penerbit::all();
+            $buku = Buku::all();
+            $kategori = Kategori::all();
+            $penulis = Penulis::all();
+            $penerbit = Penerbit::all();
             return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit'));
         } else {
-            $buku = buku::all();
-            $kategori = kategori::all();
-            $penulis = penulis::all();
-            $penerbit = penerbit::all();
+            $buku = Buku::all();
+            $kategori = Kategori::all();
+            $penulis = Penulis::all();
+            $penerbit = Penerbit::all();
             return view('perpustakaan', compact('buku', 'kategori', 'penulis', 'penerbit'));
         }
-        $buku = buku::all();
-        $kategori = kategori::all();
-        $penulis = penulis::all();
-        $penerbit = penerbit::all();
+        $buku = Buku::all();
+        $kategori = Kategori::all();
+        $penulis = Penulis::all();
+        $penerbit = Penerbit::all();
         return view('perpustakaan', compact('buku', 'kategori', 'penulis', 'penerbit'));
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.frontend')
 <style>
     .member {
         position: relative;
@@ -183,37 +183,9 @@
 
             </div>
 
-        </section><!-- /About Section -->
-
-        <!-- Why Us Section -->
-        <section id="why-us" class="why-us section">
-
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Kategori</h2>
-                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div>
-
-
-            <div class="container">
-
-                <div class="row no-gutters">
-                    @php $no = 1; @endphp
-                    @foreach ($kategori as $item)
-                    <div class="col-lg-4 col-md-6 card" data-aos="fade-up" data-aos-delay="100">
-                        <span>
-                            {{$no++}}
-                        </span>
-                        <h4>{{$item->nama_kategori}}</h4>
-                        <p>{{$item->desc_kategori}}</p>
-                    </div><!-- End Card Item -->
-                    @endforeach
-
-                </div>
-
-            </div>
-
-        </section><!-- /Why Us Section -->
-
+        </section>
+        <!-- /About Section -->
+        
         <!-- Clients Section -->
         <section id="clients" class="clients section light-background">
 

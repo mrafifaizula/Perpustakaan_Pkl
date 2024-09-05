@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Alert;
-use App\Models\penulis;
+use App\Models\Penulis;
 use Illuminate\Http\Request;
 
 class PenulisController extends Controller
@@ -10,7 +10,7 @@ class PenulisController extends Controller
     
     public function index()
     {
-        $penulis = penulis::all();
+        $penulis = Penulis::all();
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
         return view('admin.penulis.index', compact('penulis'));
     }
@@ -34,7 +34,7 @@ class PenulisController extends Controller
         ]);
 
         // new object
-        $penulis = new penulis();
+        $penulis = new Penulis();
         $penulis->nama_penulis = $request->nama_penulis;
         $penulis->save();
 
@@ -43,7 +43,7 @@ class PenulisController extends Controller
     }
 
    
-    public function show(penulis $penulis)
+    public function show($id)
     {
         //
     }
@@ -51,7 +51,7 @@ class PenulisController extends Controller
    
     public function edit($id)
     {
-        $penulis = penulis::findOrFail($id);
+        $penulis = Penulis::findOrFail($id);
         return view('admin.penulis.edit', compact('penulis'));
     }
 
@@ -59,15 +59,10 @@ class PenulisController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'nama_penulis' => 'required|unique:penulis,nama_penulis',
-        ],
-    
-        [
-            'nama_penulis.required' => 'Nama nama_penulis Harus Diisi',
-            'nama_penulis.unique' => 'Nama Penulis Tidak Boleh Sama'
+            'nama_penulis' => 'required',
         ]);
 
-        $penulis = penulis::findOrFail($id);
+        $penulis = Penulis::findOrFail($id);
         $penulis->nama_penulis = $request->nama_penulis;
 
         $penulis->save();
@@ -78,7 +73,7 @@ class PenulisController extends Controller
     
     public function destroy($id)
     {
-        $penulis = penulis::findOrFail($id);
+        $penulis = Penulis::findOrFail($id);
         $penulis->delete();
         Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);
         return redirect()->route('penulis.index');

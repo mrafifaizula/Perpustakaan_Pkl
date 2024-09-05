@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.backend')
 
 @section('content')
 
@@ -14,21 +14,11 @@
                     <form action="{{ route('kategori.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-2">
-                            <label for="nama_kategori">Name Kategori</label>
+                            <label for="nama_kategori">Kategori</label>
                             <input type="text" placeholder="Judul kategori"
                                 class="form-control @error('nama_kategori') is-invalid @enderror"
                                 name="nama_kategori">
                             @error('nama_kategori')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="desc_kategori" class="form-label">Deskripsi</label>
-                            <textarea class="form-control @error('desc_kategori') is-invalid @enderror"
-                                name="desc_kategori"></textarea>
-                            @error('desc_kategori')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

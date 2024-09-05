@@ -9,6 +9,7 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="{{ asset('front/assets/img/favicon.png') }}" rel="icon">
     <link href="{{ asset('front/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
@@ -41,7 +42,7 @@
 <body class="index-page">
 
     {{-- star nav --}}
-    @include('layouts.front.nav')
+    @include('layouts.frontend.nav')
     {{-- end nav --}}
 
     {{-- start content --}}
@@ -49,7 +50,7 @@
     {{-- end content --}}
 
     {{-- start footer --}}
-    @include('layouts.front.footer')
+    @include('layouts.frontend.footer')
     {{-- end footer --}}
 
     <!-- Scroll Top -->
@@ -70,6 +71,7 @@
 
     <!-- Main JS File -->
     <script src="{{ asset('front/assets/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
 

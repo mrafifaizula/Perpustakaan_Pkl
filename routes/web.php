@@ -28,6 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // user
 Route::get('/', [App\Http\Controllers\FrontController::class, 'perpustakaan']);
+Route::resource('pinjaman', App\Http\Controllers\PinjamanController::class);
 // show buku
 Route::get('buku/{id}', [BukuController::class, 'show']);
 

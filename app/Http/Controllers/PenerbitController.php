@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Alert;
-use App\Models\penerbit;
+use App\Models\Penerbit;
 use Illuminate\Http\Request;
 
 class PenerbitController extends Controller
@@ -10,7 +10,7 @@ class PenerbitController extends Controller
    
     public function index()
     {
-        $penerbit = penerbit::all();
+        $penerbit = Penerbit::all();
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
         return view('admin.penerbit.index', compact('penerbit'));
     }
@@ -34,7 +34,7 @@ class PenerbitController extends Controller
         ]);
 
         // new object
-        $penerbit = new penerbit();
+        $penerbit = new Penerbit();
         $penerbit->nama_penerbit = $request->nama_penerbit;
         $penerbit->save();
 
@@ -43,7 +43,7 @@ class PenerbitController extends Controller
     }
 
     
-    public function show(penerbit $penerbit)
+    public function show($id)
     {
         //
     }
@@ -51,7 +51,7 @@ class PenerbitController extends Controller
     
     public function edit($id)
     {
-        $penerbit = penerbit::findOrFail($id);
+        $penerbit = Penerbit::findOrFail($id);
         return view('admin.penerbit.edit', compact('penerbit'));
     }
 
@@ -66,7 +66,7 @@ class PenerbitController extends Controller
             'nama_penerbit.unique' => 'Nama Penerbit Tidak Boleh Sama'
         ]);
 
-        $penerbit = penerbit::findOrFail($id);
+        $penerbit = Penerbit::findOrFail($id);
         $penerbit->nama_penerbit = $request->nama_penerbit;
 
         $penerbit->save();
@@ -77,7 +77,7 @@ class PenerbitController extends Controller
     
     public function destroy($id)
     {
-        $penerbit = penerbit::findOrFail($id);
+        $penerbit = Penerbit::findOrFail($id);
         $penerbit->delete();
         Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);
         return redirect()->route('penerbit.index');

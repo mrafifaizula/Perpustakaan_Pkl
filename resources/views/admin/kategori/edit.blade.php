@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.backend')
 
 @section('content')
 
@@ -16,20 +16,10 @@
                         @method('PUT')
                         @csrf
                         <div class="mb-2">
-                            <label for="nama_kategori">Name Katgori</label>
+                            <label for="nama_kategori">Katgori</label>
                             <input type="text" class="form-control @error('nama_kategori') is-invalid @enderror"
                                 name="nama_kategori" value="{{$kategori->nama_kategori}}">
                             @error('nama_kategori')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="desc_kategori" class="form-label">Deskripsi</label>
-                            <textarea class="form-control @error('desc_kategori') is-invalid @enderror"
-                                name="desc_kategori"></textarea>
-                            @error('desc_kategori')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

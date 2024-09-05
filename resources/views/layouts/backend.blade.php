@@ -43,11 +43,11 @@
 <body class="g-sidenav-show   bg-gray-100">
   <div class="min-height-300 bg-primary position-absolute w-100"></div>
   {{-- start sidebar --}}
-  @include('layouts.admin.sidebar')
+  @include('layouts.backend.sidebar')
   {{-- end sidebar --}}
   <main class="main-content position-relative border-radius-lg ">
     <!-- start Navbar -->
-    @include('layouts.admin.nav')
+    @include('layouts.backend.nav')
     <!-- End Navbar -->
 
      {{-- start content --}}
@@ -56,7 +56,7 @@
 
     <div class="container-fluid py-4">
        {{-- start footer --}}
-       @include('layouts.admin.footer')
+       @include('layouts.backend.footer')
        {{-- end footer --}}
     </div>
   </main>
@@ -230,6 +230,7 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js')}}"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->

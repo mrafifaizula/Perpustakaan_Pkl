@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 use Alert;
-use App\Models\buku;
-use App\Models\kategori;
-use App\Models\penulis;
-use App\Models\penerbit;
+use App\Models\Buku;
+use App\Models\Kategori;
+use App\Models\Penulis;
+use App\Models\Penerbit;
+use App\Models\Pinjaman;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
@@ -13,22 +14,24 @@ class BukuController extends Controller
     
     public function index()
     {
-        $buku = buku::all();
-        $kategori = kategori::all();
-        $penulis = penulis::all();
-        $penerbit = penerbit::all();
+        $buku = Buku::all();
+        $kategori = Kategori::all();
+        $penulis = Penulis::all();
+        $penerbit = Penerbit::all();
+        $pinjaman = Pinjaman::all();
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.buku.index', compact('buku', 'kategori', 'penulis', 'penerbit'));
+        return view('admin.buku.index', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjaman'));
     }
 
    
     public function create()
     {
-        $buku = buku::all();
-        $kategori = kategori::all();
-        $penulis = penulis::all();
-        $penerbit = penerbit::all();
-        return view('admin.buku.create', compact('buku', 'kategori', 'penulis', 'penerbit'));
+        $buku = Buku::all();
+        $kategori = Kategori::all();
+        $penulis = Penulis::all();
+        $penerbit = Penerbit::all();
+        $pinjaman = Pinjaman::all();
+        return view('admin.buku.create', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjaman'));
     }
 
     
@@ -37,7 +40,7 @@ class BukuController extends Controller
         $validated = $request->validate([
             'judul' => 'required|unique:bukus,judul',
             'jumlah_buku' => 'required',
-            'tahun_terbit' => 'required|date',
+            'tahun_terbit' => 'required|date|before_or_equal:today',
             'desc_buku' => 'required',
             'id_kategori' => 'required',
             'id_penulis' => 'required',
@@ -47,10 +50,11 @@ class BukuController extends Controller
         
         [
             'judul.required' => 'Nama Judul Harus Diisi',
-            'judul.unique' => 'Judul Tidak Boleh Sama'
+            'judul.unique' => 'Judul Tidak Boleh Sama',
+            'tahun_terbit.after_or_equal' => 'Tanggal harus sama dengan atau setelah hari ini.',
         ]);
 
-        $buku = new buku();
+        $buku = new Buku();
         $buku->judul = $request->judul;
         $buku->jumlah_buku = $request->jumlah_buku;
         $buku->tahun_terbit = $request->tahun_terbit;
@@ -74,17 +78,17 @@ class BukuController extends Controller
     
     public function show($id)
     {
-        $buku = buku::findorfail($id);
+        $buku = Buku::findorfail($id);
         return view('detailbuku', compact('buku'));
     }
 
     
     public function edit($id)
     {
-        $buku = buku::findOrFail($id);
-        $kategori = kategori::all();
-        $penulis = penulis::all();
-        $penerbit = penerbit::all();
+        $buku = Buku::findOrFail($id);
+        $kategori = Kategori::all();
+        $penulis = Penulis::all();
+        $penerbit = Penerbit::all();
         return view('admin.buku.edit', compact('buku', 'kategori', 'penulis', 'penerbit'));
     }
 
@@ -92,7 +96,7 @@ class BukuController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'judul' => 'required|unique:bukus,judul',
+            'judul' => 'required',
             'jumlah_buku' => 'required',
             'tahun_terbit' => 'required|date',
             'desc_buku' => 'required',
@@ -100,14 +104,9 @@ class BukuController extends Controller
             'id_penulis' => 'required',
             'id_penerbit' => 'required',
             // 'image_buku' => 'required|max:4000|mimes:jpeg,png,jpg,gif,svg',
-        ],
-
-        [
-            'judul.required' => 'Nama Judul Harus Diisi',
-            'judul.unique' => 'Judul Tidak Boleh Sama'
         ]);
 
-        $buku = buku::findOrFail($id);
+        $buku = Buku::findOrFail($id);
         $buku->judul = $request->judul;
         $buku->jumlah_buku = $request->jumlah_buku;
         $buku->tahun_terbit = $request->tahun_terbit;
@@ -132,7 +131,7 @@ class BukuController extends Controller
     
     public function destroy($id)
     {
-        $buku = buku::findOrFail($id);
+        $buku = Buku::findOrFail($id);
         $buku->delete();
         Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);
         return redirect()->route('buku.index');

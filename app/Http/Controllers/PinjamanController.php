@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\pinjaman;
+use Alert;
+use App\Models\Pinjaman;
+use App\Models\Kembali;
+use App\Models\Buku;
 use Illuminate\Http\Request;
 
 class PinjamanController extends Controller
@@ -14,32 +16,34 @@ class PinjamanController extends Controller
 
     public function index()
     {
-        $pinjaman = pinjaman::latest()->paginate(5);
-        return view('perpustakaan', compact('pinjaman'));
+        $pinjaman = Pinjaman::latest()->paginate(5);
+        return view('detailbuku', compact('pinjaman'));
     }
 
     public function create()
     {
-        $buku = buku::all();
-        $pinjaman = pinjaman::all();
-        $kembali = kembali::all();
-        return view('perpustakaan', compact('buku','pinjaman','kembali'));
+        $buku = Buku::all();
+        $pinjaman = Pinjaman::all();
+        $kembali = Kembali::all();
+        return view('detailbuku', compact('buku','pinjaman','kembali'));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
             'jumlah' => 'required|min:1|max:5',
-            'tanggal_pinjaman' => 'required|date',
+            'tanggal_pinjaman' => 'required|date||before_or_equal:today',
+            'tanggal_kembali' => 'required|date|after_or_equal:today',
             'nama' => 'required',
             'status' => 'required',
             'id_buku' => 'required',
         ]);
 
         // Create a new instance of pinjaman
-        $pinjaman = new pinjaman();
+        $pinjaman = new Pinjaman();
         $pinjaman->jumlah = $request->jumlah;
         $pinjaman->tanggal_pinjaman = $request->tanggal_pinjaman;
+        $pinjaman->tanggal_kembali = $request->tanggal_kembali;
         $pinjaman->nama = $request->nama;
         $pinjaman->status = $request->status;
         $pinjaman->id_buku = $request->id_buku;
@@ -57,7 +61,7 @@ class PinjamanController extends Controller
             $pinjaman->save();
 
             // Redirect to the index route of pinjaman
-            return redirect()->route('peminjaman.index');
+            return redirect()->route('pinjaman');
         } else {
             // Handle the case where Data record was not found
             // For example, you can redirect back with an error message
@@ -65,21 +69,21 @@ class PinjamanController extends Controller
         }
     }
 
-    public function show(pinjaman $pinjaman)
+    public function show($id)
     {
         
     }
 
-    public function edit(pinjaman $pinjaman)
+    public function edit($id)
     {
-        $pinjaman = pinjaman::findOrFail($id);
+        $pinjaman = Pinjaman::findOrFail($id);
         $buku = Buku::all();
         return view('peminjaman.edit', compact('pinjaman','buku'));
     }
 
     public function update(Request $request, pinjaman $pinjaman)
     {
-        $pinjaman = pinjaman::findOrFail($id);
+        $pinjaman = Pinjaman::findOrFail($id);
         $buku = Buku::findOrFail($pinjaman->id_buku);
 
         $pinjaman->update($request->all());
