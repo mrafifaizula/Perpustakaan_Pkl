@@ -26,6 +26,7 @@
                     <tr>
                         <td>No</td>
                         <td>Name</td>
+                        <td>Alamat</td>
                         <td>Email</td>
                         <td>Role</td>
                         <td>Actions</td>
@@ -33,11 +34,13 @@
                 </thead>
                 <tbody>
                     @php $i=1; @endphp
-                    @foreach($users as $data)
+                    @foreach($user as $data)
                     <tr>
                         <td>{{ $i++ }}</td>
                         <td>{{ $data->name }}</td>
+                        <td>{{ $data->alamat }}</td>
                         <td>{{ $data->email }}</td>
+                        {{-- <td>{{ $data->isAdmin == 1 ? 'Admin' : ($data->isAdmin == 2 ? 'Manager' : 'User') }}</td> --}}
                         <td>{{ $data->isAdmin == 1 ? 'Admin' : 'User' }}</td>
                         <td>
                             <form action="{{route('user.destroy', $data->id)}}" method="post">

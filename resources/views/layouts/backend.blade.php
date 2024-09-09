@@ -37,7 +37,9 @@
   <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="{{asset('assets/css/argon-dashboard.css')}}?v=2.0.4" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   @yield('styles')
+  
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -236,6 +238,9 @@
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('assets/js/argon-dashboard.min.js')}}?v=2.0.4"></script>
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script>
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+  </script>
     @include('sweetalert::alert')
     @stack('scripts')
 </body>

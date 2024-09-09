@@ -6,7 +6,7 @@ use App\Models\Buku;
 use App\Models\Kategori;
 use App\Models\Penulis;
 use App\Models\Penerbit;
-use App\Models\Pinjaman;
+use App\Models\Pinjambuku;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
@@ -18,9 +18,9 @@ class BukuController extends Controller
         $kategori = Kategori::all();
         $penulis = Penulis::all();
         $penerbit = Penerbit::all();
-        $pinjaman = Pinjaman::all();
+        $pinjambuku = Pinjambuku::all();
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.buku.index', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjaman'));
+        return view('admin.buku.index', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjambuku'));
     }
 
    
@@ -30,8 +30,8 @@ class BukuController extends Controller
         $kategori = Kategori::all();
         $penulis = Penulis::all();
         $penerbit = Penerbit::all();
-        $pinjaman = Pinjaman::all();
-        return view('admin.buku.create', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjaman'));
+        $pinjambuku = Pinjambuku::all();
+        return view('admin.buku.create', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjambuku'));
     }
 
     
@@ -42,6 +42,7 @@ class BukuController extends Controller
             'jumlah_buku' => 'required',
             'tahun_terbit' => 'required|date|before_or_equal:today',
             'desc_buku' => 'required',
+            'code_buku' => 'required',
             'id_kategori' => 'required',
             'id_penulis' => 'required',
             'id_penerbit' => 'required',
@@ -59,6 +60,7 @@ class BukuController extends Controller
         $buku->jumlah_buku = $request->jumlah_buku;
         $buku->tahun_terbit = $request->tahun_terbit;
         $buku->desc_buku = $request->desc_buku;
+        $buku->code_buku = $request->code_buku;
         $buku->id_kategori = $request->id_kategori;
         $buku->id_penulis = $request->id_penulis;
         $buku->id_penerbit = $request->id_penerbit;
@@ -79,7 +81,8 @@ class BukuController extends Controller
     public function show($id)
     {
         $buku = Buku::findorfail($id);
-        return view('detailbuku', compact('buku'));
+        $pinjambuku = Pinjambuku::all();
+        return view('frontend.detailbuku', compact('buku','pinjambuku'));
     }
 
     
@@ -100,6 +103,7 @@ class BukuController extends Controller
             'jumlah_buku' => 'required',
             'tahun_terbit' => 'required|date',
             'desc_buku' => 'required',
+            'code_buku' => 'required',
             'id_kategori' => 'required',
             'id_penulis' => 'required',
             'id_penerbit' => 'required',
@@ -111,6 +115,7 @@ class BukuController extends Controller
         $buku->jumlah_buku = $request->jumlah_buku;
         $buku->tahun_terbit = $request->tahun_terbit;
         $buku->desc_buku = $request->desc_buku;
+        $buku->code_buku = $request->code_buku;
         $buku->id_kategori = $request->id_kategori;
         $buku->id_penulis = $request->id_penulis;
         $buku->id_penerbit = $request->id_penerbit;

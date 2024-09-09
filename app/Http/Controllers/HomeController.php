@@ -27,24 +27,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = Auth::user();
-        if ($users->isAdmin == 1) {
-            $buku = Buku::all();
-            $kategori = Kategori::all();
-            $penulis = Penulis::all();
-            $penerbit = Penerbit::all();
-            return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit'));
-        } else {
-            $buku = Buku::all();
-            $kategori = Kategori::all();
-            $penulis = Penulis::all();
-            $penerbit = Penerbit::all();
-            return view('perpustakaan', compact('buku', 'kategori', 'penulis', 'penerbit'));
-        }
-        $buku = Buku::all();
-        $kategori = Kategori::all();
-        $penulis = Penulis::all();
-        $penerbit = Penerbit::all();
-        return view('perpustakaan', compact('buku', 'kategori', 'penulis', 'penerbit'));
+        $user = Auth::user();
+        // dd($user->, $user);
+
+
+    // Fetch data from the models
+    $buku = Buku::all();
+    $kategori = Kategori::all();
+    $penulis = Penulis::all();
+    $penerbit = Penerbit::all();
+
+    $users = Auth::user();
+    if ($users->isAdmin == 1) {
+        return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit'));
+    } else {
+        return view('frontend.index', compact('buku', 'kategori', 'penulis', 'penerbit'));
     }
+    return view('frontend.index', compact('buku', 'kategori', 'penulis', 'penerbit'));
+
+
+}
 }

@@ -74,16 +74,6 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="alamat">alamat</label>
-                                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="
-                                        alamat" name="alamat" placeholder="Enter your alamat" autofocus />
-                                    @error('alamat')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"" id="
                                         email" name="email" placeholder="Enter your email" />
@@ -111,6 +101,14 @@
                                         name="password_confirmation"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                         aria-describedby="password_confirm" />
+                                </div>
+                                <div class="form-check form-check-info text-start">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                                        checked>
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms
+                                            and Conditions</a>
+                                    </label>
                                 </div>
                                 <div class="mb-3">
                                     <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
@@ -193,9 +191,9 @@
     }
     </script>
     <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js')}}"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="{{asset('assets/js/argon-dashboard.min.js')}}?v=2.0.4"></script>
+    <script src="{{asset('assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
 
 </html>

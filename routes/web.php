@@ -4,8 +4,12 @@
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\PinjambukuController;
+use App\Http\Controllers\BackController;
+use App\Http\Controllers\ProfilController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsStap;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +22,7 @@ use App\Http\Middleware\IsAdmin;
 |
 */
 
-Route::get('/', function () {
+Route::get('/gg', function () {
     return view('welcome');
 });
 
@@ -27,11 +31,17 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // user
-Route::get('/', [App\Http\Controllers\FrontController::class, 'perpustakaan']);
-Route::resource('pinjaman', App\Http\Controllers\PinjamanController::class);
-// show buku
-Route::get('buku/{id}', [BukuController::class, 'show']);
+Route::group(['prefix' => '/'], function () {
+    Route::get('/', [FrontController::class, 'index'])->name('frontend.index');
+    Route::get('profil/dashboard', [App\Http\Controllers\FrontController::class, 'perpustakaan']);
+    Route::get('buku/{id}', [BukuController::class, 'show']);
+    Route::get('pinjam/buku/{id}', [FrontController::class, 'ShowPinjambuku']);
+    Route::get('/profil/pinjambuku', [PinjamBukuController::class, 'index'])->name('profil.pinjambuku.index');
 
+    Route::resource('pinjambuku', PinjamBukuController::class);
+    Route::resource('profil/profil', ProfilController::class);
+
+});
 
 // admin
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], function () {
@@ -42,6 +52,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], fu
     Route::resource('penulis', App\Http\Controllers\PenulisController::class);
     Route::resource('penerbit', App\Http\Controllers\PenerbitController::class);
     Route::resource('buku', App\Http\Controllers\BukuController::class);
-    Route::resource('dashboard', App\Http\Controllers\FrontController::class);
+    Route::resource('dashboard', App\Http\Controllers\BackController::class);
     Route::resource('user', App\Http\Controllers\UsersController::class);
+    // Route::resource('pinjambuku', App\Http\Controllers\PinjambukuController::class);
+    Route::get('pinjambuku', [App\Http\Controllers\BackController::class, 'pinjambuku']);
 });

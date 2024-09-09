@@ -9,14 +9,14 @@
                     <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary" style="float: right">Kembali</a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('user.update', $users->id) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('user.update', $user->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('put')
                         <div class="row">
                             <div class="mb-2">
                                 <label for="name">Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                                    value="{{$users->name}}">
+                                    value="{{$user->name}}">
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -25,9 +25,43 @@
                             </div>
                             <div class="col">
                                 <div class="mb-2">
+                                    <label for="alamat">Alamat</label>
+                                    <input type="text" class="form-control @error('alamat') is-invalid @enderror"
+                                        name="alamat" value="{{$user->alamat}}">
+                                    @error('alamat')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="mb-2">
+                                    <label for="alamat">Nomor Telepon</label>
+                                    <input type="text" class="form-control @error('alamat') is-invalid @enderror"
+                                        name="alamat" value="{{$user->alamat}}">
+                                    @error('alamat')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="mb-2">
+                                    <label for="image_user">Images</label>
+                                    @if($user->image_user)
+                                    <p>
+                                        <image src="{{ asset('images/user/' .$user->image_user)}}" alt="image_user" width="100px">
+                                    </p>
+                                    @endif
+                                    <input type="file" name="image_user" class="form-control @error('image_user') is-invalid @enderror">
+                                    @error('image_user')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="mb-2">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" value="{{$users->email}}">
+                                        name="email" value="{{$user->email}}">
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -51,6 +85,7 @@
                                         <option value="">Pilih</option>
                                         <option value="0">User</option>
                                         <option value="1">Admin</option>
+                                        {{-- <option value="2">Penjaga</option> --}}
                                     </select>
                                 </div>
                             </div>

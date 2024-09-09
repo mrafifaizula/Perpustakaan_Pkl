@@ -25,6 +25,17 @@
                             @enderror
                         </div>
                         <div class="mb-2">
+                            <label for="code_buku">Code Buku</label>
+                            <input type="text" placeholder="Code Buku"
+                                class="form-control @error('code_buku') is-invalid @enderror"
+                                name="code_buku">
+                            @error('code_buku')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="mb-2">
                             <label for="tahun_terbit">Tahun terbit</label>
                             <input type="date" placeholder="Tahun Terbit"
                                 class="form-control @error('tahun_terbit') is-invalid @enderror"

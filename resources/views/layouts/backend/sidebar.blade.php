@@ -22,6 +22,19 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link " href="{{ url('admin/user') }}">
+                <div
+                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+                    <i class="ni ni-world-2 text-sm" style="color: black;"></i>
+                </div>
+                <span class="nav-link-text ms-1">User</span>
+            </a>
+        </li>
+        <li class="nav-item mt-3">
+            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Tables</h6>
+          </li>
+        <li class="nav-item">
             <a class="nav-link " href="{{ url('admin/kategori') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -62,13 +75,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="{{ url('admin/user') }}">
+            <a class="nav-link " href="{{ url('admin/pinjambuku') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
-                    <i class="ni ni-world-2 text-sm" style="color: black;"></i>
+                    <i class="bi bi-book-half text-sm" style="color: pink"></i>
                 </div>
-                <span class="nav-link-text ms-1">User</span>
+                <span class="nav-link-text ms-1">Peminjam Buku</span>
             </a>
         </li>
     </ul>

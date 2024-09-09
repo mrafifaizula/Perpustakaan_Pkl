@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('jumlah_buku');
             $table->string('image_buku');
             $table->string('desc_buku');
+            $table->string('code_buku');
             $table->unsignedBigInteger('id_kategori');
             $table->unsignedBigInteger('id_penulis');
             $table->unsignedBigInteger('id_penerbit');

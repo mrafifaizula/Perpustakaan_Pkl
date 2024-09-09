@@ -25,6 +25,7 @@
                     <thead>
                         <td>No</td>
                         <td>Judul</td>
+                        <td>Code Buku</td>
                         <td>Tahun</td>
                         <td>Jumlah</td>
                         <td>Kategori</td>
@@ -39,6 +40,7 @@
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $item->judul }}</td>
+                                <td>{{ $item->code_buku }}</td>
                                 <td>{{ $item->tahun_terbit }}</td>
                                 <td>{{ $item->jumlah_buku }}</td>
                                 <td>{{ $item->kategori->nama_kategori }}</td>
@@ -138,6 +140,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                                 {{-- end modal --}}
                         @endforeach
                     </tbody>

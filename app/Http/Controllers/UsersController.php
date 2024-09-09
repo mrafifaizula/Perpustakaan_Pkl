@@ -11,9 +11,9 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $user = User::all();
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.user.index', compact('users'));
+        return view('admin.user.index', compact('user'));
 
     }
 
@@ -26,16 +26,31 @@ class UsersController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'email' => 'required|unique:users',
+            'alamat' => 'required',
+            'tlp' => 'required',
+            'email' => 'required|unique:user',
             'password' => 'required|min:8', // Add 'confirmed' if
             'isAdmin' => 'required',
+            'image_user' => 'required|max:4000|mimes:jpeg,png,jpg,gif,svg',
+
         ]);
-        $users = new User();
-        $users->name = $request->name;
-        $users->email = $request->email;
-        $users->password = hash::make($request->password);
-        $users->isAdmin = $request->isAdmin;
-        $users->save();
+        $user = new User();
+        $user->name = $request->name;
+        $user->alamat = $request->alamat;
+        $user->tlp = $request->tlp;
+        $user->email = $request->email;
+        $user->password = hash::make($request->password);
+        $user->isAdmin = $request->isAdmin;
+
+        if ($request->hasFile('image_user')) {
+            $img = $request->file('image_user');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('images/user/', $name);
+            $user->image_user = $name;
+        }
+
+        $user->save();
+
         Alert::success('Success', 'data Berhasil Disimpan')->autoClose(1000);
         return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
@@ -47,8 +62,8 @@ class UsersController extends Controller
 
     public function edit($id)
     {
-        $users = User::findOrFail($id);
-        return view('admin.user.edit', compact('users'));
+        $user = User::findOrFail($id);
+        return view('admin.user.edit', compact('user'));
 
         $user->save();
         return redirect()->route('user.index');
@@ -58,24 +73,38 @@ class UsersController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|max:255',
+            'alamat' => 'required',
+            'tlp' => 'required',
             'email' => 'required',
             'password' => 'required|min:8', // Add 'confirmed' if
             'isAdmin' => 'required',
         ]);
-        $users = User::findOrFail($id);
-        $users->name = $request->name;
-        $users->email = $request->email;
-        $users->password = hash::make($request->password);
-        $users->isAdmin = $request->isAdmin;
-        $users->save();
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->alamat = $request->alamat;
+        $user->tlp = $request->tlp;
+        $user->email = $request->email;
+        $user->password = hash::make($request->password);
+        $user->isAdmin = $request->isAdmin;
+
+        if ($request->hasFile('image_user')) {
+            $user->deleteImage(); // untuk hapus gambar sebelum diganti gambar baru
+            $img = $request->file('image_user');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('images/user/', $name);
+            $user->image_user = $name;
+        }
+
+        $user->save();
+
         Alert::success('Success', 'Data Berhasil Di Edit')->autoClose(1000);
         return redirect()->route('user.index')->with('success', 'User update successfully.');
     }
 
     public function destroy($id)
     {
-        $users = User::findOrFail($id);
-        $users->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
         Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);
         return redirect()->route('user.index')->with('success', ' User deleted successfully');
 
