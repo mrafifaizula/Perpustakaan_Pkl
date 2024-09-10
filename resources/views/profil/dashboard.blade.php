@@ -1,16 +1,50 @@
 @extends('layouts.profil')
 @section('content')
     <div class="container-fluid py-4">
-        <div class="row">
+        <div class="col-12 col-lg-12 col-xxl-12">
+            <div class="card bg-secondary text-light">
+                <div class="card-header d-flex align-items-center p-2">
+                    <i class="bi bi-exclamation-diamond-fill fs-3 me-2" style="color: red"></i>
+                    <h4 class="card-title mb-0">Peraturan</h4>
+                </div>
+                <div class="card-body p-2">
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex align-items-center mb-1">
+                            <i class="bi bi-check-circle-fill fs-4 me-2" style="color: rgb(0, 145, 255)"></i>
+                            Pastikan mengembalikan buku tepat waktu untuk menghindari denda.
+                        </li>
+                        <li class="d-flex align-items-center mb-1">
+                            <i class="bi bi-check-circle-fill fs-4 me-2" style="color: rgb(0, 145, 255)"></i>
+                            Jaga kondisi buku dengan baik; kerusakan dapat dikenakan biaya.
+                        </li>
+                        <li class="d-flex align-items-center mb-1">
+                            <i class="bi bi-check-circle-fill fs-4 me-2" style="color: rgb(0, 145, 255)"></i>
+                            Ajukan perpanjangan sebelum tanggal jatuh tempo jika perlu waktu lebih lama.
+                        </li>
+                        <li class="d-flex align-items-center mb-1">
+                            <i class="bi bi-check-circle-fill fs-4 me-2" style="color: rgb(0, 145, 255)"></i>
+                            Laporkan segera jika buku hilang atau rusak untuk menghindari denda tambahan.
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill fs-4 me-2" style="color: rgb(0, 145, 255)"></i>
+                            Bayar denda atau biaya keterlambatan segera untuk menghindari pembatasan peminjaman di masa depan.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="row mt-5">
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
                     <div class="card-body p-3">
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Pinjam Buku</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Judul Pinjam</p>
                                     <h5 class="font-weight-bolder">
-                                        {{ \App\Models\PinjamBuku::where('id_user', Auth::user()->id)->count() }}
+                                        {{-- {{ \App\Models\PinjamBuku::where('id_user', Auth::user()->id)->count() }} --}}1
                                     </h5>
                                     <p class="mb-0">
                                         Terbaru
@@ -32,9 +66,9 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Data Kategori</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah Pinjam</p>
                                     <h5 class="font-weight-bolder">
-                                        {{ \App\Models\Kategori::count() }}
+                                        {{-- {{$totalpinjam}} --}} 1
                                     </h5>
                                     <p class="mb-0">
                                         Terbaru

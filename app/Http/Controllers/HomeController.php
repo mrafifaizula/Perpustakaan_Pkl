@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\Kategori;
 use App\Models\Penulis;
 use App\Models\Penerbit;
+use App\Models\Pinjambuku;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -36,14 +37,17 @@ class HomeController extends Controller
     $kategori = Kategori::all();
     $penulis = Penulis::all();
     $penerbit = Penerbit::all();
+    $totalbuku = Buku::sum('jumlah_buku');
+    $idUser = Auth::id();
+    $totalpinjam = Pinjambuku::where('id_user', $idUser)->sum('jumlah');
 
     $users = Auth::user();
     if ($users->isAdmin == 1) {
-        return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit'));
+        return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam'));
     } else {
-        return view('frontend.index', compact('buku', 'kategori', 'penulis', 'penerbit'));
+        return view('profil.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam'));
     }
-    return view('frontend.index', compact('buku', 'kategori', 'penulis', 'penerbit'));
+    return view('profil.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam'));
 
 
 }

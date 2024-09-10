@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
+
+    // halaman utama
+
     public function index()
     {
         $buku = Buku::all();
@@ -23,17 +26,8 @@ class FrontController extends Controller
         $penulis = Penulis::all();
         $penerbit = Penerbit::all();
         $user = User::all();
-        return view('frontend.index', compact('buku', 'kategori', 'penulis','penerbit', 'user'));
-    }
-
-    public function perpustakaan()
-    {
-        $buku = Buku::all();
-        $kategori = Kategori::all();
-        $penulis = Penulis::all();
-        $penerbit = Penerbit::all();
-        $user = User::all();
-        return view('profil.dashboard', compact('buku', 'kategori', 'penulis','penerbit','user'));
+        $totalbuku = Buku::sum('jumlah_buku');
+        return view('frontend.index', compact('buku', 'kategori', 'penulis','penerbit', 'user','totalbuku'));
     }
 
     public function detailbuku()
@@ -53,6 +47,29 @@ class FrontController extends Controller
         $user = User::findOrFail($id);
 
         return view('frontend.pinjambuku', compact('buku', 'pinjambuku', 'user'));
+    }
+
+
+    // profile
+
+    public function perpustakaan()
+    {
+        $buku = Buku::all();
+        $kategori = Kategori::all();
+        $penulis = Penulis::all();
+        $penerbit = Penerbit::all();
+        $user = User::all();
+        $idUser = Auth::id();
+        $totalpinjam = Pinjambuku::where('id_user', $idUser)->sum('jumlah');
+        return view('profil.dashboard', compact('buku', 'kategori', 'penulis','penerbit','user', 'totalpinjam'));
+    }
+
+    public function daftarbuku()
+    {
+        $buku = Buku::all(); 
+        $kategori = Kategori::all(); 
+
+        return view('profil.daftarbuku', compact('buku','kategori'));
     }
     
 }

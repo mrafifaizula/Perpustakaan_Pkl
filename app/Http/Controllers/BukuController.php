@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Validator;
 use Alert;
 use App\Models\Buku;
 use App\Models\Kategori;
@@ -19,8 +20,8 @@ class BukuController extends Controller
         $penulis = Penulis::all();
         $penerbit = Penerbit::all();
         $pinjambuku = Pinjambuku::all();
-        confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.buku.index', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjambuku'));
+        return view('admin.buku.index', compact('kategori', 'penulis', 'penerbit', 'pinjambuku', 'buku'));
+
     }
 
    
@@ -37,10 +38,10 @@ class BukuController extends Controller
     
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(),[
             'judul' => 'required|unique:bukus,judul',
             'jumlah_buku' => 'required',
-            'tahun_terbit' => 'required|date|before_or_equal:today',
+            'tahun_terbit' => 'required|date',
             'desc_buku' => 'required',
             'code_buku' => 'required',
             'id_kategori' => 'required',
@@ -50,10 +51,16 @@ class BukuController extends Controller
         ],
         
         [
-            'judul.required' => 'Nama Judul Harus Diisi',
-            'judul.unique' => 'Judul Tidak Boleh Sama',
-            'tahun_terbit.after_or_equal' => 'Tanggal harus sama dengan atau setelah hari ini.',
+            'judul.required' => 'Judul Buku Harus Diisi',
+            'judul.unique' => 'Judul Buku Tidak Boleh Sama',
         ]);
+
+        // validator judul buku tidak boleh sama pake alert
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first('judul');
+            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $buku = new Buku();
         $buku->judul = $request->judul;
@@ -98,7 +105,7 @@ class BukuController extends Controller
     
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(),[
             'judul' => 'required',
             'jumlah_buku' => 'required',
             'tahun_terbit' => 'required|date',
@@ -108,7 +115,18 @@ class BukuController extends Controller
             'id_penulis' => 'required',
             'id_penerbit' => 'required',
             // 'image_buku' => 'required|max:4000|mimes:jpeg,png,jpg,gif,svg',
+        ],
+        
+        [
+            'judul.required' => 'Judul buku Harus Diisi',
         ]);
+
+        // validator judul buku tidak boleh sama pake alert
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first('judul');
+            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $buku = Buku::findOrFail($id);
         $buku->judul = $request->judul;

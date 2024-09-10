@@ -1,8 +1,9 @@
-
 <footer>
     <div class="container">
-      <div class="col-lg-12">
-        <p>Copyright © 2036 Scholar Organization. All rights reserved. &nbsp;&nbsp;&nbsp; Design: <a href="https://templatemo.com" rel="nofollow" target="_blank">TemplateMo</a> Distribution: <a href="https://themewagon.com" rel="nofollow" target="_blank">ThemeWagon</a></p>
-      </div>
+        <div class="col-lg-12">
+            <p>Copyright © 2024 SMK Assalaam Bandung. Semua hak cipta dilindungi.
+                &nbsp;&nbsp;&nbsp;
+                Privacy Policy | Terms of Service</p>
+        </div>
     </div>
-  </footer>
+</footer>

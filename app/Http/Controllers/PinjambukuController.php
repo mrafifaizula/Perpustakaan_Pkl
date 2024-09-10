@@ -21,7 +21,7 @@ class PinjambukuController extends Controller
 
     public function index()
     {
-        $user = Auth::user(); // Mendapatkan pengguna yang sedang login
+        $user = Auth::user();
         $buku = Buku::all();
         $kategori = Kategori::all();
         $penulis = Penulis::all();
@@ -46,7 +46,7 @@ class PinjambukuController extends Controller
             'tanggal_pinjambuku' => 'required',
             'tanggal_kembali' => 'required',
             'status' => 'required',
-            'id_buku' => 'required',
+            'id_buku' => 'required|max:3',
             'id_user' => 'required',
         ]);
         
@@ -57,11 +57,20 @@ class PinjambukuController extends Controller
         $pinjambuku->status = $request->status;
         $pinjambuku->id_buku = $request->id_buku;
         $pinjambuku->id_user = $request->id_user;
+
+        // minimal pinjam judul
+        $user = Auth::user();
+        $minimal4 = Pinjambuku::where('id_user', $user->id)->count();
+
+        if ($minimal4 >= 5) {
+            Alert::error('Gagal', 'Anda sudah meminjam maksimal 5 buku.')->autoClose(2000);
+            return redirect()->back()->with(['error' => 'Anda sudah meminjam maksimal 5 buku.']);
+        }
         
+        // stok
         $buku = Buku::findOrFail($request->id_buku);
         
         if ($buku) {
-            // Check if there's enough stock
             if ($buku->jumlah_buku >= $request->jumlah) {
                 $buku->jumlah_buku -= $request->jumlah;
                 $buku->save();
@@ -101,18 +110,39 @@ class PinjambukuController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'status' => 'required',
-        ]);
+{
+    $validated = $request->validate([
+        'status' => 'required',
+    ]);
 
-        $pinjambuku = Pinjambuku::findOrFail($id);
-        $pinjambuku->update($validated);
-        $pinjambuku->save();
+    $pinjambuku = Pinjambuku::findOrFail($id);
+    $idUser = Auth::id();
 
-        Alert::success('Success', 'Data Berhasil Diubah')->autoClose(1000);
-        return redirect()->route('profil.pinjambuku.index');
+    // Jika status berubah menjadi "dikembalikan"
+    if ($validated['status'] === 'Kembali') {
+        $buku = Buku::findOrFail($pinjambuku->id_buku);
+
+        // Kembalikan jumlah buku yang dipinjam ke stok
+        $buku->jumlah_buku += $pinjambuku->jumlah;
+        $buku->save();
+
+        // Update total pinjam untuk user
+        $totalpinjam = Pinjambuku::where('id_user', $idUser)->sum('jumlah');
+        $totalpinjam -= $pinjambuku->jumlah; // Kurangi total pinjam dengan jumlah buku yang dikembalikan
+        
+        // Jika total pinjam sudah kurang dari atau sama dengan 0, pastikan tidak bernilai negatif
+        if ($totalpinjam < 0) {
+            $totalpinjam = 0;
+        }
     }
+
+    // Simpan status peminjaman yang telah diperbarui
+    $pinjambuku->update($validated);
+
+    Alert::success('Success', 'Data Berhasil Diubah')->autoClose(1000);
+    return redirect()->route('profil.pinjambuku.index');
+}
+
 
     public function destroy(pinjambuku $pinjambuku)
     {

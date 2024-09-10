@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Alert;
+use Validator;
 use App\Models\Penulis;
 use Illuminate\Http\Request;
 
@@ -24,14 +25,19 @@ class PenulisController extends Controller
   
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_penulis' => 'required|unique:penulis,nama_penulis',
-        ],
-
-        [
+        ], [
             'nama_penulis.required' => 'Nama Penulis Harus Diisi',
             'nama_penulis.unique' => 'Nama Penulis Tidak Boleh Sama'
         ]);
+
+        // validator nama penulis tidak boleh sama pake alert
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first('nama_penulis');
+            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // new object
         $penulis = new Penulis();
@@ -58,9 +64,18 @@ class PenulisController extends Controller
     
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_penulis' => 'required',
+        ], [
+            'nama_penulis.required' => 'Nama Penulis Harus Diisi',
         ]);
+
+        // validator nama penulis tidak boleh sama pake alert
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first('nama_penulis');
+            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $penulis = Penulis::findOrFail($id);
         $penulis->nama_penulis = $request->nama_penulis;

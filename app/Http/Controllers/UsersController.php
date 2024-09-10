@@ -1,6 +1,6 @@
 <?php
-
 namespace App\Http\Controllers;
+
 use Alert;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
-
     public function index()
     {
-        $user = User::all();
+        $users = User::all(); // Use plural 'users' for variable name
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.user.index', compact('user'));
-
+        return view('admin.user.index', compact('users')); // Compact with plural 'users'
     }
 
     public function create()
@@ -26,87 +24,54 @@ class UsersController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'alamat' => 'required',
-            'tlp' => 'required',
-            'email' => 'required|unique:user',
-            'password' => 'required|min:8', // Add 'confirmed' if
+            'email' => 'required|unique:users', // Correct table name
+            'password' => 'required|min:8',
             'isAdmin' => 'required',
-            'image_user' => 'required|max:4000|mimes:jpeg,png,jpg,gif,svg',
-
         ]);
+
         $user = new User();
         $user->name = $request->name;
-        $user->alamat = $request->alamat;
-        $user->tlp = $request->tlp;
         $user->email = $request->email;
-        $user->password = hash::make($request->password);
+        $user->password = Hash::make($request->password); // Correct case 'Hash'
         $user->isAdmin = $request->isAdmin;
-
-        if ($request->hasFile('image_user')) {
-            $img = $request->file('image_user');
-            $name = rand(1000, 9999) . $img->getClientOriginalName();
-            $img->move('images/user/', $name);
-            $user->image_user = $name;
-        }
-
         $user->save();
 
-        Alert::success('Success', 'data Berhasil Disimpan')->autoClose(1000);
+        Alert::success('Success', 'Data Berhasil Disimpan')->autoClose(1000);
         return redirect()->route('user.index')->with('success', 'User created successfully.');
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit($id)
     {
         $user = User::findOrFail($id);
         return view('admin.user.edit', compact('user'));
-
-        $user->save();
-        return redirect()->route('user.index');
     }
 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'alamat' => 'required',
-            'tlp' => 'required',
             'email' => 'required',
-            'password' => 'required|min:8', // Add 'confirmed' if
+            'password' => 'required|min:8',
             'isAdmin' => 'required',
         ]);
+
         $user = User::findOrFail($id);
         $user->name = $request->name;
-        $user->alamat = $request->alamat;
-        $user->tlp = $request->tlp;
         $user->email = $request->email;
-        $user->password = hash::make($request->password);
+        $user->password = Hash::make($request->password); // Correct case 'Hash'
         $user->isAdmin = $request->isAdmin;
-
-        if ($request->hasFile('image_user')) {
-            $user->deleteImage(); // untuk hapus gambar sebelum diganti gambar baru
-            $img = $request->file('image_user');
-            $name = rand(1000, 9999) . $img->getClientOriginalName();
-            $img->move('images/user/', $name);
-            $user->image_user = $name;
-        }
-
         $user->save();
 
         Alert::success('Success', 'Data Berhasil Di Edit')->autoClose(1000);
-        return redirect()->route('user.index')->with('success', 'User update successfully.');
+        return redirect()->route('user.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
-        Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);
-        return redirect()->route('user.index')->with('success', ' User deleted successfully');
 
+        Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);
+        return redirect()->route('user.index')->with('success', 'User deleted successfully.');
     }
 }

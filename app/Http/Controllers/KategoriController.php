@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Alert;
 use App\Models\Kategori;
 use App\Models\Buku;
+use Validator;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -25,16 +26,21 @@ class KategoriController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_kategori' => 'required|unique:kategoris,nama_kategori',
-        ],
-
-        [
+        ], [
             'nama_kategori.required' => 'Nama Kategori Harus Diisi',
-            'nama_kategori.unique' => 'Nama Kategori Tidak Boleh Sama'
+            'nama_kategori.unique' => 'Nama Kategori Tidak Boleh Sama',
         ]);
+    
+        // validator nama kategori tidak boleh sama pake alert
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first('nama_kategori');
+            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-        // new object
+
         $kategori = new Kategori();
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->save();
@@ -56,9 +62,18 @@ class KategoriController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_kategori' => 'required',
-        ],);
+        ], [
+            'nama_kategori.required' => 'Nama Kategori Harus Diisi',
+        ]);
+    
+        // validator nama kategori tidak boleh sama pake alert
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first('nama_kategori');
+            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $kategori = Kategori::findOrFail($id);
         $kategori->nama_kategori = $request->nama_kategori;

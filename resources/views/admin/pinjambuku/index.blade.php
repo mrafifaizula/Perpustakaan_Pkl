@@ -42,19 +42,29 @@
                                 <td>{{ $item->jumlah }}</td>
                                 <td>{{ $item->tanggal_pinjambuku }}</td>
                                 <td>{{ $item->tanggal_kembali }}</td>
-                                <td>{{ $item->status }}</td>
+                                <td>
+                                    <span class="badge badge-sm 
+                                        @if($item->status == 'Kembali')
+                                            bg-gradient-success
+                                        @elseif($item->status == 'Pinjam')
+                                            bg-gradient-danger
+                                        @endif
+                                    ">
+                                        {{ $item->status }}
+                                    </span>
+                                </td>
                                 <td>
                                     <form action="{{ route('buku.destroy', $item->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-sm btn-success">Edit
-                                        </a>
+                                        {{-- <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-sm btn-success">Edit
+                                        </a> --}}
                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal{{ $item->id }}">
                                             Lihat
                                         </button>
-                                        <a href="{{ route('buku.destroy', $item->id) }}" class="btn btn-sm btn btn-danger"
-                                            data-confirm-delete="true">Delete</a>
+                                        {{-- <a href="{{ route('buku.destroy', $item->id) }}" class="btn btn-sm btn btn-danger"
+                                            data-confirm-delete="true">Delete</a> --}}
                                     </form>
                                 </td>
                             </tr>

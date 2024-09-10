@@ -94,8 +94,8 @@
                         <i class="bi bi-r-circle" style="margin-right: 10px;"></i> Register
                     </a>
                     @else
-                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="display: flex; align-items: center; text-decoration: none; color: #333; padding: 5px 0;">
-                        <i class="bi bi-box-arrow-left" style="margin-right: 10px;"></i> Logout
+                    <a class="nav-link text-dart" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="display: flex; align-items: center; text-decoration: none; color: #333; padding: 5px 0;" style="color: #333">
+                        <i class="bi bi-box-arrow-left" style="margin-right: 10px; color: #333"></i> <span style="color: #333">Logout</span>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf

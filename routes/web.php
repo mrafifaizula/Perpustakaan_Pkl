@@ -7,6 +7,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PinjambukuController;
 use App\Http\Controllers\BackController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\KontakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsStap;
@@ -34,12 +35,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['prefix' => '/'], function () {
     Route::get('/', [FrontController::class, 'index'])->name('frontend.index');
     Route::get('profil/dashboard', [App\Http\Controllers\FrontController::class, 'perpustakaan']);
+    Route::get('profil/daftarbuku', [App\Http\Controllers\FrontController::class, 'daftarbuku']);
     Route::get('buku/{id}', [BukuController::class, 'show']);
     Route::get('pinjam/buku/{id}', [FrontController::class, 'ShowPinjambuku']);
     Route::get('/profil/pinjambuku', [PinjamBukuController::class, 'index'])->name('profil.pinjambuku.index');
 
     Route::resource('pinjambuku', PinjamBukuController::class);
     Route::resource('profil/profil', ProfilController::class);
+    Route::resource('/kontak', KontakController::class);
 
 });
 

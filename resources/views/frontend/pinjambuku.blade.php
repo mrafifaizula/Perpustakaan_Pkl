@@ -166,7 +166,6 @@
                                                 class="form-control select @error('status') is-invalid @enderror" required>
                                                 <option value="">Pilih</option>
                                                 <option value="Pinjam">Pinjam</option>
-                                                <option value="Kembali">Kembali</option>
                                             </select>
                                             @error('status')
                                                 <span class="invalid-feedback" role="alert">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Alert;
+use Validator;
 use App\Models\Penerbit;
 use Illuminate\Http\Request;
 
@@ -24,16 +25,20 @@ class PenerbitController extends Controller
     
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_penerbit' => 'required|unique:penerbits,nama_penerbit',
-        ],
-    
-        [
+        ], [
             'nama_penerbit.required' => 'Nama Penerbit Harus Diisi',
             'nama_penerbit.unique' => 'Nama Penerbit Tidak Boleh Sama'
         ]);
 
-        // new object
+        // validator nama penerbit tidak boleh sama pake alert
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first('nama_penerbit');
+            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $penerbit = new Penerbit();
         $penerbit->nama_penerbit = $request->nama_penerbit;
         $penerbit->save();
@@ -58,13 +63,18 @@ class PenerbitController extends Controller
    
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nama_penerbit' => 'required|unique:penerbits,nama_penerbit',
-        ],
-        [
+        $validator = Validator::make($request->all(), [
+            'nama_penerbit' => 'required',
+        ], [
             'nama_penerbit.required' => 'Nama Penerbit Harus Diisi',
-            'nama_penerbit.unique' => 'Nama Penerbit Tidak Boleh Sama'
         ]);
+
+        // validator nama penerbit tidak boleh sama pake alert
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first('nama_penerbit');
+            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $penerbit = Penerbit::findOrFail($id);
         $penerbit->nama_penerbit = $request->nama_penerbit;
