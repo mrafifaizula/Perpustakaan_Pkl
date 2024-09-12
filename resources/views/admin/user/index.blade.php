@@ -27,6 +27,7 @@
                         <td>No</td>
                         <td>Name</td>
                         <td>Alamat</td>
+                        <td>Nomor Telepon</td>
                         <td>Email</td>
                         <td>Role</td>
                         <td>Actions</td>
@@ -34,11 +35,12 @@
                 </thead>
                 <tbody>
                     @php $i=1; @endphp
-                    @foreach($users as $data)
+                    @foreach($user as $data)
                     <tr>
                         <td>{{ $i++ }}</td>
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->alamat }}</td>
+                        <td>{{ $data->tlp }}</td>
                         <td>{{ $data->email }}</td>
                         {{-- <td>{{ $data->isAdmin == 1 ? 'Admin' : ($data->isAdmin == 2 ? 'Manager' : 'User') }}</td> --}}
                         <td>{{ $data->isAdmin == 1 ? 'Admin' : 'User' }}</td>
@@ -46,9 +48,6 @@
                             <form action="{{route('user.destroy', $data->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <a href="{{route('user.edit', $data->id)}}" class="btn btn-sm btn-warning">
-                                    Edit
-                                </a>
                                 <a href="{{ route('user.destroy', $data->id) }}" class="btn btn-sm btn btn-danger"
                                     data-confirm-delete="true">Delete</a>
                             </form>

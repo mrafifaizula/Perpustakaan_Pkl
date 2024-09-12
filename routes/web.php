@@ -1,16 +1,13 @@
 <?php
 
 
-use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PinjambukuController;
-use App\Http\Controllers\BackController;
-use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KontakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
-use App\Http\Middleware\IsStap;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,18 +28,34 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/', [FrontController::class, 'index'])->name('frontend.index');
+
 // user
 Route::group(['prefix' => '/'], function () {
-    Route::get('/', [FrontController::class, 'index'])->name('frontend.index');
-    Route::get('profil/dashboard', [App\Http\Controllers\FrontController::class, 'perpustakaan']);
-    Route::get('profil/daftarbuku', [App\Http\Controllers\FrontController::class, 'daftarbuku']);
+    Route::resource('kontak', KontakController::class);
     Route::get('buku/{id}', [BukuController::class, 'show']);
-    Route::get('pinjam/buku/{id}', [FrontController::class, 'ShowPinjambuku']);
-    Route::get('/profil/pinjambuku', [PinjamBukuController::class, 'index'])->name('profil.pinjambuku.index');
 
-    Route::resource('pinjambuku', PinjamBukuController::class);
-    Route::resource('profil/profil', ProfilController::class);
-    Route::resource('/kontak', KontakController::class);
+    Route::group(['middleware' => ['auth']], function () {
+        Route::resource('pinjambuku', PinjambukuController::class);
+        Route::get('pinjam/buku/{id}', [FrontController::class, 'ShowPinjambuku']);
+    });
+
+
+});
+
+// profil
+Route::group(['prefix' => 'profil', 'middleware' => ['auth']], function () {
+    Route::get('dashboard', [FrontController::class, 'perpustakaan']);
+    Route::get('daftarbuku', [FrontController::class, 'daftarbuku']);
+    Route::get('buku/{id}', [FrontController::class, 'showbukuprofil']);
+    Route::get('pinjam/buku/{id}', [FrontController::class, 'pinjambukuprofil']);
+    Route::get('anda', [FrontController::class, 'profil'])->name('profil');
+    // Route::patch('anda', [UsersController::class, 'update'])->name('profil.update'); // To handle the PATCH request
+
+    Route::get('pinjambuku', [PinjambukuController::class, 'index'])->name('profil.datapinjambuku.index');
+
+    Route::post('/pinjam-buku/{id}/kembalikan', [PinjambukuController::class, 'kembalikan'])->name('pinjambuku.kembalikan');
+
 
 });
 
@@ -57,6 +70,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], fu
     Route::resource('buku', App\Http\Controllers\BukuController::class);
     Route::resource('dashboard', App\Http\Controllers\BackController::class);
     Route::resource('user', App\Http\Controllers\UsersController::class);
-    // Route::resource('pinjambuku', App\Http\Controllers\PinjambukuController::class);
-    Route::get('pinjambuku', [App\Http\Controllers\BackController::class, 'pinjambuku']);
+
+    Route::get('dipinjam', [App\Http\Controllers\BackController::class, 'dipinjam']);
+
+    Route::get('pengembalian', [App\Http\Controllers\BackController::class, 'dikembalikan']);
+    
+    Route::get('pinjambuku', [App\Http\Controllers\BackController::class, 'pinjambuku'])->name('admin.pinjambuku.index');
+
+    Route::put('pinjambuku/menyetujui/{id}', [PinjamBukuController::class, 'menyetujui'])->name('pinjambuku.menyetujui');
+
+    Route::put('pinjambuku/tolak/{id}', [App\Http\Controllers\PinjambukuController::class, 'tolak'])->name('pinjambuku.tolak');
+
 });

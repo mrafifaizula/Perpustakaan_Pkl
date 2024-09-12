@@ -26,6 +26,7 @@ class FrontController extends Controller
         $penulis = Penulis::all();
         $penerbit = Penerbit::all();
         $user = User::all();
+        $user = Auth::user();
         $totalbuku = Buku::sum('jumlah_buku');
         return view('frontend.index', compact('buku', 'kategori', 'penulis','penerbit', 'user','totalbuku'));
     }
@@ -44,10 +45,11 @@ class FrontController extends Controller
     {
         $buku = Buku::findOrFail($id);
         $pinjambuku = Pinjambuku::where('id_buku', $buku->id)->first();
-        $user = User::findOrFail($id);
+        $user = auth()->user();
 
         return view('frontend.pinjambuku', compact('buku', 'pinjambuku', 'user'));
     }
+
 
 
     // profile
@@ -69,7 +71,29 @@ class FrontController extends Controller
         $buku = Buku::all(); 
         $kategori = Kategori::all(); 
 
-        return view('profil.daftarbuku', compact('buku','kategori'));
+        return view('profil.pinjambuku.index', compact('buku','kategori'));
     }
+
+    public function showbukuprofil($id)
+    {
+        $buku = Buku::findorfail($id);
+        $pinjambuku = Pinjambuku::all();
+        return view('profil.pinjambuku.show', compact('buku','pinjambuku'));
+    }
+
+    public function pinjambukuprofil()
+    {
+        $pinjambuku = Pinjambuku::all();
+        $buku = Buku::all();
+        $user = User::all();
+        return view('profil.pinjambuku.create', compact('pinjambuku', 'buku', 'user'));
+    }
+
+    public function profil()
+    {
+        $user = Auth::user();
     
+        return view('profil.profil', compact('user'));
+    }
+
 }

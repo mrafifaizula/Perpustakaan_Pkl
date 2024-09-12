@@ -133,7 +133,7 @@
                         <div class="dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
                                 id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ Auth::check() ? Auth::user()->profile_image_url : asset('images/guest-placeholder.png') }}"
+                                <img src="{{ asset('images/user/' . (Auth::user()->image_user ?? 'default.png')) }}"
                                     alt="Profile Image" class="rounded-circle profile-placeholder"
                                     style="width: 40px; height: 40px; object-fit: cover; display: block; margin: auto;">
                             </a>
@@ -143,8 +143,8 @@
                                 aria-labelledby="profileDropdown" style="min-width: 250px;">
                                 <div class="dropdown-content text-center p-4">
                                     <div class="profile-image-container mb-3"
-                                        style="display: flex; justify-content: center;">
-                                        <img src="{{ Auth::check() ? Auth::user()->profile_image_url : asset('images/guest-placeholder.png') }}"
+                                        style="margin-left:30px">
+                                        <img src="{{ asset('images/user/' . (Auth::user()->image_user ?? 'default.png')) }}"
                                             alt="Profile Image" class="rounded-circle img-fluid profile-placeholder"
                                             style="width: 80px; height: 80px; object-fit: cover;">
                                     </div>

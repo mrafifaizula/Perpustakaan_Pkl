@@ -18,6 +18,7 @@ class BackController extends Controller
         $kategori = Kategori::all();
         $penulis = Penulis::all();
         $penerbit = Penerbit::all();
+        $user = Auth::user();
         $user = User::all();
         
         return view('admin.dashboard', compact('buku', 'kategori', 'penulis','penerbit', 'user'));
@@ -25,11 +26,26 @@ class BackController extends Controller
 
     public function pinjambuku()
     {
-        $pinjambuku = Pinjambuku::all();
+        $pinjambuku = Pinjambuku::where('status', 'menunggu')->get();
         $buku = Buku::all();
         $user = User::all();
-        confirmDelete('Delete', 'Apakah Kamu Yakin?');
         return view('admin.pinjambuku.index', compact('pinjambuku', 'buku', 'user'));
+    }
+
+    public function dikembalikan()
+    {
+        $pinjambuku = Pinjambuku::where('status', 'dikembalikan')->get();
+        $buku = Buku::all();
+        $user = User::all();
+        return view('admin.pinjambuku.dikembalikan', compact('pinjambuku', 'buku', 'user'));
+    }
+
+    public function dipinjam()
+    {
+        $pinjambuku = Pinjambuku::where('status', 'diterima')->get();
+        $buku = Buku::all();
+        $user = User::all();
+        return view('admin.pinjambuku.dipinjam', compact('pinjambuku', 'buku', 'user'));
     }
 
 }

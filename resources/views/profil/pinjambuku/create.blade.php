@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.profil')
 
 <style>
     .card-text {
@@ -164,7 +164,8 @@
                                             <label for="status">Status</label>
                                             <select name="status"
                                                 class="form-control select @error('status') is-invalid @enderror" required>
-                                                <option value="Pinjam" selected>Pinjam</option>
+                                                <option value="">Pilih</option>
+                                                <option value="Pinjam">Pinjam</option>
                                             </select>
                                             @error('status')
                                                 <span class="invalid-feedback" role="alert">
@@ -172,7 +173,6 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                        
 
                                         <!-- Tombol Simpan -->
                                         <div class="mb-2">

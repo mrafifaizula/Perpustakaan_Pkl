@@ -74,6 +74,9 @@
                 <span class="nav-link-text ms-1">Buku</span>
             </a>
         </li>
+        <li class="nav-item mt-3">
+            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Peminjaman</h6>
+        </li>
         <li class="nav-item">
             <a class="nav-link " href="{{ url('admin/pinjambuku') }}">
                 <div
@@ -81,7 +84,28 @@
                     {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
                     <i class="bi bi-book-half text-sm" style="color: pink"></i>
                 </div>
-                <span class="nav-link-text ms-1">Peminjam Buku</span>
+                <span class="nav-link-text ms-1">Pengajuan</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="{{ url('admin/pengembalian') }}">
+                <div
+                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+                    <i class="bi bi-book-half text-sm" style="color: black"></i>
+                </div>
+                <span class="nav-link-text ms-1">Data Peminjaman</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " href="{{ url('admin/dipinjam') }}">
+                <div
+                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+                    <i class="bi bi-book-half text-sm" style="color: blue"></i>
+                </div>
+                <span class="nav-link-text ms-1">Data Buku Dipinjam</span>
             </a>
         </li>
     </ul>

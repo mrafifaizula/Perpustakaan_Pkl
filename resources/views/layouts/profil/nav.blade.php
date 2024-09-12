@@ -71,7 +71,7 @@
         
         <div class="profile-menu">
             <button class="profile-button">
-                <img src="" alt="User Image">
+                <img src="{{ asset('images/user/' . (Auth::user()->image_user ?? 'default.png')) }}" alt="User Image">
             </button>
 
             <div class="dropdown-content"
@@ -79,7 +79,7 @@
                 <div style="padding: 20px; text-align: center;">
                     <div
                         style="width: 110px; height: 110px; background-color: #f1f1f1; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                        <img src="https://via.placeholder.com/110" alt="Profile Image"
+                        <img src="{{ asset('images/user/' . (Auth::user()->image_user ?? 'default.png')) }}" alt="Profile Image"
                             style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <p

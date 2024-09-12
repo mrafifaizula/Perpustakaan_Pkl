@@ -55,7 +55,7 @@
         </div>
         <div class="container">
             <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                <div class="col-xl-6 col-lg-7 col-md-8 mx-auto"> <!-- Increased the column width -->
                     <div class="card z-index-0">
                         <div class="card-header text-center pt-4">
                             <h5>Register with</h5>
@@ -73,6 +73,15 @@
                                     </span>
                                     @enderror
                                 </div>
+                                {{-- <div class="mb-3">
+                                    <label for="alamat">Alamat</label>
+                                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" placeholder="Enter your alamat" autofocus></textarea>
+                                    @error('alamat')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>                                 --}}
                                 <div class="mb-3">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"" id="
@@ -121,6 +130,7 @@
                 </div>
             </div>
         </div>
+        
     </main>
     <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
     <footer class="footer py-5">

@@ -7,11 +7,11 @@
 @endsection
 
 @section('content')
-    <h4 class="m-5"><span style="color: white">Data </span> Pengajuan</h4>
+    <h4 class="m-5"><span style="color: white">Data </span> Buku Sudah Dikembalikan</h4>
     <div class="card m-5">
         <div class="card-header">
             <div class="float-start">
-                <h5> Pengajuan </h5>
+                <h5> Buku Sudah Dikembalikan </h5>
             </div>
             {{-- <div class="float-end">
                 <a href="{{ route('buku.create') }}" class="btn btn-sm btn-primary">
@@ -132,24 +132,6 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <div style="display: flex; gap: 5px;">
-                                                <!-- In your Blade view file -->
-                                                <form action="{{ route('pinjambuku.menyetujui', $item->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-success">Setujui</button>
-                                                </form>
-
-                                                <form action="{{ route('pinjambuku.tolak', $item->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-danger">Tolak</button>
-                                                </form>
-                                            </div>
                                             <button type="button" class="btn btn-sm btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                         </div>

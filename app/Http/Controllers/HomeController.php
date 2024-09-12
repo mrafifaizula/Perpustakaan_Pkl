@@ -28,11 +28,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        // dd($user->, $user);
-
-
-    // Fetch data from the models
+        
+    $user = Auth::user();
     $buku = Buku::all();
     $kategori = Kategori::all();
     $penulis = Penulis::all();
