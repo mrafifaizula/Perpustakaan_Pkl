@@ -48,7 +48,8 @@
                                         @if ($item->status == 'menunggu') bg-gradient-info
                                         @elseif($item->status == 'diterima') bg-gradient-success
                                         @elseif($item->status == 'ditolak') bg-gradient-danger
-                                        @elseif($item->status == 'dikembalikan') bg-gradient-primary @endif
+                                        @elseif($item->status == 'dikembalikan') bg-gradient-primary
+                                        @elseif($item->status == 'menunggu pengembalian') bg-gradient-warning @endif
                                     ">
                                         @if ($item->status == 'menunggu')
                                             Menunggu
@@ -58,6 +59,8 @@
                                             Ditolak
                                         @elseif($item->status == 'dikembalikan')
                                             Dikembalikan
+                                        @elseif($item->status == 'menunggu pengembalian')
+                                            Menunggu Pengembalian
                                         @endif
                                     </span>
                                 </td>
@@ -77,7 +80,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Buku Sudah Dikembalikan</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>

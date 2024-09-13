@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('jumlah');
             $table->date('tanggal_pinjambuku');
             $table->date('tanggal_kembali');
-            $table->enum('status', ['menunggu', 'diterima', 'ditolak', 'dikembalikan'])->default('menunggu');
+            $table->enum('status', ['menunggu', 'diterima', 'ditolak', 'menunggu pengembalian', 'dikembalikan', 'dibatalkan'])->default('menunggu');
             $table->unsignedBigInteger('id_buku');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_buku')->references('id')->on('bukus')->onDelete('cascade');

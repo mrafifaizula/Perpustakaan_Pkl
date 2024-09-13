@@ -7,11 +7,11 @@
 @endsection
 
 @section('content')
-    <h4 class="m-5"><span style="color: white">Data </span> Peminjam</h4>
+    <h4 class="m-5"><span style="color: white">Data </span> Pengajuan</h4>
     <div class="card m-5">
         <div class="card-header">
             <div class="float-start">
-                <h5> Peminjam </h5>
+                <h5> Pengajuan </h5>
             </div>
             {{-- <div class="float-end">
                 <a href="{{ route('buku.create') }}" class="btn btn-sm btn-primary">
@@ -80,7 +80,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Peminjam</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Pengajuan Kembali</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -135,9 +135,9 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            {{-- <div style="display: flex; gap: 5px;">
+                                            <div style="display: flex; gap: 5px;">
                                                 <!-- In your Blade view file -->
-                                                <form action="{{ route('pinjambuku.menyetujui', $item->id) }}"
+                                                <form action="{{ route('admin.pinjambuku.accPengembalian', $item->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('PUT')
@@ -152,7 +152,7 @@
                                                     <button type="submit"
                                                         class="btn btn-sm btn-danger">Tolak</button>
                                                 </form>
-                                            </div> --}}
+                                            </div>
                                             <button type="button" class="btn btn-sm btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                         </div>

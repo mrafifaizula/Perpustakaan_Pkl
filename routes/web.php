@@ -36,8 +36,9 @@ Route::group(['prefix' => '/'], function () {
     Route::get('buku/{id}', [BukuController::class, 'show']);
 
     Route::group(['middleware' => ['auth']], function () {
-        Route::resource('pinjambuku', PinjambukuController::class);
+        // Route::resource('pinjambuku', PinjambukuController::class);
         Route::get('pinjam/buku/{id}', [FrontController::class, 'ShowPinjambuku']);
+
     });
 
 
@@ -54,7 +55,18 @@ Route::group(['prefix' => 'profil', 'middleware' => ['auth']], function () {
 
     Route::get('pinjambuku', [PinjambukuController::class, 'index'])->name('profil.datapinjambuku.index');
 
-    Route::post('/pinjam-buku/{id}/kembalikan', [PinjambukuController::class, 'kembalikan'])->name('pinjambuku.kembalikan');
+    Route::post('pinjambuku', [PinjambukuController::class, 'store'])->name('pinjambuku.store');
+
+    // Route untuk pengguna mengajukan pengembalian
+    Route::put('pinjambuku/{id}/ajukan-pengembalian', [PinjamBukuController::class, 'ajukanPengembalian'])->name('pinjambuku.ajukanPengembalian');
+
+    Route::post('batalkan-pengajuan-pengembalian/{id}', [PinjamBukuController::class, 'batalkanPengajuanPengembalian'])->name('batalkan.pengajuan.pengembalian');
+
+    // web.php
+    Route::post('/batalkan-pengajuan/{id}', [PinjamBukuController::class, 'batalkanPengajuan'])->name('batalkan.pengajuan');
+
+
+
 
 
 });
@@ -74,11 +86,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], fu
     Route::get('dipinjam', [App\Http\Controllers\BackController::class, 'dipinjam']);
 
     Route::get('pengembalian', [App\Http\Controllers\BackController::class, 'dikembalikan']);
-    
+
+    Route::get('pengajuankembali', [App\Http\Controllers\BackController::class, 'pengajuankembali']);
+
     Route::get('pinjambuku', [App\Http\Controllers\BackController::class, 'pinjambuku'])->name('admin.pinjambuku.index');
 
-    Route::put('pinjambuku/menyetujui/{id}', [PinjamBukuController::class, 'menyetujui'])->name('pinjambuku.menyetujui');
+    Route::put('pinjambuku/menyetujui/{id}', [PinjambukuController::class, 'menyetujui'])->name('pinjambuku.menyetujui');
 
-    Route::put('pinjambuku/tolak/{id}', [App\Http\Controllers\PinjambukuController::class, 'tolak'])->name('pinjambuku.tolak');
+    Route::put('pinjambuku/tolak/{id}', [PinjambukuController::class, 'tolak'])->name('pinjambuku.tolak');
+
+    // Route untuk admin menyetujui pengembalian
+    Route::put('pinjambuku/{id}/acc-pengembalian', [PinjambukuController::class, 'accPengembalian'])->name('admin.pinjambuku.accPengembalian');
+
+
 
 });

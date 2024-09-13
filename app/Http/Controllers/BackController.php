@@ -48,4 +48,12 @@ class BackController extends Controller
         return view('admin.pinjambuku.dipinjam', compact('pinjambuku', 'buku', 'user'));
     }
 
+    public function pengajuankembali()
+    {
+        $pinjambuku = Pinjambuku::where('status', 'menunggu pengembalian')->get();
+        $buku = Buku::all();
+        $user = User::all();
+        return view('admin.pinjambuku.pengajuankembali', compact('pinjambuku', 'buku', 'user'));
+    }
+
 }

@@ -88,7 +88,8 @@
                                                         <label for="">Kategori</label>
                                                         <input type="text"
                                                             class="form-control @error('kategori') is-invalid @enderror"
-                                                            name="kategori" value="{{ $item->Kategori->nama_kategori }}" disabled>
+                                                            name="kategori" value="{{ $item->Kategori->nama_kategori }}"
+                                                            disabled>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-2">
@@ -110,13 +111,15 @@
                                                         <label for="">Nama Penulis</label>
                                                         <input type="text"
                                                             class="form-control @error('nama_penulis') is-invalid @enderror"
-                                                            name="nama_penulis" value="{{ $item->Penulis->nama_penulis }}" disabled>
+                                                            name="nama_penulis" value="{{ $item->Penulis->nama_penulis }}"
+                                                            disabled>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="">Nama Penerbit</label>
                                                         <input type="text"
                                                             class="form-control @error('nama_penerbit') is-invalid @enderror"
-                                                            name="nama_penerbit" value="{{ $item->Penerbit->nama_penerbit }}" disabled>
+                                                            name="nama_penerbit"
+                                                            value="{{ $item->Penerbit->nama_penerbit }}" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="mb-2">
@@ -141,10 +144,9 @@
                                     </div>
                                 </div>
                             </div>
-                                {{-- end modal --}}
+                            {{-- end modal --}}
                         @endforeach
                     </tbody>
-                </table>
                 </table>
             </div>
         </div>

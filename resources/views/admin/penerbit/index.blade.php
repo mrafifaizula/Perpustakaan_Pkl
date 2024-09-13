@@ -41,7 +41,7 @@
                                             class="btn btn-sm btn-success">Edit
                                         </a>
                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal{{$item->id}}">Lihat
+                                            data-bs-target="#exampleModal{{ $item->id }}">Lihat
                                         </button>
                                         <a href="{{ route('penerbit.destroy', $item->id) }}"
                                             class="btn btn-sm btn btn-danger" data-confirm-delete="true">Delete</a>
@@ -49,8 +49,8 @@
                                 </td>
                             </tr>
                             <!-- start Modal -->
-                            <div class="modal fade" id="exampleModal{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
+                            <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -76,7 +76,6 @@
                             {{-- end modal --}}
                         @endforeach
                     </tbody>
-                </table>
                 </table>
             </div>
         </div>

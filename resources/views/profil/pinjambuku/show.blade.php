@@ -86,7 +86,7 @@
                                     <p class="card-text">Tahun Terbit: <span>{{$buku->tahun_terbit}}</span></p>
                                     <p class="card-text">Deskripsi: <span>{{$buku->desc_buku}}</span></p>
                                     <div class="button-container mt-4">
-                                        <a href="{{ url('profil/pinjam/buku', $buku->id) }}" class="btn btn-primary">Pinjam</a>
+                                        <a href="{{ url('pinjam/buku', $buku->id) }}" class="btn btn-primary">Pinjam</a>
                                         <a href="{{ url('profil/daftarbuku')}}" class="btn btn-secondary">Kembali</a>
                                     </div>
                                 </div>

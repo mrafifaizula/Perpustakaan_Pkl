@@ -39,11 +39,13 @@
                                 <td>{{ $item->tanggal_pinjambuku }}</td>
                                 <td>{{ $item->tanggal_kembali }}</td>
                                 <td>
-                                    <span class="badge badge-sm 
+                                    <span
+                                        class="badge badge-sm 
                                         @if ($item->status == 'menunggu') bg-gradient-info
                                         @elseif($item->status == 'diterima') bg-gradient-success
                                         @elseif($item->status == 'ditolak') bg-gradient-danger
-                                        @elseif($item->status == 'dikembalikan') bg-gradient-primary @endif
+                                        @elseif($item->status == 'dikembalikan') bg-gradient-primary
+                                        @elseif($item->status == 'menunggu pengembalian') bg-gradient-warning @endif
                                     ">
                                         @if ($item->status == 'menunggu')
                                             Menunggu
@@ -53,57 +55,95 @@
                                             Ditolak
                                         @elseif($item->status == 'dikembalikan')
                                             Dikembalikan
+                                        @elseif($item->status == 'menunggu pengembalian')
+                                            Menunggu Pengembalian
                                         @endif
                                     </span>
                                 </td>
-                                
                                 <td>
-                                    <!-- Add buttons or links for actions like view, edit, delete if needed -->
-                                    <form action="{{ route('pinjambuku.kembalikan', $item->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-warning">Kembalikan</button>
-                                    </form>                                    
+                                    @if ($item->status == 'menunggu pengembalian')
+                                        <!-- Tombol Batalkan Pengajuan Pengembalian -->
+                                        <form action="{{ route('batalkan.pengajuan.pengembalian', $item->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pengajuan pengembalian ini?');">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-warning">
+                                                Batalkan
+                                            </button>
+                                        </form>
+                                    @elseif ($item->status == 'menunggu')
+                                        <!-- Tombol Batalkan Pengajuan Pengembalian -->
+                                        <form action="{{ route('batalkan.pengajuan', $item->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pengajuan pengembalian ini?');">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-warning">
+                                                Batalkan
+                                            </button>
+                                        </form>
+                                    @else
+                                        <!-- Tombol Ajukan Pengembalian -->
+                                        <form action="{{ route('pinjambuku.ajukanPengembalian', $item->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="btn btn-sm btn-primary"
+                                                @if ($item->status != 'diterima') disabled @endif>
+                                                Ajukan Pengembalian
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
 
                             <!-- start Modal -->
-                            <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $item->id }}" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel{{ $item->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel{{ $item->id }}">Detail Buku</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel{{ $item->id }}">Detail
+                                                Buku</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col-md-6 mb-2">
                                                     <label for="">Name</label>
-                                                    <input type="text" class="form-control" value="{{ $item->user->name }}" disabled>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $item->user->name }}" disabled>
                                                 </div>
                                                 <div class="col-md-6 mb-2">
                                                     <label for="">Judul</label>
-                                                    <input type="text" class="form-control" value="{{ $item->buku->judul }}" disabled>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $item->buku->judul }}" disabled>
                                                 </div>
                                                 <div class="col-md-6 mb-2">
                                                     <label for="">Jumlah Buku</label>
-                                                    <input type="text" class="form-control" value="{{ $item->buku->jumlah_buku }}" disabled>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $item->buku->jumlah_buku }}" disabled>
                                                 </div>
                                                 <div class="col-md-6 mb-2">
                                                     <label for="">Tanggal Pinjam</label>
-                                                    <input type="text" class="form-control" value="{{ $item->tanggal_pinjambuku }}" disabled>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $item->tanggal_pinjambuku }}" disabled>
                                                 </div>
                                                 <div class="col-md-6 mb-2">
                                                     <label for="">Tanggal Kembali</label>
-                                                    <input type="text" class="form-control" value="{{ $item->tanggal_kembali }}" disabled>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $item->tanggal_kembali }}" disabled>
                                                 </div>
                                                 <div class="col-md-6 mb-2">
                                                     <label for="">Status</label>
-                                                    <input type="text" class="form-control" value="{{ $item->status }}" disabled>
+                                                    <input type="text" class="form-control" value="{{ $item->status }}"
+                                                        disabled>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>

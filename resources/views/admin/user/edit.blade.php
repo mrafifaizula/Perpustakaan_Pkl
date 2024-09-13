@@ -48,8 +48,8 @@
                                         <label for="image_user">Images</label>
                                         @if ($user->image_user)
                                             <p>
-                                                <image src="{{ asset('images/user/' . $user->image_user) }}" alt="image_user"
-                                                    width="100px">
+                                                <image src="{{ asset('images/user/' . $user->image_user) }}"
+                                                    alt="image_user" width="100px">
                                             </p>
                                         @endif
                                         <input type="file" name="image_user"
