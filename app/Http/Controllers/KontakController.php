@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class KontakController extends Controller
 {
-    
+
     public function index()
     {
         $buku = Buku::all();
@@ -20,53 +20,54 @@ class KontakController extends Controller
         $totalbuku = Buku::sum('jumlah_buku');
         $user = Auth::user();
         $kontak = Kontak::where('id_user', $user->id)->get();
-        return view('frontend.index', compact('kontak','kategori','buku','totalbuku'));
+        return view('frontend.index', compact('kontak', 'kategori', 'buku', 'totalbuku'));
     }
 
-    
+
     public function create()
     {
-        $kontak = Kontak::all();
-        $user = User::all();
-        return view('frontend.index', compact('kontak','user'));
+
     }
 
-    
+
     public function store(Request $request)
     {
         $validated = $request->validate([
             'pesan' => 'required',
-            'id_user' => 'required',
-        ],);
+        ]);
 
-        $kontak = new Kategori();
+        $kontak = new Kontak();
         $kontak->pesan = $request->pesan;
-        $kontak->id_user = $request->id_user;
+        $kontak->id_user = auth()->id();
 
         $kontak->save();
-        Alert::success('Success', 'Data Berhasil Diubah')->autoClose(1000);
-        return redirect()->route('profil.dashboard');
+
+        Alert::success('Success', 'Pesan Berhasil Terkirim')->autoClose(1000);
+        return redirect()->route('frontend.index')->with('scrollTo', 'contact');
+
     }
 
-    
+
+
+
     public function show(kontak $kontak)
     {
         //
     }
 
-    
+
     public function edit(kontak $kontak)
     {
         //
     }
 
-    
+
     public function update(Request $request, kontak $kontak)
     {
         //
     }
 
-    
+
     public function destroy(kontak $kontak)
     {
         //

@@ -6,11 +6,11 @@
 @endsection
 
 @section('content')
-    <h4 class="m-5"><span style="color: white">Tables </span> Buku</h4>
+    <h4 class="m-5"><span style="color: white">Peminjaman </span> Buku</h4>
     <div class="card m-5">
         <div class="card-header">
             <div class="float-start">
-                <h5> Buku </h5>
+                <h5>Peminjaman Buku</h5>
             </div>
         </div>
         <div class="card-body">
@@ -50,7 +50,7 @@
                                         @if ($item->status == 'menunggu')
                                             Menunggu
                                         @elseif($item->status == 'diterima')
-                                            Pinjam
+                                            Dipinjam
                                         @elseif($item->status == 'ditolak')
                                             Ditolak
                                         @elseif($item->status == 'dikembalikan')
@@ -83,7 +83,7 @@
                                         </form>
                                     @else
                                         <!-- Tombol Ajukan Pengembalian -->
-                                        <form action="{{ route('pinjambuku.ajukanPengembalian', $item->id) }}"
+                                        <form action="{{ route('pinjambuku.ajukanpengembalian', $item->id) }}"
                                             method="POST">
                                             @csrf
                                             @method('PUT')

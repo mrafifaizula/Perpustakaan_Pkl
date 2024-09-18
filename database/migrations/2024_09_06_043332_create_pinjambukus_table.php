@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('pinjambukus', function (Blueprint $table) {
             $table->id();
             $table->string('jumlah');
+            $table->string('pesan')->nullable();
             $table->date('tanggal_pinjambuku');
             $table->date('tanggal_kembali');
-            $table->enum('status', ['menunggu', 'diterima', 'ditolak', 'menunggu pengembalian', 'dikembalikan', 'dibatalkan'])->default('menunggu');
+            $table->enum('status', ['menunggu', 'diterima', 'ditolak', 'menunggu pengembalian', 'dikembalikan', 'pengembalian ditolak', 'dibatalkan'])->default('menunggu');
             $table->unsignedBigInteger('id_buku');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_buku')->references('id')->on('bukus')->onDelete('cascade');

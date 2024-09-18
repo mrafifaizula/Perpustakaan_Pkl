@@ -14,10 +14,10 @@
                 <h5> kategori </h5>
             </div>
             <div class="float-end">
-                <a href="{{ route('kategori.create') }}" class="btn btn-sm btn-primary">
-                    Add
+                <a href="{{ route('kategori.create') }}" class="btn btn-sm btn-primary" title="Add">
+                    <i class="bi bi-plus-lg"></i>
                 </a>
-            </div>
+            </div>                     
         </div>
         <div class="card-body">
             <div class="table-responsive text-nowrap">
@@ -37,16 +37,17 @@
                                     <form action="{{ route('kategori.destroy', $item->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <a href="{{ route('kategori.edit', $item->id) }}"
-                                            class="btn btn-sm btn-success">Edit
+                                        <a href="{{ route('kategori.edit', $item->id) }}" class="btn btn-sm btn-success" title="Edit">
+                                            <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal{{ $item->id }}">Lihat
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $item->id }}" title="Lihat">
+                                            <i class="bi bi-eye"></i>
                                         </button>
-                                        <a href="{{ route('kategori.destroy', $item->id) }}"
-                                            class="btn btn-sm btn btn-danger" data-confirm-delete="true">Delete</a>
+                                        <a href="{{ route('kategori.destroy', $item->id) }}" class="btn btn-sm btn-danger" data-confirm-delete="true" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
                                     </form>
-                                </td>
+                                </td>                                
                             </tr>
                             <!-- start Modal -->
                             <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"

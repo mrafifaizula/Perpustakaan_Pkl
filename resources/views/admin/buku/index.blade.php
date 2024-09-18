@@ -15,7 +15,7 @@
             </div>
             <div class="float-end">
                 <a href="{{ route('buku.create') }}" class="btn btn-sm btn-primary">
-                    Add
+                    <i class="bi bi-plus-lg"></i>
                 </a>
             </div>
         </div>
@@ -54,14 +54,17 @@
                                     <form action="{{ route('buku.destroy', $item->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-sm btn-success">Edit
+                                        <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-sm btn-success">
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal{{ $item->id }}">
-                                            Lihat
+                                            <i class="bi bi-eye"></i>
                                         </button>
                                         <a href="{{ route('buku.destroy', $item->id) }}" class="btn btn-sm btn btn-danger"
-                                            data-confirm-delete="true">Delete</a>
+                                            data-confirm-delete="true">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
                                     </form>
                                 </td>
                             </tr>

@@ -8,9 +8,9 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Data Buku</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Pengguna</p>
                                     <h5 class="font-weight-bolder">
-                                        {{ \App\Models\buku::count() }}
+                                        {{ \App\Models\User::where('isAdmin', '0')->count() }}
                                     </h5>
                                     <p class="mb-0">
                                         Terbaru
@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-4 text-end">
                                 <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                    <i class="bi bi-book-half text-lg opacity-10" aria-hidden="true"></i>
+                                    <i class="bi bi-people-fill text-lg opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
@@ -27,6 +27,54 @@
                 </div>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Buku Dipinjam</p>
+                                    <h5 class="font-weight-bolder">
+                                        {{ \App\Models\Pinjambuku::where('status', 'diterima')->count() }}
+                                    </h5>
+                                    <p class="mb-0">
+                                        Terbaru
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                    <i class="bi bi-journal-plus opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Data Buku</p>
+                                    <h5 class="font-weight-bolder">
+                                        {{ \App\Models\Buku::count() }}
+                                    </h5>
+                                    <p class="mb-0">
+                                        Terbaru
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                                    <i class="bi bi-book-half text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
                 <div class="card">
                     <div class="card-body p-3">
                         <div class="row">
@@ -42,56 +90,8 @@
                                 </div>
                             </div>
                             <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Data Penulis</p>
-                                    <h5 class="font-weight-bolder">
-                                        {{ \App\Models\Penulis::count() }}
-                                    </h5>
-                                    <p class="mb-0">
-                                        Terbaru
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                    <i class="bi bi-people-fill text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Data Penerbit</p>
-                                    <h5 class="font-weight-bolder">
-                                        {{ \App\Models\Penerbit::count() }}
-                                    </h5>
-                                    <p class="mb-0">
-                                        Terbaru
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
                                 <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                    <i class="bi bi-people-fill opacity-10" aria-hidden="true"></i>
+                                    <i class="bi bi-window-stack opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>

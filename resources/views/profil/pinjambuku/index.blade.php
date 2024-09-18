@@ -1,15 +1,12 @@
 @extends('layouts.profil')
 
+@section('styles')
 <style>
     body {
         font-family: Arial, sans-serif;
     }
 
     .container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
         padding: 20px;
     }
 
@@ -23,28 +20,37 @@
 
     .event_filter li {
         display: inline-block;
+        margin: 6px;
+    }
+
+    .event_filter li a {
+        display: inline-block;
         background-color: #f3f3f3;
         border: none;
         border-radius: 20px;
         padding: 10px 20px;
-        margin: 6px;
         cursor: pointer;
         font-size: 14px;
-        transition: background-color 0.3s;
+        text-decoration: none;
+        color: #000;
+        transition: background-color 0.3s, color 0.3s;
     }
 
-    .event_filter li:hover {
+    .event_filter li a:hover {
         background-color: #e0e0e0;
     }
 
-    .event_filter li a {
-        text-decoration: none;
-        color: #000;
-        font-size: 14px;
+    .event_filter li a.is_active {
+        background-color: #333;
+        color: #fff;
+        font-weight: bold;
     }
 
-    .event_filter li a.is_active {
-        font-weight: bold;
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
     }
 
     .card {
@@ -79,17 +85,6 @@
         font-weight: bold;
     }
 
-    .badge::before {
-        content: ' ';
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 5px;
-        height: 5px;
-        background-color: #fff;
-        border-radius: 50%;
-    }
-
     .card p {
         padding: 15px 10px;
         font-size: 18px;
@@ -98,9 +93,11 @@
         color: #333;
     }
 </style>
+@endsection
 
 @section('content')
     <div class="container">
+        <!-- Filter Section -->
         <ul class="event_filter">
             <li>
                 <a class="is_active" data-filter="*">Show All</a>
@@ -112,43 +109,49 @@
             @endforeach
         </ul>
 
-        @foreach ($buku as $item)
-            <div class="card {{ $item->kategori->nama_kategori }}">
-                <a href="{{ url('profil/buku', $item->id) }}">
-                    <img src="{{ asset('images/buku/' . $item->image_buku) }}" alt="{{ $item->judul }}">
-                </a>
-                <span class="badge">{{ $item->kategori->nama_kategori }}</span>
-                <p>{{ $item->judul }}</p>
-            </div>
-        @endforeach
+        <!-- Books Section -->
+        <div class="cards-container">
+            @foreach ($buku as $item)
+                <div class="card {{ $item->kategori->nama_kategori }}">
+                    <a href="{{ url('profil/buku', $item->id) }}">
+                        <img src="{{ asset('images/buku/' . $item->image_buku) }}" alt="{{ $item->judul }}">
+                    </a>
+                    <span class="badge">{{ $item->kategori->nama_kategori }}</span>
+                    <p>{{ $item->judul }}</p>
+                </div>
+            @endforeach
+        </div>
     </div>
 @endsection
 
-<script>
-    $(document).ready(function() {
-        // Initialize Isotope on the container with the card items
-        var $grid = $('.container').isotope({
-            itemSelector: '.card',
-            layoutMode: 'fitRows'
-        });
-
-        // Filter items on click
-        $('.event_filter li a').click(function(e) {
-            e.preventDefault(); // Prevent default action for anchor links
-
-            // Remove active class from all filter links and add to the clicked one
-            $('.event_filter li a').removeClass('is_active');
-            $(this).addClass('is_active');
-
-            // Get the filter value from data-filter attribute
-            var filterValue = $(this).attr('data-filter');
-
-            // Apply the filter to Isotope
-            $grid.isotope({
-                filter: filterValue
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Isotope -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Isotope on the container with the card items
+            var $grid = $('.cards-container').isotope({
+                itemSelector: '.card',
+                layoutMode: 'fitRows'
             });
 
-            return false; // Prevent page from reloading
+            // Filter items on click
+            $('.event_filter li a').click(function(e) {
+                e.preventDefault(); // Prevent default action for anchor links
+
+                // Remove active class from all filter links and add to the clicked one
+                $('.event_filter li a').removeClass('is_active');
+                $(this).addClass('is_active');
+
+                // Get the filter value from data-filter attribute
+                var filterValue = $(this).attr('data-filter');
+
+                // Apply the filter to Isotope
+                $grid.isotope({
+                    filter: filterValue
+                });
+            });
         });
-    });
-</script>
+    </script>
+@endpush

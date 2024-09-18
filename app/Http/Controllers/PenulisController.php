@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Alert;
 use Validator;
 use App\Models\Penulis;
+use App\Models\Pinjambuku;
 use Illuminate\Http\Request;
 
 class PenulisController extends Controller
@@ -12,14 +13,20 @@ class PenulisController extends Controller
     public function index()
     {
         $penulis = Penulis::all();
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.penulis.index', compact('penulis'));
+        return view('admin.penulis.index', compact('penulis', 'notifymenunggu', 'notifpengajuankembali'));
     }
 
     
     public function create()
     {
-        return view('admin.penulis.create');
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
+        return view('admin.penulis.create', compact('notifymenunggu','notifpengajuankembali'));
     }
 
   
@@ -57,8 +64,11 @@ class PenulisController extends Controller
    
     public function edit($id)
     {
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
         $penulis = Penulis::findOrFail($id);
-        return view('admin.penulis.edit', compact('penulis'));
+        return view('admin.penulis.edit', compact('penulis', 'notifymenunggu', 'notifpengajuankembali'));
     }
 
     

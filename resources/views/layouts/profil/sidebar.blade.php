@@ -51,7 +51,7 @@
                     {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10" style="color: black"></i> --}}
                     <i class="bi bi-book-half text-sm" style="color: green;"></i>
                 </div>
-                <span class="nav-link-text ms-1">Pinjam Buku</span>
+                <span class="nav-link-text ms-1">Peminjaman Buku</span>
             </a>
         </li>
     </ul>

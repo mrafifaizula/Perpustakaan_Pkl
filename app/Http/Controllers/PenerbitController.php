@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Alert;
 use Validator;
+use App\Models\Pinjambuku;
 use App\Models\Penerbit;
 use Illuminate\Http\Request;
 
@@ -12,14 +13,20 @@ class PenerbitController extends Controller
     public function index()
     {
         $penerbit = Penerbit::all();
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.penerbit.index', compact('penerbit'));
+        return view('admin.penerbit.index', compact('penerbit', 'notifymenunggu', 'notifpengajuankembali'));
     }
 
    
     public function create()
     {
-        return view('admin.penerbit.create');
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+   
+        return view('admin.penerbit.create', compact('notifymenunggu','notifpengajuankembali'));
     }
 
     
@@ -57,7 +64,10 @@ class PenerbitController extends Controller
     public function edit($id)
     {
         $penerbit = Penerbit::findOrFail($id);
-        return view('admin.penerbit.edit', compact('penerbit'));
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+   
+        return view('admin.penerbit.edit', compact('penerbit', 'notifymenunggu', 'notifpengajuankembali'));
     }
 
    

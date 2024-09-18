@@ -28,24 +28,33 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
-    $user = Auth::user();
-    $buku = Buku::all();
-    $kategori = Kategori::all();
-    $penulis = Penulis::all();
-    $penerbit = Penerbit::all();
-    $totalbuku = Buku::sum('jumlah_buku');
-    $idUser = Auth::id();
-    $totalpinjam = Pinjambuku::where('id_user', $idUser)->sum('jumlah');
 
-    $users = Auth::user();
-    if ($users->isAdmin == 1) {
-        return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam'));
-    } else {
-        return view('profil.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam'));
+        $user = Auth::user();
+        $buku = Buku::all();
+        $kategori = Kategori::all();
+        $penulis = Penulis::all();
+        $penerbit = Penerbit::all();
+        $totalbuku = Buku::sum('jumlah_buku');
+        $idUser = Auth::id();
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $totalpinjam = Pinjambuku::where('id_user', $idUser)->sum('jumlah');
+
+        // Fetch notifications for dropdown
+        $notifications = Pinjambuku::whereIn('status', ['menunggu pengembalian', 'diterima', 'ditolak'])
+            ->orderBy('updated_at', 'desc')
+            ->take(5)
+            ->get();
+
+
+        $users = Auth::user();
+        if ($users->isAdmin == 1) {
+            return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam', 'notifymenunggu', 'notifpengajuankembali', 'notifications'));
+        } else {
+            return view('profil.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam', 'notifymenunggu', 'notifpengajuankembali', 'notifications'));
+        }
+        return view('profil.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam', 'notifymenunggu', 'notifpengajuankembali', 'notifications'));
+
+
     }
-    return view('profil.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'totalbuku', 'totalpinjam'));
-
-
-}
 }

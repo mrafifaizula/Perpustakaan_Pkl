@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Alert;
 use App\Models\Kategori;
 use App\Models\Buku;
+use App\Models\Pinjambuku;
 use Validator;
 use Illuminate\Http\Request;
 
@@ -15,13 +16,19 @@ class KategoriController extends Controller
     {
         $kategori = Kategori::all();
         $buku = Buku::all();
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.kategori.index', compact('kategori', 'buku'));
+        return view('admin.kategori.index', compact('kategori', 'buku', 'notifymenunggu', 'notifpengajuankembali'));
     }
 
     public function create()
     {
-        return view('admin.kategori.create');
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
+        return view('admin.kategori.create', compact('notifymenunggu','notifpengajuankembali'));
     }
 
     public function store(Request $request)
@@ -57,7 +64,10 @@ class KategoriController extends Controller
     public function edit($id)
     {
         $kategori = Kategori::findOrFail($id);
-        return view('admin.kategori.edit', compact('kategori'));
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
+        return view('admin.kategori.edit', compact('kategori', 'notifymenunggu', 'notifpengajuankembali'));
     }
 
     public function update(Request $request, $id)

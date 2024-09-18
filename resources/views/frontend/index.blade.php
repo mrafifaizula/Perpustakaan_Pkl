@@ -72,9 +72,9 @@
                             <h4>Koleksi Referensi</h4>
                             <p>Buku-buku seperti ensiklopedia atau kamus yang tidak dipinjamkan dan hanya dapat digunakan di
                                 dalam perpustakaan.</p>
-                            <div class="main-button">
+                            {{-- <div class="main-button">
                                 <a href="#">Read More</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -87,9 +87,9 @@
                             <h4>Akses Digital</h4>
                             <p>Kemampuan untuk mengakses koleksi perpustakaan secara online, termasuk e-book, jurnal
                                 elektronik, dan database.</p>
-                            <div class="main-button">
+                            {{-- <div class="main-button">
                                 <a href="#">Read More</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -102,9 +102,9 @@
                             <h4>Laporan Peminjaman</h4>
                             <p>Dokumen atau data yang berisi informasi mengenai buku-buku yang telah dipinjam dan oleh
                                 siapa.</p>
-                            <div class="main-button">
+                            {{-- <div class="main-button">
                                 <a href="#">Read More</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -115,69 +115,9 @@
     <div class="section about-us" id="about">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 offset-lg-1">
+                <div class="col-lg-6 lg-1">
                     <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Mendukung Kegiatan Belajar Mengajar
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Perpustakaan menyediakan buku teks, referensi, dan materi pendukung lainnya yang
-                                    digunakan dalam proses pembelajaran di kelas. Ini membantu siswa mendapatkan pemahaman
-                                    yang lebih mendalam tentang materi yang diajarkan.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Pusat Informasi dan Pengetahuan
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Dengan koleksi buku dan materi pendidikan lainnya, perpustakaan menjadi pusat informasi
-                                    yang membantu siswa mengakses berbagai sumber pengetahuan. Siswa dapat melakukan
-                                    penelitian atau membaca buku untuk menambah wawasan di luar kelas.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Pengelolaan Koleksi
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Perpustakaan SMK Assalaam Bandung mengelola koleksi buku dan materi lainnya dengan
-                                    sistem katalog yang memudahkan siswa dan guru dalam mencari dan meminjam buku.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingFour">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    Pengembangan Literasi
-                                </button>
-                            </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Perpustakaan berperan dalam meningkatkan minat baca dan kemampuan literasi siswa.
-                                </div>
-                            </div>
-                        </div>
+                        <img src="{{ asset('assets/img/assalaam.png') }}" alt="" style="height: 400px; border-radius: 5%">
                     </div>
                 </div>
                 <div class="col-lg-5 align-self-center">
@@ -188,9 +128,6 @@
                             mendukung kegiatan belajar mengajar siswa. Sebagai bagian dari lembaga pendidikan, perpustakaan
                             ini memiliki peran penting dalam menyediakan sumber daya informasi yang dibutuhkan oleh siswa
                             dan guru, baik dalam bentuk buku cetak, materi digital, maupun referensi lainnya.</p>
-                        <div class="main-button">
-                            <a href="#">Discover More</a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -248,16 +185,16 @@
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <div class="counter">
-                                    <h2 class="timer count-title count-number" data-to="{{ \App\Models\User::count() }}"
+                                    <h2 class="timer count-title count-number" data-to="{{ \App\Models\User::where('isAdmin', 0)->count() }}"
                                         data-speed="1000"></h2>
-                                    <p class="count-text ">Pengguna</p>
+                                    <p class="count-text ">Jumlah Pengguna</p>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="counter">
                                     <h2 class="timer count-title count-number" data-to="{{ \App\Models\Buku::count() }}"
                                         data-speed="1000"></h2>
-                                    <p class="count-text ">Judul Buku</p>
+                                    <p class="count-text ">Total Buku</p>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
@@ -269,9 +206,9 @@
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="counter">
-                                    <h2 class="timer count-title count-number" data-to="{{ $totalbuku }}"
+                                    <h2 class="timer count-title count-number" data-to="{{ \App\Models\Pinjambuku::where('status', 'diterima')->count() }}"
                                         data-speed="1000"></h2>
-                                    <p class="count-text ">Jumlah Buku</p>
+                                    <p class="count-text ">Total Buku Dipinjam</p>
                                 </div>
                             </div>
                         </div>
@@ -346,31 +283,17 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <input type="text" placeholder="Name Pinjam Buku"
-                                            class="form-control @error('name') is-invalid @enderror" name="name"
-                                            value="{{ auth()->check() ? auth()->user()->name : '' }}" readonly>
-                                        @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        <input type="text" placeholder="Your Name" class="form-control" name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}" readonly>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <input type="text" placeholder="Name Pinjam Buku"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ auth()->check() ? auth()->user()->email : '' }}" readonly>
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        <input type="text" placeholder="Your Email" class="form-control" name="email" value="{{ auth()->check() ? auth()->user()->email : '' }}" readonly>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <textarea class="form-control @error('pesan') is-invalid @enderror" name="pesan"></textarea>
+                                        <textarea class="form-control @error('pesan') is-invalid @enderror" name="pesan" placeholder="Your Message"></textarea>
                                         @error('pesan')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -380,12 +303,12 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <button type="submit" id="form-submit" class="orange-button">Send Message
-                                            Now</button>
+                                        <button type="submit" id="form-submit" class="orange-button">Send Message Now</button>
                                     </fieldset>
                                 </div>
                             </div>
                         </form>
+                        
                     </div>
                 </div>
             </div>
@@ -411,5 +334,13 @@
         });
 
         return false;
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if ({{ session('scrollTo') === 'contact' ? 'true' : 'false' }}) {
+            document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
+        }
     });
 </script>

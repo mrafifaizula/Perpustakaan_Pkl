@@ -15,7 +15,7 @@
             </div>
             <div class="float-end">
                 <a href="{{ route('penerbit.create') }}" class="btn btn-sm btn-primary">
-                    Add
+                    <i class="bi bi-plus-lg"></i>
                 </a>
             </div>
         </div>
@@ -38,13 +38,17 @@
                                         @method('DELETE')
                                         @csrf
                                         <a href="{{ route('penerbit.edit', $item->id) }}"
-                                            class="btn btn-sm btn-success">Edit
+                                            class="btn btn-sm btn-success">
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal{{ $item->id }}">Lihat
+                                            data-bs-target="#exampleModal{{ $item->id }}">
+                                            <i class="bi bi-eye"></i>
                                         </button>
                                         <a href="{{ route('penerbit.destroy', $item->id) }}"
-                                            class="btn btn-sm btn btn-danger" data-confirm-delete="true">Delete</a>
+                                            class="btn btn-sm btn btn-danger" data-confirm-delete="true">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
                                     </form>
                                 </td>
                             </tr>

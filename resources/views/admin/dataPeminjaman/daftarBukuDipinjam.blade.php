@@ -7,11 +7,11 @@
 @endsection
 
 @section('content')
-    <h4 class="m-5"><span style="color: white">Data </span> Peminjam</h4>
+    <h4 class="m-5"><span style="color: white">Daftar </span>Buku Dipinjam </h4>
     <div class="card m-5">
         <div class="card-header">
             <div class="float-start">
-                <h5> Peminjam </h5>
+                <h5>Daftar Buku Dipinjam</h5>
             </div>
             {{-- <div class="float-end">
                 <a href="{{ route('buku.create') }}" class="btn btn-sm btn-primary">
@@ -54,7 +54,7 @@
                                         @if ($item->status == 'menunggu')
                                             Menunggu
                                         @elseif($item->status == 'diterima')
-                                            Pinjam
+                                            Dipinjam
                                         @elseif($item->status == 'ditolak')
                                             Ditolak
                                         @elseif($item->status == 'dikembalikan')
@@ -67,7 +67,7 @@
                                 <td>
                                     <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal{{ $item->id }}">
-                                        Lihat
+                                        
                                     </button>
                                 </td>
                             </tr>
@@ -80,7 +80,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Peminjam</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Daftar Buku Dipinjam</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>

@@ -6,7 +6,9 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">Data penulis
-                        <a href="{{ route('penulis.index') }}" class="btn btn-sm btn-primary" style="float: right">Kembali</a>
+                        <a href="{{ route('penulis.index') }}" class="btn btn-sm btn-primary" style="float: right">
+                            <i class="bi bi-backspace"></i>
+                        </a>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('penulis.store') }}" method="post" enctype="multipart/form-data">

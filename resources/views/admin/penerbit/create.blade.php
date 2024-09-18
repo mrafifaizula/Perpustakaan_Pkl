@@ -6,7 +6,9 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">Data Penerbit
-                        <a href="{{ route('penerbit.index') }}" class="btn btn-sm btn-primary" style="float: right">Kembali</a>
+                        <a href="{{ route('penerbit.index') }}" class="btn btn-sm btn-primary" style="float: right">
+                            <i class="bi bi-backspace"></i>
+                        </a>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('penerbit.store') }}" method="post" enctype="multipart/form-data">

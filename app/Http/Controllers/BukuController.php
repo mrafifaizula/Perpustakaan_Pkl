@@ -20,7 +20,10 @@ class BukuController extends Controller
         $penulis = Penulis::all();
         $penerbit = Penerbit::all();
         $pinjambuku = Pinjambuku::all();
-        return view('admin.buku.index', compact('kategori', 'penulis', 'penerbit', 'pinjambuku', 'buku'));
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
+        return view('admin.buku.index', compact('kategori', 'penulis', 'penerbit', 'pinjambuku', 'buku', 'notifymenunggu', 'notifpengajuankembali'));
 
     }
 
@@ -32,7 +35,10 @@ class BukuController extends Controller
         $penulis = Penulis::all();
         $penerbit = Penerbit::all();
         $pinjambuku = Pinjambuku::all();
-        return view('admin.buku.create', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjambuku'));
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+
+        return view('admin.buku.create', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjambuku', 'notifymenunggu', 'notifpengajuankembali'));
     }
 
     
@@ -89,7 +95,9 @@ class BukuController extends Controller
     {
         $buku = Buku::findorfail($id);
         $pinjambuku = Pinjambuku::all();
-        return view('frontend.detailbuku', compact('buku','pinjambuku'));
+        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        return view('frontend.detailbuku', compact('buku','pinjambuku', 'notifymenunggu', 'notifpengajuankembali'));
     }
 
     

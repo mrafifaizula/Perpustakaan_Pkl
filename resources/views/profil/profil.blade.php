@@ -8,20 +8,18 @@
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <p class="mb-0">Edit Profile</p>
-                            <button class="btn btn-primary btn-sm ms-auto">Settings</button>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form class="row g-3" method="POST" action="{{ route('user.update', $user->id) }}"
-                            enctype="multipart/form-data">
-                            @method('PATCH')
+                        <form class="row g-3" method="POST" action="{{ route('profil.update', $user->id) }}" enctype="multipart/form-data">
                             @csrf
+                            @method('PATCH')
+                            
+                            <!-- Input Nama -->
                             <div class="col-md-6">
-                                <label for="input13" class="form-label">Nama</label>
+                                <label for="name" class="form-label">Nama</label>
                                 <div class="position-relative">
-                                    <input type="text" name="name"
-                                        class="form-control @error('name') is-invalid @enderror" id="input13"
-                                        value="{{ $user->name }}" placeholder="Full Name" required>
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ $user->name }}" placeholder="Full Name" required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -29,75 +27,70 @@
                                     @enderror
                                 </div>
                             </div>
-
+                        
+                            <!-- Input Foto Profile -->
                             <div class="col-md-6">
-                                <label for="input13" class="form-label">Nomer telepon</label>
+                                <label for="image_user" class="form-label">Foto Profile</label>
                                 <div class="position-relative">
-                                    <input class="form-control mb-3" type="number" name="tlp"
-                                        placeholder="Nama Penulis" value="{{ $user->tlp }}" required>
+                                    <input class="form-control mb-3" type="file" name="image_user" id="image_user">
                                 </div>
                             </div>
-
-                            <div class="col-md-12">
-                                <label for="input13" class="form-label">Alamat</label>
-                                <div class="position-relative">
-                                    {{-- <textarea class="form-control mb-3" name="deskripsi" required> {{$buku->deskripsi}}</textarea> --}}
-                                    <textarea class="form-control mb-3" type="text" name="alamat" placeholder="Alamat" required>{{ $user->alamat }}</textarea>
-                                </div>
-                            </div>
-
+                        
+                            <!-- Input Nomor Telepon -->
                             <div class="col-md-6">
-                                <label for="input13" class="form-label">Foto Profile</label>
+                                <label for="tlp" class="form-label">Nomor Telepon</label>
                                 <div class="position-relative">
-                                    {{-- <img src="{{ asset('images/user/' . $user->fotoprofile) }}" class="rounded-circle p-1 border mb-4" width="80" height="80" alt=""> --}}
-                                    <input class="form-control mb-3" type="file" name="image_user">
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-6">
-                                <label for="input16" class="form-label">Email</label>
-                                <div class="position-relative">
-                                    <input type="email" name="email"
-                                        class="form-control @error('email') is-invalid @enderror"
-                                        value="{{ $user->email }}" id="input16" placeholder="Email" required>
-                                    @error('email')
+                                    <input class="form-control mb-3 @error('tlp') is-invalid @enderror" type="tel" name="tlp" id="tlp" placeholder="Nomor Telepon" value="{{ $user->tlp }}" required>
+                                    @error('tlp')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
                             </div>
-                            {{--             
-                            <div class="col-md-12">
-                                <label for="input19" class="form-label">level</label>
-                                <select id="input19" name="isAdmin" class="form-select">
-                                    <option selected="">Pilih...</option>
-                                    <option value="0" selected>Peminjam</option>
-                                    <option value="1">Admin</option>
-                                </select>
-                            </div>
-                             --}}
-                            <div class="col-md-12">
-                                <div class="d-md-flex d-grid align-items-center gap-3">
-                                    {{-- <a href="{{route('user.index')}}" class="btn btn-danger px-4">Cancel</a> --}}
-                                    <button type="submit" class="btn btn-primary px-4">update profile</button>
+                        
+                            <!-- Input Email (Readonly) -->
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <div class="position-relative">
+                                    <input type="email" name="email" class="form-control" id="email" value="{{ $user->email }}" placeholder="Email" readonly>
                                 </div>
                             </div>
-                        </form>
+                        
+                            <!-- Input Alamat -->
+                            <div class="col-md-12">
+                                <label for="alamat" class="form-label">Alamat</label>
+                                <div class="position-relative">
+                                    <textarea class="form-control mb-3 @error('alamat') is-invalid @enderror" name="alamat" id="alamat" placeholder="Alamat" required>{{ $user->alamat }}</textarea>
+                                    @error('alamat')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        
+                            <!-- Tombol Update -->
+                            <div class="col-md-12">
+                                <div class="d-md-flex d-grid align-items-center gap-3 float-end">
+                                    <button type="submit" class="btn btn-sm btn-primary px-4">Update Profil</button>
+                                </div>
+                            </div>
+                        </form>                        
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card card-profile">
-                    <img src="{{ asset('assets/img/bg-profile.jpg') }}" alt="Image placeholder" class="card-img-top">
+                    <img src="{{ asset('assets/img/assalaam.png') }}" alt="Image placeholder" class="card-img-top" style="height: 180px">
                     <div class="row justify-content-center">
                         <div class="col-4 col-lg-4 order-lg-2">
                             <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
                                 <a href="javascript:;">
                                     <img src="{{ asset('images/user/' . $user->image_user) }}"
-                                        class="rounded-circle img-fluid border border-2 border-white "  width="80" height="80">
-                                </a>
+                                        style="border-radius: 50%; object-fit: cover; width: 80px; height: 80px;"
+                                        class="img-fluid border border-2 border-white">
+                                </a>                                
                             </div>
                         </div>
                     </div>

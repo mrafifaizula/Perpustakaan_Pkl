@@ -153,7 +153,18 @@
                                         </div>
 
                                         <div class="row mb-3">
+
                                             <div class="col-md-6">
+                                                <label for="jumlah">Jumlah</label>
+                                                <input type="number" placeholder="Jumlah Buku"
+                                                    class="form-control @error('jumlah') is-invalid @enderror" name="jumlah">
+                                                @error('jumlah')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            {{-- <div class="col-md-6">
                                                 <label for="jumlah">Jumlah</label>
                                                 <select name="jumlah"
                                                     class="form-control @error('jumlah') is-invalid @enderror" required>
@@ -167,7 +178,7 @@
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
-                                            </div>
+                                            </div> --}}
 
                                             <div class="col-md-6">
                                                 <label for="status">Status</label>
@@ -186,7 +197,7 @@
                                         <div class="button-container">
                                             <button class="btn btn-sm btn-primary" type="submit">Simpan</button>
                                             <button class="btn btn-sm btn-warning" type="reset">Reset</button>
-                                            <a href="{{ url('buku', $buku->id) }}" class="btn btn-sm btn-secondary">
+                                            <a href="{{ url()->previous() }}" class="btn btn-sm btn-secondary">
                                                 Kembali
                                             </a>
                                         </div>

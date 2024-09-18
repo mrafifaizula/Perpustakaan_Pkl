@@ -75,49 +75,64 @@
             </a>
         </li>
         <li class="nav-item mt-3">
-            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Peminjaman</h6>
+            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Data Peminjaman</h6>
         </li>
+        
         <li class="nav-item">
-            <a class="nav-link " href="{{ url('admin/pinjambuku') }}">
-                <div
-                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+            <a class="nav-link" href="{{ url('admin/pinjambuku') }}">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center position-relative">
                     <i class="bi bi-book-half text-sm" style="color: pink"></i>
+                    @if($notifymenunggu > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-danger" style="font-size: 0.6rem; padding: 0.2em 0.4em;">
+                            {{ $notifymenunggu }}
+                        </span>
+                    @endif
                 </div>
-                <span class="nav-link-text ms-1">Pengajuan</span>
+                <span class="nav-link-text ms-1">Permintaan Peminjaman</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link " href="{{ url('admin/pengajuankembali') }}">
-                <div
-                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+        
+        {{-- <li class="nav-item">
+            <a class="nav-link" href="{{ url('admin/pengajuankembali') }}">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center position-relative">
                     <i class="bi bi-book-half text-sm" style="color: yellow"></i>
+                    @if($notifpengajuankembali > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-danger" style="font-size: 0.6rem; padding: 0.2em 0.4em;">
+                            {{ $notifpengajuankembali }}
+                        </span>
+                    @endif
                 </div>
-                <span class="nav-link-text ms-1">Pengajuan Kembali</span>
+                <span class="nav-link-text ms-1">Permintaan Pengembalian</span>
             </a>
-        </li>
-
+        </li> --}}
+        
         <li class="nav-item">
-            <a class="nav-link " href="{{ url('admin/dipinjam') }}">
-                <div
-                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
+            <a class="nav-link" href="{{ url('admin/dipinjam') }}">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center position-relative">
                     <i class="bi bi-book-half text-sm" style="color: blue"></i>
                 </div>
-                <span class="nav-link-text ms-1">Data Buku Dipinjam</span>
+                <span class="nav-link-text ms-1">Daftar Buku Dipinjam</span>
+            </a>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('admin/pengembalian') }}">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center position-relative">
+                    <i class="bi bi-book-half text-sm" style="color: black"></i>
+                </div>
+                <span class="nav-link-text ms-1">Riwayat Peminjaman & Tolak</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link " href="{{ url('admin/pengembalian') }}">
-                <div
-                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i> --}}
-                    <i class="bi bi-book-half text-sm" style="color: black"></i>
+        {{-- <li class="nav-item">
+            <a class="nav-link" href="{{ url('admin/ditolak') }}">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center position-relative">
+                    <i class="bi bi-book-half text-sm" style="color: red"></i>
                 </div>
-                <span class="nav-link-text ms-1">Data Peminjaman</span>
+                <span class="nav-link-text ms-1">Tidak Disetujui</span>
             </a>
-        </li>
+        </li> --}}
+        
+        
     </ul>
 </aside>
