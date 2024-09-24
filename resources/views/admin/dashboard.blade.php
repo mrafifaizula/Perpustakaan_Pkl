@@ -232,6 +232,35 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <script>
+        $(document).ready(function() {
+            // Destroy existing DataTable instance for bukuTable
+            if ($.fn.DataTable.isDataTable('#bukuTable')) {
+                $('#bukuTable').DataTable().destroy();
+            }
+
+            // Initialize DataTable for bukuTable only
+            $('#bukuTable').DataTable({
+                "language": {
+                    "zeroRecords": "Tidak ada data yang tersedia",
+                    "info": "   ", // Info display
+                    "infoEmpty": "Tidak ada entri yang tersedia", // When no data is available
+                    "lengthMenu": "Tampilkan _MENU_ entri", // Length menu
+                    "paginate": {
+                        "first": '<i class="bi bi-chevron-double-left"></i>', // First page
+                        "last": '<i class="bi bi-chevron-double-right"></i>', // Last page
+                        "next": '<i class="bi bi-chevron-right"></i>', // Next page
+                        "previous": '<i class="bi bi-chevron-left"></i>' // Previous page
+                    }
+
+                },
+                "paging": true, // Enable pagination
+                "searching": false, // Disable searching
+                "pageLength": 5 // Set default number of entries to show
+            });
+        });
+    </script>
+
+    <script>
         var ctx = document.getElementById('chartPinjamBuku').getContext('2d');
         var chartPinjamBuku = new Chart(ctx, {
             type: 'line', // Change to 'line' for a line chart
@@ -272,45 +301,6 @@
         });
     </script>
 
-
-    <script>
-        var ctx = document.getElementById('chartPinjamBuku').getContext('2d');
-        var chartPinjamBuku = new Chart(ctx, {
-            type: 'line', // Change to 'line' for a line chart
-            data: {
-                labels: @json($namaBulan), // Nama bulan di sumbu x
-                datasets: [{
-                    label: '', // Mengosongkan label
-                    data: @json($dataDikembalikan), // Data jumlah peminjaman dengan status 'dikembalikan'
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2, // Adjusted for line chart
-                    fill: false, // No fill under the line
-                    tension: 0.1 // Smoothness of the line
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 10, // Langkah antar nilai
-                            callback: function(value) {
-                                if (value % 10 === 0) {
-                                    return value; // Tampilkan hanya kelipatan 10
-                                }
-                            }
-                        },
-                        min: 0, // Mulai dari 0
-                        max: 100 // Sampai 100 sesuai contoh gambar
-                    }
-                }
-            }
-        });
-    </script>
-
-
-
     <script>
         var ctx = document.getElementById('chartJumlah').getContext('2d');
         var chartJumlah = new Chart(ctx, {
@@ -318,7 +308,7 @@
             data: {
                 labels: ['Kategori', 'Penulis', 'Penerbit', 'Buku'], // Label untuk tiap batang
                 datasets: [{
-                    label: 'Jumlah Data',
+                    label: '', // Mengosongkan label
                     data: [
                         @json($jumlahKategori), // Jumlah kategori
                         @json($jumlahPenulis), // Jumlah penulis
@@ -343,13 +333,7 @@
             options: {
                 plugins: {
                     legend: {
-                        labels: {
-                            generateLabels: function(chart) {
-                                const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
-                                labels[0].fillStyle = 'rgba(255, 99, 132, 1)'; // Ganti warna kotak legend
-                                return labels;
-                            }
-                        }
+                        display: false // Menonaktifkan kotak legend
                     }
                 },
                 scales: {
@@ -364,11 +348,13 @@
                             }
                         },
                         min: 0, // Mulai dari 0
-                        max: 100 // Sampai 500 sesuai contoh gambar
+                        max: 100 // Sampai 100 sesuai contoh gambar
                     }
                 }
             }
         });
     </script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 @endpush
