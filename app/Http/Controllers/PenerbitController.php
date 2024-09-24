@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 use Alert;
 use Validator;
-use App\Models\Pinjambuku;
-use App\Models\Penerbit;
+use App\Models\pinjambuku;
+use App\Models\penerbit;
 use Illuminate\Http\Request;
 
 class PenerbitController extends Controller
@@ -12,19 +12,18 @@ class PenerbitController extends Controller
    
     public function index()
     {
-        $penerbit = Penerbit::all();
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $penerbit = penerbit::orderBy("id","desc")->get();
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
 
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.penerbit.index', compact('penerbit', 'notifymenunggu', 'notifpengajuankembali'));
+        return view('admin.penerbit.index', compact('penerbit', 'notifymenunggu'));
     }
 
    
     public function create()
     {
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $notifymenunggu = pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = pinjambuku::where('status', 'menunggu pengembalian')->count();
    
         return view('admin.penerbit.create', compact('notifymenunggu','notifpengajuankembali'));
     }
@@ -34,19 +33,15 @@ class PenerbitController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_penerbit' => 'required|unique:penerbits,nama_penerbit',
-        ], [
-            'nama_penerbit.required' => 'Nama Penerbit Harus Diisi',
-            'nama_penerbit.unique' => 'Nama Penerbit Tidak Boleh Sama'
         ]);
 
-        // validator nama penerbit tidak boleh sama pake alert
         if ($validator->fails()) {
-            $errors = $validator->errors()->first('nama_penerbit');
-            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            $errorMessages = implode(' ', $validator->errors()->all());
+            Alert::error('Gagal', 'Gagal: ' . $errorMessages)->autoClose(2000);
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $penerbit = new Penerbit();
+        $penerbit = new penerbit();
         $penerbit->nama_penerbit = $request->nama_penerbit;
         $penerbit->save();
 
@@ -63,11 +58,10 @@ class PenerbitController extends Controller
     
     public function edit($id)
     {
-        $penerbit = Penerbit::findOrFail($id);
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
-   
-        return view('admin.penerbit.edit', compact('penerbit', 'notifymenunggu', 'notifpengajuankembali'));
+        $penerbit = penerbit::findOrFail($id);
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
+       
+        return view('admin.penerbit.edit', compact('penerbit', 'notifymenunggu'));
     }
 
    
@@ -86,7 +80,7 @@ class PenerbitController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $penerbit = Penerbit::findOrFail($id);
+        $penerbit = penerbit::findOrFail($id);
         $penerbit->nama_penerbit = $request->nama_penerbit;
 
         $penerbit->save();
@@ -97,7 +91,7 @@ class PenerbitController extends Controller
     
     public function destroy($id)
     {
-        $penerbit = Penerbit::findOrFail($id);
+        $penerbit = penerbit::findOrFail($id);
         $penerbit->delete();
         Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);
         return redirect()->route('penerbit.index');

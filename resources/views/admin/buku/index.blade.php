@@ -1,21 +1,35 @@
 @extends('layouts.backend')
 
+@section('title', 'Data Buku')
+
 @section('styles')
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
 @endsection
 
+<style>
+    .dataTables_wrapper .dt-buttons {
+        margin-bottom: 2px;
+        /* Adjust margin between buttons and table */
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        text-align: right;
+        /* Align search box to the right */
+    }
+</style>
+
 @section('content')
-    <h4 class="m-5"><span style="color: white">Tables </span> Buku</h4>
+    <h4 class="m-5"><span style="color: white">Table </span> Buku</h4>
     <div class="card m-5">
         <div class="card-header">
             <div class="float-start">
                 <h5> Buku </h5>
             </div>
             <div class="float-end">
-                <a href="{{ route('buku.create') }}" class="btn btn-sm btn-primary">
-                    <i class="bi bi-plus-lg"></i>
+                <a href="{{ route('buku.create') }}" class="btn btn-sm btn-primary" title="Add">
+                    <i class="bi bi-plus-lg"></i> Tambah
                 </a>
             </div>
         </div>
@@ -25,47 +39,45 @@
                     <thead>
                         <td>No</td>
                         <td>Judul</td>
-                        <td>Code Buku</td>
-                        <td>Tahun</td>
-                        <td>Jumlah</td>
+                        {{-- <td>Code Book</td> --}}
+                        {{-- <td>Year</td> --}}
+                        <td>Stok</td>
                         <td>Kategori</td>
                         <td>Penulis</td>
                         <td>Penerbit</td>
-                        <td>Image</td>
-                        <td>Action</td>
+                        {{-- <td>Image</td> --}}
+                        <td class="text-center">Aksi</td>
                     </thead>
                     @php $no = 1; @endphp
                     <tbody>
                         @foreach ($buku as $item)
                             <tr>
-                                <td>{{ $no++ }}</td>
+                                <td class="text-center">{{ $no++ }}</td>
                                 <td>{{ $item->judul }}</td>
-                                <td>{{ $item->code_buku }}</td>
-                                <td>{{ $item->tahun_terbit }}</td>
-                                <td>{{ $item->jumlah_buku }}</td>
+                                {{-- <td>{{ $item->code_buku }}</td> --}}
+                                {{-- <td>{{ $item->tahun_terbit }}</td> --}}
+                                <td class="text-center">{{ $item->jumlah_buku }}</td>
                                 <td>{{ $item->kategori->nama_kategori }}</td>
                                 <td>{{ $item->penulis->nama_penulis }}</td>
                                 <td>{{ $item->penerbit->nama_penerbit }}</td>
-                                <td>
+                                {{-- <td>
                                     <img src="{{ asset('images/buku/' . $item->image_buku) }}" alt="Product Image"
                                         style="width: 50px; height: 50px;">
-                                </td>
+                                </td> --}}
                                 <td>
-                                    <form action="{{ route('buku.destroy', $item->id) }}" method="POST">
-                                        @method('DELETE')
+                                    <form action="{{ route('buku.destroy', $item->id) }}" method="POST" style="display:inline;">
                                         @csrf
-                                        <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-sm btn-success">
+                                        @method('DELETE')
+                                        <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-success" title="Edit">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal{{ $item->id }}">
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" title="Detail" data-bs-target="#exampleModal{{ $item->id }}">
                                             <i class="bi bi-eye"></i>
                                         </button>
-                                        <a href="{{ route('buku.destroy', $item->id) }}" class="btn btn-sm btn btn-danger"
-                                            data-confirm-delete="true">
+                                        <button type="submit" class="btn btn-danger" title="Hapus" data-confirm-delete="true">
                                             <i class="bi bi-trash"></i>
-                                        </a>
-                                    </form>
+                                        </button>
+                                    </form>                                    
                                 </td>
                             </tr>
                             <!-- start Modal -->
@@ -74,7 +86,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Buku</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -97,7 +109,7 @@
                                                 </div>
                                                 <div class="row mb-2">
                                                     <div class="col-md-6">
-                                                        <label for="">Jumlah Buku</label>
+                                                        <label for="">Stok</label>
                                                         <input type="text"
                                                             class="form-control @error('jumlah_buku') is-invalid @enderror"
                                                             name="jumlah_buku" value="{{ $item->jumlah_buku }}" disabled>
@@ -125,14 +137,26 @@
                                                             value="{{ $item->Penerbit->nama_penerbit }}" disabled>
                                                     </div>
                                                 </div>
-                                                <div class="mb-2">
-                                                    <label for="">Deskripsi</label>
-                                                    <textarea class="form-control @error('desc_buku') is-invalid @enderror" name="desc_buku" disabled>{{ $item->desc_buku }}
-                                                </textarea>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-12">
+                                                        <label for="">Harga</label>
+                                                        <input type="text"
+                                                            class="form-control @error('harga') is-invalid @enderror"
+                                                            name="harga"
+                                                            value="{{ number_format($item->harga, 2, ',', '.') }}"
+                                                            disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-12">
+                                                        <label for="">Deskripsi</label>
+                                                        <textarea class="form-control @error('desc_buku') is-invalid @enderror" name="desc_buku" disabled>{{ $item->desc_buku }}
+                                                        </textarea>
+                                                    </div>
                                                 </div>
                                                 <center>
                                                     <div class="mb-2">
-                                                        <label for="">Images</label>
+                                                        <label for="">Foto Buku</label>
                                                         <img class="form-control"
                                                             src="{{ asset('images/buku/' . $item->image_buku) }}"
                                                             alt="" style="width: 150px; height: 150px">
@@ -141,7 +165,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
+                                                    data-bs-dismiss="modal">Kembali</button>
                                             </div>
                                         </div>
                                     </div>
@@ -157,27 +181,58 @@
 @endsection
 
 @push('scripts')
-    {{-- <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script> --}}
-    {{-- <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/2.1.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.bootstrap5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
     <script>
-        new DataTable('#example', {
-            layout: {
-                topStart: {
-                    buttons: ['excel', 'pdf', 'colvis']
+        $(document).ready(function() {
+            $('#example').DataTable({
+                dom: '<"row"<"col-sm-6"B><"col-sm-6"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+                buttons: [{
+                        extend: 'pdf',
+                        text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
+                        className: 'btn btn-danger',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="bi bi-file-earmark-excel"></i> Excel',
+                        className: 'btn btn-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="bi bi-printer"></i> Print',
+                        className: 'btn btn-primary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                ],
+                language: {
+                    search: "Mencari:", // Translations
+                    lengthMenu: "Tampilkan _MENU_ entri",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    infoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
+                    infoFiltered: "(difilter dari _MAX_ total entri)",
+                    zeroRecords: "Tidak ada data yang cocok",
+                    emptyTable: "Tidak ada data tersedia dalam tabel",
                 }
-            }
+            });
         });
     </script>
 

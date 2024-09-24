@@ -2,8 +2,8 @@
 namespace App\Http\Controllers;
 use Alert;
 use Auth;
-use App\Models\User;
-use App\Models\Pinjambuku;
+use App\Models\user;
+use App\Models\pinjambuku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -12,9 +12,9 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $user = User::all(); // Use plural 'user' for variable name
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $user = user::all(); // Use plural 'user' for variable name
+        $notifymenunggu = pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = pinjambuku::where('status', 'menunggu pengembalian')->count();
 
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
         return view('admin.user.index', compact('user', 'notifymenunggu', 'notifpengajuankembali')); // Compact with plural 'user'
@@ -22,8 +22,8 @@ class UsersController extends Controller
 
     public function create()
     {
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $notifymenunggu = pinjambuku::where('status', 'menunggu')->count();
+        $notifpengajuankembali = pinjambuku::where('status', 'menunggu pengembalian')->count();
 
         return view('admin.user.create', compact('notifymenunggu', 'notifpengajuankembali'));
     }
@@ -34,12 +34,12 @@ class UsersController extends Controller
             'name' => 'required|max:255',
             'alamat' => 'required',
             'tlp' => 'required',
-            'email' => 'required|unique:user',
+            'email' => 'required|unique:users', // Updated table name to 'users'
             'password' => 'required|min:8',
             'isAdmin' => 'required',
         ]);
 
-        $user = new User();
+        $user = new user();
         $user->name = $request->name;
         $user->alamat = $request->alamat;
         $user->tlp = $request->tlp;
@@ -59,6 +59,7 @@ class UsersController extends Controller
         Alert::success('Success', 'Data Berhasil Disimpan')->autoClose(1000);
         return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
+
 
     public function edit(User $user)
     {
@@ -98,7 +99,7 @@ class UsersController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        $user = user::findOrFail($id);
         $user->delete();
 
         Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);

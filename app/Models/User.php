@@ -49,4 +49,9 @@ class User extends Authenticatable
     public function profil(){
         return $this->hasOne(profil::class,'id_user');
     }
+
+
+    
+
+
 }

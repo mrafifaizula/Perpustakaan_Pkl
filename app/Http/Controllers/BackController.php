@@ -1,66 +1,108 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Buku;
-use App\Models\Kategori;
-use App\Models\Penulis;
-use App\Models\Penerbit;
+use App\Models\buku;
+use App\Models\kategori;
+use App\Models\penulis;
+use App\Models\penerbit;
 use App\Models\User;
-use App\Models\Pinjambuku;
+use App\Models\pinjambuku;
+use App\Models\kontak;
+use Illuminate\Support\Facades\DB;
 use Auth;
 
 class BackController extends Controller
 {
     public function index()
     {
-        $buku = Buku::all();
-        $kategori = Kategori::all();
-        $penulis = Penulis::all();
-        $penerbit = Penerbit::all();
+        $buku = buku::orderBy("id", "desc")->get();
+        $kategori = kategori::orderBy("id", "desc")->get();
+        $penulis = penulis::all();
+        $penerbit = penerbit::all();
         $user = Auth::user();
         $user = User::all();
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
 
-        return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'user', 'notifymenunggu', 'notifpengajuankembali'));
+        $bukuYangDipinjam = pinjambuku::whereIn('status', ['diterima', 'menunggu pengembalian'])
+            ->count();
+
+
+        // chart
+        // Ambil data jumlah peminjaman yang sudah dikembalikan per bulan
+        $dikembalikan = PinjamBuku::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('count(*) as total'))
+            ->where('status', 'dikembalikan')
+            ->groupBy('bulan')
+            ->pluck('total', 'bulan')
+            ->toArray();
+
+        // Nama bulan
+        $namaBulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+        // Format data untuk setiap bulan
+        $dataDikembalikan = [];
+        foreach (range(1, 12) as $bulan) {
+            $dataDikembalikan[] = $dikembalikan[$bulan] ?? 0; // Isi dengan 0 jika tidak ada data 'dikembalikan' untuk bulan tersebut
+        }
+
+
+
+        // chart 2
+
+        $jumlahKategori = Kategori::count();
+        $jumlahPenulis = Penulis::count();
+        $jumlahPenerbit = Penerbit::count();
+        $jumlahBuku = Buku::count();
+
+        return view('admin.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'user', 'notifymenunggu', 'bukuYangDipinjam', 'namaBulan', 'dataDikembalikan', 'jumlahKategori', 'jumlahPenulis', 'jumlahPenerbit', 'jumlahBuku'));
     }
 
     public function permintaan()
     {
-        $pinjambuku = Pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->get();
+        $pinjambuku = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
         $buku = Buku::all();
         $user = User::all();
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
 
-        return view('admin.dataPeminjaman.permintaan', compact('pinjambuku', 'buku', 'user', 'notifymenunggu', 'notifpengajuankembali'));
+        return view('admin.dataPeminjaman.permintaan', compact('pinjambuku', 'buku', 'user', 'notifymenunggu'));
     }
 
     public function riwayat()
     {
-        $pinjambuku = Pinjambuku::whereIn('status', ['dikembalikan', 'ditolak'])->get();
+        $pinjambuku = pinjambuku::whereIn('status', ['dikembalikan', 'ditolak'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
 
-        $buku = Buku::all();
+        $buku = buku::all();
         $user = User::all();
 
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
 
-        return view('admin.dataPeminjaman.riwayat', compact('pinjambuku', 'buku', 'user', 'notifymenunggu', 'notifpengajuankembali'));
+        return view('admin.dataPeminjaman.riwayat', compact('pinjambuku', 'buku', 'user', 'notifymenunggu'));
     }
 
 
     public function dipinjam()
     {
-        $pinjambuku = Pinjambuku::where('status', 'diterima')->get();
-        $buku = Buku::all();
+        $pinjambuku = pinjambuku::where('status', 'diterima')
+            ->orderBy("id", "desc")
+            ->get();
+        $buku = buku::all();
         $user = User::all();
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
-        return view('admin.dataPeminjaman.daftarBukuDipinjam', compact('pinjambuku', 'buku', 'user', 'notifymenunggu', 'notifpengajuankembali'));
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
+
+        return view('admin.dataPeminjaman.daftarBukuDipinjam', compact('pinjambuku', 'buku', 'user', 'notifymenunggu'));
     }
 
-   
+    public function kontak()
+    {
+        $kontak = kontak::all();
+        $user = User::all();
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
 
+        return view('admin.kontak', compact('kontak', 'user', 'notifymenunggu'));
+    }
 
 }

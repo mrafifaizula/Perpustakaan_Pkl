@@ -1,21 +1,35 @@
 @extends('layouts.backend')
 
+@section('title', 'Data Penerbit')
+
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
 @endsection
 
+<style>
+    .dataTables_wrapper .dt-buttons {
+        margin-bottom: 2px;
+        /* Adjust margin between buttons and table */
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        text-align: right;
+        /* Align search box to the right */
+    }
+</style>
+
 @section('content')
-    <h4 class="m-5"><span style="color: white">Tables </span> Penerbit</h4>
+    <h4 class="m-5"><span style="color: white">Table </span>Penerbit</h4>
     <div class="card m-5">
         <div class="card-header">
             <div class="float-start">
                 <h5> Penerbit </h5>
             </div>
             <div class="float-end">
-                <a href="{{ route('penerbit.create') }}" class="btn btn-sm btn-primary">
-                    <i class="bi bi-plus-lg"></i>
+                <a href="{{ route('penerbit.create') }}" class="btn btn-sm btn-primary" title="Add">
+                    <i class="bi bi-plus-lg"></i> Tambah
                 </a>
             </div>
         </div>
@@ -23,30 +37,29 @@
             <div class="table-responsive text-nowrap">
                 <table class="table" id="example">
                     <thead>
-                        <td>No</td>
-                        <td>Name Penerbit</td>
-                        <td>Action</td>
+                        <td class="text-center">No</td>
+                        <td>Nama Penerbit</td>
+                        <td class="text-center">Aksi</td>
                     </thead>
                     @php $no = 1; @endphp
                     <tbody>
                         @foreach ($penerbit as $item)
                             <tr>
-                                <td>{{ $no++ }}</td>
+                                <td class="text-center">{{ $no++ }}</td>
                                 <td>{{ $item->nama_penerbit }}</td>
-                                <td>
+                                <td class="text-center">
                                     <form action="{{ route('penerbit.destroy', $item->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <a href="{{ route('penerbit.edit', $item->id) }}"
-                                            class="btn btn-sm btn-success">
+                                        <a href="{{ route('penerbit.edit', $item->id) }}" class="btn btn-success" title="edit">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" title="Detail"
                                             data-bs-target="#exampleModal{{ $item->id }}">
                                             <i class="bi bi-eye"></i>
                                         </button>
-                                        <a href="{{ route('penerbit.destroy', $item->id) }}"
-                                            class="btn btn-sm btn btn-danger" data-confirm-delete="true">
+                                        <a href="{{ route('penerbit.destroy', $item->id) }}" class="btn btn btn-danger" title="hapus"
+                                            data-confirm-delete="true">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                     </form>
@@ -58,20 +71,20 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Data Penerbit</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="mb-2">
-                                                <label for="">Nama buku</label>
+                                                <label for="">Nama Penerbit</label>
                                                 <input type="text"
                                                     class="form-control @error('nama_penerbit') is-invalid @enderror"
                                                     name="nama_penerbit" value="{{ $item->nama_penerbit }}" disabled>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
+                                                    data-bs-dismiss="modal">Keluar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -102,15 +115,48 @@
     <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
     <script>
-        new DataTable('#example', {
-            layout: {
-                topStart: {
-                    buttons: ['excel', 'pdf', 'colvis']
+        $(document).ready(function() {
+            $('#example').DataTable({
+                dom: '<"row"<"col-sm-6"B><"col-sm-6"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+                buttons: [{
+                        extend: 'pdf',
+                        text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
+                        className: 'btn btn-danger',
+                        exportOptions: {
+                            columns: [0, 1]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="bi bi-file-earmark-excel"></i> Excel',
+                        className: 'btn btn-success',
+                        exportOptions: {
+                            columns: [0, 1]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="bi bi-printer"></i> Print',
+                        className: 'btn btn-primary',
+                        exportOptions: {
+                            columns: [0, 1]
+                        }
+                    },
+                ],
+                language: {
+                    search: "Mencari:", // Mengganti label "Search:" dengan "Mencari:"
+                    lengthMenu: "Tampilkan _MENU_ entri",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    infoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
+                    infoFiltered: "(difilter dari _MAX_ total entri)",
+                    zeroRecords: "Tidak ada data yang cocok",
+                    emptyTable: "Tidak ada data tersedia dalam tabel",
                 }
-            }
+            });
         });
     </script>
-
     <script>
         const myModal = document.getElementById('myModal')
         const myInput = document.getElementById('myInput')

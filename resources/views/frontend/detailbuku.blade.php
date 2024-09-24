@@ -1,5 +1,7 @@
 @extends('layouts.frontend')
 
+@section('title', 'Detail Buku')
+
 <style>
     .card-text{
         font-size: 0.9rem;
@@ -72,14 +74,15 @@
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <div class="img-container">
-                                    <img src="{{ asset('images/buku/'.$buku->image_buku) }}" class="img-fluid" alt="...">
+                                    <img src="{{ file_exists(public_path('images/buku/' . $buku->image_buku)) ? asset('images/buku/' . $buku->image_buku) : asset('assets/img/noimage.png') }}" class="img-fluid" alt="...">
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
                                     <h5 class="card-title text-center mb-4">{{$buku->judul}}</h5>
                                     <p class="card-text">Code Buku: <span>{{$buku->code_buku}}</span></p>
-                                    <p class="card-text">Jumlah Buku: <span>{{$buku->jumlah_buku}}</span></p>
+                                    <p class="card-text">Stok Buku : <span>{{$buku->jumlah_buku}}</span></p>
+                                    <p class="card-text">Harga: <span>{{ number_format($buku->harga, 2, ',', '.') }}</span></p>
                                     <p class="card-text">Kategori: <span>{{$buku->kategori->nama_kategori}}</span></p>
                                     <p class="card-text">Nama Penulis: <span>{{$buku->Penulis->nama_penulis}}</span></p>
                                     <p class="card-text">Nama Penerbit: <span>{{$buku->Penerbit->nama_penerbit}}</span></p>

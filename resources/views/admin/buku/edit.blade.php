@@ -1,5 +1,7 @@
 @extends('layouts.backend')
 
+@section('title', 'Edit Buku')
+
 @section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -23,7 +25,7 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <label for="code_buku">Code Buku</label>
+                                <label for="code_buku">Kode Buku</label>
                                 <input type="text" class="form-control @error('code_buku') is-invalid @enderror"
                                     name="code_buku" value="{{ $buku->code_buku }}">
                                 @error('code_buku')
@@ -43,7 +45,7 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <label for="jumlah_buku">Jumlah Buku</label>
+                                <label for="jumlah_buku">Stok</label>
                                 <input type="number" class="form-control @error('jumlah_buku') is-invalid @enderror"
                                     name="jumlah_buku" value="{{ $buku->jumlah_buku }}">
                                 @error('jumlah_buku')
@@ -53,7 +55,18 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <label for="image_buku">Images</label>
+                                <label for="harga">Harga</label>
+                                <input type="text" placeholder="Harga"
+                                    class="form-control @error('harga') is-invalid @enderror" name="harga" id="harga"
+                                    value="{{ old('harga', number_format($buku->harga, 2, ',', '.')) }}">
+                                @error('harga')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>                            
+                            <div class="mb-2">
+                                <label for="image_buku">Foto Buku</label>
                                 @if ($buku->image_buku)
                                     <p>
                                         <image src="{{ asset('images/buku/' . $buku->image_buku) }}" alt="image_buku"
@@ -83,7 +96,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="id_penulis" class="form-label">Name Penulis</label>
+                                <label for="id_penulis" class="form-label">Nama Penulis</label>
                                 <select name="id_penulis" class="form-control @error('id_penulis') is-invalid @enderror">
                                     <option value="" disabled selected>Pilih Penulis</option>
                                     @foreach ($penulis as $data)
@@ -97,7 +110,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="id_penerbit" class="form-label">Name Penerbit</label>
+                                <label for="id_penerbit" class="form-label">Nama Penerbit</label>
                                 <select name="id_penerbit" class="form-control @error('id_penerbit') is-invalid @enderror">
                                     <option value="" disabled selected>Pilih Penerbit</option>
                                     @foreach ($penerbit as $data)
@@ -120,9 +133,7 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <button class="btn btn-sm btn-success" type="submit">
-                                    Simpan
-                                </button>
+                                <button class="btn btn-sm btn-success" type="submit">Simpan</button>
                                 <button class="btn btn-sm btn-warning" type="reset">Reset</button>
                             </div>
                         </form>
@@ -132,3 +143,13 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.getElementById('harga').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+        e.target.value = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value / 100);
+    });
+</script>
+
+@endpush

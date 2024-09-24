@@ -65,7 +65,7 @@
         width: 110px;
         height: 110px;
         object-fit: cover;
-        background-color: #ffffff;
+        background-color: #450000;
         /* Ensure white background behind image */
     }
 
@@ -110,88 +110,73 @@
     }
 </style>
 
-<!-- ***** Header Area Start ***** -->
 <header class="header-area header-sticky">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
                         <h1>Perpus&nbsp;Smk&nbsp;Assalaam</h1>
                     </a>
-                    <!-- ***** Logo End ***** -->
 
-                    <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                         <li class="scroll-to-section"><a href="#services">Services</a></li>
                         <li class="scroll-to-section"><a href="#about">About</a></li>
                         <li class="scroll-to-section"><a href="#buku">Buku</a></li>
-                        <li class="scroll-to-section"><a href="#contact">Contact</a></li>
-                        <!-- Dropdown container -->
-                        <div class="dropdown">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
-                                id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('images/user/' . (Auth::user()->image_user ?? 'default.png')) }}"
-                                    alt="Profile Image" class="rounded-circle profile-placeholder"
-                                    style="width: 40px; height: 40px; object-fit: cover; display: block; margin: auto;">
-                            </a>
 
-                            <!-- Dropdown menu -->
-                            <div class="dropdown-menu dropdown-menu-end shadow-sm rounded"
-                                aria-labelledby="profileDropdown" style="min-width: 250px;">
-                                <div class="dropdown-content text-center p-4">
-                                    <div class="profile-image-container mb-3"
-                                        style="margin-left:30px">
-                                        <img src="{{ asset('images/user/' . (Auth::user()->image_user ?? 'default.png')) }}"
-                                            alt="Profile Image" class="rounded-circle img-fluid profile-placeholder"
-                                            style="width: 80px; height: 80px; object-fit: cover;">
+                        @guest
+                            <li class="scroll-to-section"><a href="{{ url('login') }}">Login</a></li>
+                            <li class="scroll-to-section"><a href="{{ url('register') }}">Register</a></li>
+                        @endguest
+
+                        @auth
+                            <li>
+                                <a class="nav-link d-flex align-items-center" href="#" role="button"
+                                    id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ Auth::user()->image_user ? asset('images/user/' . Auth::user()->image_user) : asset('assets/img/user.jpg') }}"
+                                        alt="Profile Image" class="navbar-profile-image">
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end shadow-sm rounded"
+                                    aria-labelledby="profileDropdown">
+                                    <div class="dropdown-content">
+                                        <div class="profile-image-container" style="margin-left: 40px">
+                                            <img src="{{ Auth::user()->image_user ? asset('images/user/' . Auth::user()->image_user) : asset('assets/img/user.jpg') }}"
+                                                alt="Profile Image">
+                                        </div>
+                                        <div class="greeting">
+                                            Hello {{ Auth::user()->name }}
+                                        </div>
                                     </div>
-                                    <p class="greeting mb-1 font-weight-bold">
-                                        Hello, {{ Auth::check() ? Auth::user()->name : 'Guest' }}
-                                    </p>
-                                </div>
-                                <hr class="dropdown-divider mx-3">
-                                <div class="px-3">
-                                    @if (Auth::check())
-                                        @if (Auth::user()->isAdmin)
-                                            <a class="dropdown-item d-flex align-items-center mb-2"
-                                                href="{{ url('admin/dashboard') }}">
-                                                <i class="fas fa-tachometer-alt me-2"></i> Admin Dashboard
-                                            </a>
-                                        @endif
-                                        <a class="dropdown-item d-flex align-items-center mb-2"
-                                            href="{{ url('profil/dashboard') }}">
-                                            <i class="fas fa-user me-2"></i> Profile
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            class="d-none">
-                                            @csrf
-                                        </form>
-                                    @else
-                                        <a class="dropdown-item d-flex align-items-center mb-2"
-                                            href="{{ url('login') }}">
-                                            <i class="fas fa-sign-in-alt me-2"></i> Login
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="{{ url('register') }}">
-                                            <i class="fas fa-user-plus me-2"></i> Register
+
+                                    <a class="dropdown-item" href="{{ url('profil/anda') }}">
+                                        <i class="fas fa-user" style="color: black"></i> <span
+                                            style="color: black">Profile</span>
+                                    </a>
+
+                                    @if (Auth::user()->isAdmin)
+                                        <a class="dropdown-item" href="{{ url('admin/dashboard') }}">
+                                            <i class="fas fa-cogs" style="color: black"></i> <span style="color: #000">Admin
+                                                Dashboard</span>
                                         </a>
                                     @endif
+
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-sign-out-alt" style="color: black"></i> <span
+                                            style="color: #000;">Logout</span>
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                 </div>
-                            </div>
-                        </div>
-
-
+                            </li>
+                        @endauth
                     </ul>
-                    <!-- ***** Menu End ***** -->
                 </nav>
             </div>
         </div>
     </div>
 </header>
-<!-- ***** Header Area End ***** -->

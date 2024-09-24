@@ -20,9 +20,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/assalaam2.png')}}">
   <link rel="icon" type="image/png" href="{{asset('assets/img/assalaam2.png')}}">
-  <title>
-    Perpustakaan SMK Assalaam Bandung
-  </title>
+  <title>Perpustakaan - @yield('title', 'Perpustakaan SMK Assalaam')</title>
+
 
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
@@ -41,7 +40,7 @@
   @yield('styles')
 </head>
 
-<body class="g-sidenav-show   bg-gray-100" style="overflow-y: hidden">
+<body class="g-sidenav-show   bg-gray-100" style="overflow-x: hidden">
   <div class="min-height-300 bg-primary position-absolute w-100"></div>
   {{-- start sidebar --}}
   @include('layouts.profil.sidebar')

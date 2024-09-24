@@ -35,6 +35,7 @@
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
         border-radius: 5px;
+        z-index: 9999; /* or a higher value */
     }
 
     .dropdown-content a {
@@ -57,6 +58,7 @@
         border: none;
         border-top: 1px solid #f1f1f1;
     }
+   
 </style>
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
     data-scroll="false">
@@ -71,20 +73,20 @@
         
         <div class="profile-menu">
             <button class="profile-button">
-                <img src="{{ asset('images/user/' . Auth::user()->image_user) }}" alt="User Image">
+                <img src="{{ Auth::user()->image_user ? asset('images/user/' . Auth::user()->image_user) : asset('assets/img/user.jpg') }}" alt="User Image">
             </button>
 
             <div class="dropdown-content" style="width: 200px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; background-color: #fff;">
                 <div style="padding: 20px; text-align: center;">
                     <div style="width: 110px; height: 110px; background-color: #f1f1f1; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                        <img src="{{ asset('images/user/' . Auth::user()->image_user) }}" alt="Profile Image" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;">
+                        <img src="{{ Auth::user()->image_user ? asset('images/user/' . Auth::user()->image_user) : asset('assets/img/user.jpg') }}" alt="Profile Image" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <p style="margin: 15px 0 0 0; font-weight: bold; font-family: 'Comic Sans MS', cursive, sans-serif; color: #1f1f1f;">Hello {{ Auth::user()->name }}</p>
                 </div>
                 <hr style="margin: 10px 0; border-color: #e0e0e0;">
                 <div style="padding: 10px;">
                     <a href="{{url('/')}}" style="display: flex; align-items: center; text-decoration: none; color: #333; padding: 5px 0;">
-                        <i class="bi bi-house-fill" style="margin-right: 10px;"></i> Halaman Utama
+                        <i class="bi bi-house-fill" style="margin-right: 10px;"></i> Home
                     </a>
                     @guest
                     <a class="nav-link" href="{{ url('login') }}" style="display: flex; align-items: center; text-decoration: none; color: #333; padding: 5px 0;">

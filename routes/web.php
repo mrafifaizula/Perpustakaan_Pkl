@@ -7,6 +7,9 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PinjambukuController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\NotifController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\TestimoniController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
 
@@ -40,6 +43,19 @@ Route::group(['prefix' => '/'], function () {
     // Route::resource('kontak', KontakController::class);
     Route::get('buku/{id}', [BukuController::class, 'show']);
 
+
+    // live chat
+    // Route::post('/send-chat', function (Request $request) {
+    //     $chat = Chat::create([
+    //         'id_user' => auth()->id(),
+    //         'message' => $request->input('message')
+    //     ]);
+    //     return response()->json($chat);
+    // });
+
+    // Route::post('/send-chat', [ChatController::class, 'store']);
+    // Route::get('/', [ChatController::class, 'index']);
+
     Route::group(['middleware' => ['auth']], function () {
         // Route::resource('pinjambuku', PinjambukuController::class);
         Route::get('pinjam/buku/{id}', [FrontController::class, 'ShowPinjambuku']);
@@ -59,7 +75,7 @@ Route::group(['prefix' => 'profil', 'middleware' => ['auth']], function () {
     // Route untuk menampilkan profil pengguna
     Route::get('anda', [FrontController::class, 'profil'])->name('profil.show');
 
-    // Route untuk memperbarui profil
+    // Route untuk memperbarui profil 
     Route::patch('anda/{id}', [UsersController::class, 'update'])->name('profil.update');
 
     Route::get('pinjambuku', [PinjambukuController::class, 'index'])->name('profil.peminjamanBuku');
@@ -72,7 +88,20 @@ Route::group(['prefix' => 'profil', 'middleware' => ['auth']], function () {
 
     Route::post('batalkan-pengajuan/{id}', [PinjamBukuController::class, 'batalkanpengajuan'])->name('batalkan.pengajuan');
 
-    Route::get('/notifications', [NotifController::class, 'index'])->name('notifications.index');
+    // Route::get('/notifications', [NotifController::class, 'index'])->name('notifications.index');
+
+    Route::get('riwayat', [FrontController::class, 'riwayat'])->name('profil.testimoni');
+
+    Route::get('testimoni/{id}', [TestimoniController::class, 'create'])->name('testimoni.create');
+
+
+    // Route untuk menyimpan testimoni ke database
+    Route::post('testimoni', [TestimoniController::class, 'store'])->name('testimoni.store');
+
+    Route::post('/notification/{id}/mark-as-read', [NotificationController::class, 'index'])->name('notifications.markAsRead');
+
+
+
 
 });
 
@@ -94,7 +123,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], fu
 
     Route::get('pengajuankembali', [App\Http\Controllers\BackController::class, 'pengajuankembali'])->name('admin.dataPeminjaman.permintaanPengembalian');
 
-    Route::put('pengajuankembali/tolak/{id}', [PinjambukuController::class, 'tolakpengembalian'])->name('pengembalian.tolak');
+    Route::post('pinjambuku/tolak/{id}', [PinjamBukuController::class, 'tolakpengembalian'])->name('pinjambuku.tolak');
 
     Route::get('pinjambuku', [App\Http\Controllers\BackController::class, 'permintaan'])->name('admin.dataPeminjaman.permintaanPeminjaman');
 
@@ -106,4 +135,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', IsAdmin::class]], fu
 
     Route::get('ditolak', [App\Http\Controllers\BackController::class, 'tidakdisetujui']);
 
+    Route::get('kontak', [App\Http\Controllers\BackController::class, 'kontak']);
+
+    Route::post('import-kategori', [App\Http\Controllers\KategoriController::class, 'import'])->name('import.kategori');
+
+    
 });

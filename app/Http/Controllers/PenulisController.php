@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 use Alert;
 use Validator;
-use App\Models\Penulis;
-use App\Models\Pinjambuku;
+use App\Models\penulis;
+use App\Models\pinjambuku;
 use Illuminate\Http\Request;
 
 class PenulisController extends Controller
@@ -12,21 +12,19 @@ class PenulisController extends Controller
     
     public function index()
     {
-        $penulis = Penulis::all();
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
-
+        $penulis = penulis::orderBy("id","desc")->get();
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
+        
         confirmDelete('Delete', 'Apakah Kamu Yakin?');
-        return view('admin.penulis.index', compact('penulis', 'notifymenunggu', 'notifpengajuankembali'));
+        return view('admin.penulis.index', compact('penulis', 'notifymenunggu'));
     }
 
     
     public function create()
     {
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
 
-        return view('admin.penulis.create', compact('notifymenunggu','notifpengajuankembali'));
+        return view('admin.penulis.create', compact('notifymenunggu'));
     }
 
   
@@ -34,20 +32,16 @@ class PenulisController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_penulis' => 'required|unique:penulis,nama_penulis',
-        ], [
-            'nama_penulis.required' => 'Nama Penulis Harus Diisi',
-            'nama_penulis.unique' => 'Nama Penulis Tidak Boleh Sama'
         ]);
 
-        // validator nama penulis tidak boleh sama pake alert
         if ($validator->fails()) {
-            $errors = $validator->errors()->first('nama_penulis');
-            Alert::error('Gagal', 'Gagal ' . $errors)->autoClose(2000);
+            $errorMessages = implode(' ', $validator->errors()->all());
+            Alert::error('Gagal', 'Gagal: ' . $errorMessages)->autoClose(2000);
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
         // new object
-        $penulis = new Penulis();
+        $penulis = new penulis();
         $penulis->nama_penulis = $request->nama_penulis;
         $penulis->save();
 
@@ -64,11 +58,10 @@ class PenulisController extends Controller
    
     public function edit($id)
     {
-        $notifymenunggu = Pinjambuku::where('status', 'menunggu')->count();
-        $notifpengajuankembali = Pinjambuku::where('status', 'menunggu pengembalian')->count();
+        $notifymenunggu = pinjambuku::whereIn('status', ['menunggu', 'menunggu pengembalian'])->count();
 
-        $penulis = Penulis::findOrFail($id);
-        return view('admin.penulis.edit', compact('penulis', 'notifymenunggu', 'notifpengajuankembali'));
+        $penulis = penulis::findOrFail($id);
+        return view('admin.penulis.edit', compact('penulis', 'notifymenunggu',));
     }
 
     
@@ -87,7 +80,7 @@ class PenulisController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $penulis = Penulis::findOrFail($id);
+        $penulis = penulis::findOrFail($id);
         $penulis->nama_penulis = $request->nama_penulis;
 
         $penulis->save();
@@ -98,7 +91,7 @@ class PenulisController extends Controller
     
     public function destroy($id)
     {
-        $penulis = Penulis::findOrFail($id);
+        $penulis = penulis::findOrFail($id);
         $penulis->delete();
         Alert::success('Success', 'Data Berhasil Di Hapus')->autoClose(1000);
         return redirect()->route('penulis.index');

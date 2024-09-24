@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class pinjambuku extends Model
 {
     use HasFactory;
-    public $fillable = ['jumlah', 'tanggal_pinjambuku', 'tanggal_kembali', 'status'];
-    public $visible = ['jumlah', 'tanggal_pinjambuku', 'tanggal_kembali', 'status'];
+    public $fillable = ['jumlah', 'tanggal_pinjambuku', 'tanggal_kembali', 'status', 'user'];
+    public $visible = ['jumlah', 'tanggal_pinjambuku', 'tanggal_kembali', 'status', 'user'];
     public $timestamps = true;
 
     public function user()

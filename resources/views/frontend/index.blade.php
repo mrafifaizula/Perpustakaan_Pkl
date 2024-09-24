@@ -1,5 +1,20 @@
 @extends('layouts.frontend')
 
+@section('title', 'Home')
+
+
+<style>
+    .rating .fa-star {
+        color: white;
+        /* Color for unfilled stars */
+    }
+
+    .rating .fa-star.checked {
+        color: yellow;
+        /* Color for filled stars */
+    }
+</style>
+
 @section('content')
     <div class="main-banner" id="top">
         <div class="container">
@@ -117,7 +132,8 @@
             <div class="row">
                 <div class="col-lg-6 lg-1">
                     <div class="accordion" id="accordionExample">
-                        <img src="{{ asset('assets/img/assalaam.png') }}" alt="" style="height: 400px; border-radius: 5%">
+                        <img src="{{ asset('assets/img/assalaam.png') }}" alt=""
+                            style="height: 400px; border-radius: 5%">
                     </div>
                 </div>
                 <div class="col-lg-5 align-self-center">
@@ -155,13 +171,12 @@
             </ul>
             <div class="row event_box">
                 @foreach ($buku as $item)
-                    <div
-                        class="col-lg-4 col-md-6 align-self-center mb-30 event_outer {{ $item->Kategori->nama_kategori }}">
+                    <div class="col-lg-4 col-md-6 align-self-center mb-30 event_outer {{ $item->Kategori->nama_kategori }}">
                         <div class="events_item">
                             <div class="thumb"
                                 style="width: 100%; padding-top: 110%; position: relative; overflow: hidden;">
                                 <a href="{{ url('buku', $item->id) }}">
-                                    <img src="{{ asset('images/buku/' . $item->image_buku) }}" alt=""
+                                    <img src="{{ file_exists(public_path('images/buku/' . $item->image_buku)) ? asset('images/buku/' . $item->image_buku) : asset('assets/img/noimage.png') }}" alt=""
                                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                                 </a>
                                 <span class="category">{{ $item->Kategori->nama_kategori }}</span>
@@ -185,8 +200,9 @@
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <div class="counter">
-                                    <h2 class="timer count-title count-number" data-to="{{ \App\Models\User::where('isAdmin', 0)->count() }}"
-                                        data-speed="1000"></h2>
+                                    <h2 class="timer count-title count-number"
+                                        data-to="{{ \App\Models\User::where('isAdmin', 0)->count() }}" data-speed="1000">
+                                    </h2>
                                     <p class="count-text ">Jumlah Pengguna</p>
                                 </div>
                             </div>
@@ -206,7 +222,8 @@
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="counter">
-                                    <h2 class="timer count-title count-number" data-to="{{ \App\Models\Pinjambuku::where('status', 'diterima')->count() }}"
+                                    <h2 class="timer count-title count-number"
+                                        data-to="{{ \App\Models\Pinjambuku::where('status', 'diterima')->count() }}"
                                         data-speed="1000"></h2>
                                     <p class="count-text ">Total Buku Dipinjam</p>
                                 </div>
@@ -223,35 +240,29 @@
             <div class="row">
                 <div class="col-lg-7">
                     <div class="owl-carousel owl-testimonials">
-                        <div class="item">
-                            <p>“Please tell your friends or collegues about TemplateMo website. Anyone can access the
-                                website to download free templates. Thank you for visiting.”</p>
-                            <div class="author">
-                                <img src="{{ asset('front/assets/images/testimonial-author.jpg') }}" alt="">
-                                <span class="category">Full Stack Master</span>
-                                <h4>Claude David</h4>
+                        @foreach ($testimoni as $item)
+                            <div class="item">
+                                <h4>{{ $item->pinjambuku->buku->judul }}</h4>
+                                <p>{{ $item->testimoni }}</p>
+                                <div class="author">
+                                    <img src="{{ $item->user->image_user ? asset('images/user/' . $item->user->image_user) : asset('assets/img/user.jpg') }}"
+                                        alt=""  style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                                    <h4>{{ $item->user->name }}</h4>
+                                    <div class="col-md-6 mt-2">
+                                        <div class="rating" style="color: yellow;">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="fa fa-star {{ $i <= $item->penilaian ? 'checked' : '' }}"></i>
+                                            @endfor
+                                        </div>
+                                        <input type="hidden" name="penilaian" value="{{ $item->penilaian }}">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="item">
-                            <p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravid.”</p>
-                            <div class="author">
-                                <img src="{{ asset('front/assets/images/testimonial-author.jpg') }}" alt="">
-                                <span class="category">UI Expert</span>
-                                <h4>Thomas Jefferson</h4>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <p>“Scholar is free website template provided by TemplateMo for educational related websites.
-                                This CSS layout is based on Bootstrap v5.3.0 framework.”</p>
-                            <div class="author">
-                                <img src="{{ asset('front/assets/images/testimonial-author.jpg') }}" alt="">
-                                <span class="category">Digital Animator</span>
-                                <h4>Stella Blair</h4>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
+
                 <div class="col-lg-5 align-self-center">
                     <div class="section-heading">
                         <h6>TESTIMONIALS</h6>
@@ -260,6 +271,7 @@
                             pencapaian perpustakaan.</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -283,12 +295,16 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <input type="text" placeholder="Your Name" class="form-control" name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}" readonly>
+                                        <input type="text" placeholder="Your Name" class="form-control"
+                                            name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}"
+                                            readonly>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <input type="text" placeholder="Your Email" class="form-control" name="email" value="{{ auth()->check() ? auth()->user()->email : '' }}" readonly>
+                                        <input type="text" placeholder="Your Email" class="form-control"
+                                            name="email" value="{{ auth()->check() ? auth()->user()->email : '' }}"
+                                            readonly>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
@@ -303,12 +319,13 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <button type="submit" id="form-submit" class="orange-button">Send Message Now</button>
+                                        <button type="submit" id="form-submit" class="orange-button">Send Message
+                                            Now</button>
                                     </fieldset>
                                 </div>
                             </div>
                         </form>
-                        
+
                     </div>
                 </div>
             </div>
@@ -338,9 +355,11 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         if ({{ session('scrollTo') === 'contact' ? 'true' : 'false' }}) {
-            document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('#contact').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
     });
 </script>

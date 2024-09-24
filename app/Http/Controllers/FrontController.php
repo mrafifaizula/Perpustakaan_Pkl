@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Buku;
-use App\Models\Kategori;
-use App\Models\Penulis;
-use App\Models\Penerbit;
+use App\Models\buku;
+use App\Models\kategori;
+use App\Models\penulis;
+use App\Models\penerbit;
 use App\Models\User;
-use App\Models\Pinjambuku;
+use App\Models\pinjambuku;
+use App\Models\testimoni;
+use App\Models\notification;
 use Auth;
 
 class FrontController extends Controller
@@ -16,47 +18,49 @@ class FrontController extends Controller
 
     public function index()
     {
-        $buku = Buku::all();
-        $kategori = Kategori::all();
-        $penulis = Penulis::all();
-        $penerbit = Penerbit::all();
+        $buku = buku::all();
+        $kategori = kategori::all();
+        $penulis = penulis::all();
+        $penerbit = penerbit::all();
         $user = User::all();
         $user = Auth::user();
-        $pinjambuku = Pinjambuku::all();
+        $pinjambuku = pinjambuku::all();
+        $testimoni = testimoni::all();
 
-        return view('frontend.index', compact('buku', 'kategori', 'penulis', 'penerbit', 'user', 'pinjambuku'));
+        return view('frontend.index', compact('buku', 'kategori', 'penulis', 'penerbit', 'user', 'pinjambuku', 'testimoni'));
     }
 
     public function detailbuku()
     {
-        $buku = Buku::all();
-        $kategori = Kategori::all();
-        $penulis = Penulis::all();
-        $penerbit = Penerbit::all();
+        $buku = buku::all();
+        $kategori = kategori::all();
+        $penulis = penulis::all();
+        $penerbit = penerbit::all();
         $pinjambuku = pinjambuku::all();
+
         return view('frontend.detailbuku', compact('buku', 'kategori', 'penulis', 'penerbit', 'pinjambuku'));
     }
 
     public function ShowPinjambuku($id)
     {
-        $buku = Buku::findOrFail($id);
-        $pinjambuku = Pinjambuku::where('id_buku', $buku->id)->first();
-        $user = Auth::user(); // Get the authenticated user
-
-        $notifications = Pinjambuku::where('id_user', $user->id) // Filter by user ID
-            ->whereIn('status', [
-                'menunggu pengembalian',
-                'diterima',
-                'ditolak',
-                'pengembalian ditolak',
-                'dikembalikan'
-            ])
-            ->orderBy('updated_at', 'desc')
-            ->take(5)
+        $buku = buku::findOrFail($id);
+        $pinjambuku = pinjambuku::where('id_buku', $buku->id)->first();
+        $user = Auth::user();
+        $idUser = Auth::id();
+        $notification = notification::where('id_user', $idUser)
+            ->where('read', false)  // Hanya ambil notifikasi yang belum dibaca
+            ->orderBy('created_at', 'desc')
             ->get();
 
+        if ($pinjambuku) {
+            $totalHarga = $pinjambuku->total_harga;
+        } else {
+            $totalHarga = 0;
+        }
 
-        return view('frontend.pinjambuku', compact('buku', 'pinjambuku', 'user', 'notifications'));
+
+
+        return view('profil.pinjambuku.pinjamBuku', compact('buku', 'pinjambuku', 'user', 'notification', 'totalHarga'));
     }
 
 
@@ -65,62 +69,118 @@ class FrontController extends Controller
 
     public function perpustakaan()
     {
-        $buku = Buku::all();
-        $kategori = Kategori::all();
-        $penulis = Penulis::all();
-        $penerbit = Penerbit::all();
+        $buku = buku::all();
+        $kategori = kategori::all();
+        $penulis = penulis::all();
+        $penerbit = penerbit::all();
         $user = User::all();
         $idUser = Auth::id();
-        $totalpinjam = Pinjambuku::where('id_user', $idUser)->sum('jumlah');
-        $notifications = Pinjambuku::whereIn('status', ['menunggu pengembalian', 'diterima', 'ditolak', 'pengembalian ditolak', 'dikembalikan'])
-            ->orderBy('updated_at', 'desc')
-            ->take(5)
+        $totalpinjam = pinjambuku::where('id_user', $idUser)->sum('jumlah');
+        // Ambil notifikasi yang belum dibaca
+        $notification = notification::where('id_user', $idUser)
+            ->where('read', false)  // Hanya ambil notifikasi yang belum dibaca
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('profil.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'user', 'totalpinjam', 'notifications'));
+        $pinjambuku = pinjambuku::where('id_user', $idUser)
+            ->whereIn('status', ['diterima'])
+            ->get();
+
+        $jumlahBukuPinjam = pinjambuku::where('id_user', Auth::id())
+            ->whereNotIn('status', ['diterima', 'menunggu pengembalian'])
+            ->sum('jumlah');
+
+        $userPinjamBuku = pinjambuku::where('id_user', $idUser)
+            ->whereIn('status', ['diterima', 'menunggu pengembalian'])
+            ->count();
+
+        $totalJumlahBukuDipinjam = pinjambuku::where('id_user', $idUser)
+            ->whereIn('status', ['diterima', 'menunggu pengembalian'])
+            ->sum('jumlah');
+
+
+        $pinjamBukuUserTolak = pinjambuku::where('id_user', Auth::id())
+            ->whereIn('status', ['ditolak'])
+            ->count();
+
+        $pinjamBukuDikembalikan = pinjambuku::where('id_user', Auth::id())
+            ->whereIn('status', ['dikembalikan'])
+            ->count();
+
+        return view('profil.dashboard', compact('buku', 'kategori', 'penulis', 'penerbit', 'user', 'totalpinjam', 'notification', 'pinjambuku', 'jumlahBukuPinjam', 'userPinjamBuku', 'pinjamBukuUserTolak', 'pinjamBukuDikembalikan', 'totalJumlahBukuDipinjam'));
     }
 
     public function daftarbuku()
     {
-        $buku = Buku::all();
-        $kategori = Kategori::all();
-        $notifications = Pinjambuku::whereIn('status', ['menunggu pengembalian', 'diterima', 'ditolak', 'pengembalian ditolak', 'dikembalikan'])
-            ->orderBy('updated_at', 'desc')
-            ->take(5)
+        $buku = buku::all();
+        $idUser = Auth::id();
+        $kategori = kategori::all();
+        // Ambil notifikasi yang belum dibaca
+        $notification = notification::where('id_user', $idUser)
+            ->where('read', false)  // Hanya ambil notifikasi yang belum dibaca
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('profil.pinjambuku.index', compact('buku', 'kategori', 'notifications'));
+        return view('profil.pinjambuku.daftarBuku', compact('buku', 'kategori', 'notification'));
     }
 
     public function showbukuprofil($id)
     {
-        $buku = Buku::findorfail($id);
-        $pinjambuku = Pinjambuku::all();
-        $notifications = Pinjambuku::whereIn('status', ['menunggu pengembalian', 'diterima', 'ditolak', 'pengembalian ditolak', 'dikembalikan'])
-            ->orderBy('updated_at', 'desc')
-            ->take(5)
+        $buku = buku::findorfail($id);
+        $pinjambuku = pinjambuku::all();
+        $idUser = Auth::id();
+        // Ambil notifikasi yang belum dibaca
+        $notification = notification::where('id_user', $idUser)
+            ->where('read', false)  // Hanya ambil notifikasi yang belum dibaca
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('profil.pinjambuku.show', compact('buku', 'pinjambuku', 'notifications'));
-    }
-
-    public function pinjambukuprofil()
-    {
-        $pinjambuku = Pinjambuku::all();
-        $buku = Buku::all();
-        $user = User::all();
-        return view('profil.pinjambuku.create', compact('pinjambuku', 'buku', 'user'));
+        return view('profil.pinjambuku.detailBuku', compact('buku', 'pinjambuku', 'notification'));
     }
 
     public function profil()
     {
         $user = Auth::user();
-        $notifications = Pinjambuku::whereIn('status', ['menunggu pengembalian', 'diterima', 'ditolak', 'pengembalian ditolak', 'dikembalikan'])
-            ->orderBy('updated_at', 'desc')
-            ->take(5)
+        $idUser = Auth::id();
+        // Ambil notifikasi yang belum dibaca
+        $notification = notification::where('id_user', $idUser)
+            ->where('read', false)  // Hanya ambil notifikasi yang belum dibaca
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('profil.profil', compact('user', 'notifications'));
+        $userPinjamBuku = pinjambuku::where('id_user', Auth::id())
+            ->whereIn('status', ['diterima', 'menunggu pengembalian'])
+            ->count();
+
+        $jumlahBukuPinjam = pinjambuku::where('id_user', Auth::id())
+            ->whereNotIn('status', ['dikembalikan', 'ditolak'])
+            ->sum('jumlah');
+
+
+
+        return view('profil.profil', compact('user', 'notification', 'userPinjamBuku', 'jumlahBukuPinjam'));
     }
+
+    public function riwayat()
+    {
+        $buku = buku::all();
+        $user = User::all();
+        $pinjambuku = pinjambuku::all();
+        $idUser = Auth::id();
+        // Ambil notifikasi yang belum dibaca
+        $notification = notification::where('id_user', $idUser)
+            ->where('read', false)  // Hanya ambil notifikasi yang belum dibaca
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $pinjambuku = pinjambuku::where('id_user', $idUser)
+            ->whereIn('status', ['dikembalikan', 'ditolak'])
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('profil.riwayat', compact('pinjambuku', 'buku', 'user', 'notification'));
+    }
+
+
 
 }

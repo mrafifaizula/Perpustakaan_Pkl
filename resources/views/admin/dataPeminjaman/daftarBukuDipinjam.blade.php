@@ -1,78 +1,88 @@
 @extends('layouts.backend')
 
+@section('title', 'Daftar Buku Yang di Pinjam')
+
 @section('styles')
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
 @endsection
 
+<style>
+    .dataTables_wrapper .dt-buttons {
+        margin-bottom: 2px;
+        /* Adjust margin between buttons and table */
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        text-align: right;
+        /* Align search box to the right */
+    }
+</style>
+
 @section('content')
-    <h4 class="m-5"><span style="color: white">Daftar </span>Buku Dipinjam </h4>
+    <h4 class="m-5"><span style="color: white">Buku </span> Yang Dipinjam
+    </h4>
     <div class="card m-5">
         <div class="card-header">
             <div class="float-start">
-                <h5>Daftar Buku Dipinjam</h5>
+                <h5>
+                    Buku Yang Dipinjam
+                </h5>
             </div>
-            {{-- <div class="float-end">
-                <a href="{{ route('buku.create') }}" class="btn btn-sm btn-primary">
-                    Add
-                </a>
-            </div> --}}
         </div>
         <div class="card-body">
             <div class="table-responsive text-nowrap">
                 <table class="table" id="example">
                     <thead>
-                        <td>No</td>
+                        <td class="text-center">No</td>
                         <td>Name</td>
                         <td>Judul</td>
                         <td>Jumlah</td>
-                        <td>Tanggal Pinjam</td>
-                        <td>Tanggal Kembali</td>
+                        {{-- <td>Tanggal Pinjam</td> --}}
+                        <td class="text-center">Batas Pengembalian</td>
                         <td>Status</td>
-                        <td>Action</td>
+                        <td class="text-center">Aksi</td>
                     </thead>
-                    @php $no = 1; @endphp
                     <tbody>
+                        @php $no = 1; @endphp
                         @foreach ($pinjambuku as $item)
                             <tr>
-                                <td>{{ $no++ }}</td>
+                                <td class="text-center">{{ $no++ }}</td>
                                 <td>{{ $item->user->name }}</td>
                                 <td>{{ $item->buku->judul }}</td>
-                                <td>{{ $item->jumlah }}</td>
-                                <td>{{ $item->tanggal_pinjambuku }}</td>
-                                <td>{{ $item->tanggal_kembali }}</td>
+                                <td class="text-center">{{ $item->jumlah }}</td>
+                                {{-- <td>{{ $item->tanggal_pinjambuku }}</td> --}}
+                                <td class="text-center">{{ $item->tanggal_kembali }}</td>
                                 <td>
                                     <span
                                         class="badge badge-sm 
-                                        @if ($item->status == 'menunggu') bg-gradient-info
-                                        @elseif($item->status == 'diterima') bg-gradient-success
-                                        @elseif($item->status == 'ditolak') bg-gradient-danger
-                                        @elseif($item->status == 'dikembalikan') bg-gradient-primary
-                                        @elseif($item->status == 'menunggu pengembalian') bg-gradient-warning @endif
-                                    ">
+                                @if ($item->status == 'menunggu') bg-gradient-info
+                                @elseif($item->status == 'diterima') bg-gradient-success
+                                @elseif($item->status == 'ditolak') bg-gradient-danger
+                                @elseif($item->status == 'dikembalikan') bg-gradient-primary
+                                @elseif($item->status == 'menunggu pengembalian') bg-gradient-warning @endif
+                            ">
                                         @if ($item->status == 'menunggu')
                                             Menunggu
                                         @elseif($item->status == 'diterima')
-                                            Dipinjam
+                                            Disetujui
                                         @elseif($item->status == 'ditolak')
                                             Ditolak
                                         @elseif($item->status == 'dikembalikan')
-                                            Dikembalikan
+                                            Sudah Dikembalikan
                                         @elseif($item->status == 'menunggu pengembalian')
                                             Menunggu Pengembalian
                                         @endif
                                     </span>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" title="Detail"
                                         data-bs-target="#exampleModal{{ $item->id }}">
-                                        
+                                        <i class="bi bi-eye"></i>
                                     </button>
                                 </td>
                             </tr>
-
-                            
 
                             <!-- start Modal -->
                             <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"
@@ -80,86 +90,70 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Daftar Buku Dipinjam</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                Riwayat
+                                            </h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
-
                                                 <div class="row mb-2">
                                                     <div class="col-md-6">
-                                                        <label for="">Name</label>
-                                                        <input type="text"
-                                                            class="form-control @error('name') is-invalid @enderror"
-                                                            name="name" value="{{ $item->user->name }}" disabled>
+                                                        <label for="">Nama</label>
+                                                        <input type="text" class="form-control" name="name"
+                                                            value="{{ $item->user->name }}" disabled>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="">Judul</label>
-                                                        <input type="text"
-                                                            class="form-control @error('judul') is-invalid @enderror"
-                                                            name="judul" value="{{ $item->buku->judul }}" disabled>
+                                                        <input type="text" class="form-control" name="judul"
+                                                            value="{{ $item->buku->judul }}" disabled>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-2">
                                                     <div class="col-md-6">
-                                                        <label for="">Jumlah Buku</label>
-                                                        <input type="text"
-                                                            class="form-control @error('jumlah_buku') is-invalid @enderror"
-                                                            name="jumlah_buku" value="{{ $item->jumlah }}" disabled>
+                                                        <label for="">Jumlah</label>
+                                                        <input type="text" class="form-control" name="jumlah_buku"
+                                                            value="{{ $item->jumlah }}" disabled>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="">Code Buku</label>
-                                                        <input type="text"
-                                                            class="form-control @error('code_buku') is-invalid @enderror"
-                                                            name="code_buku" value="{{ $item->buku->code_buku }}" disabled>
+                                                        <label for="">Kode Buku</label>
+                                                        <input type="text" class="form-control" name="code_buku"
+                                                            value="{{ $item->buku->code_buku }}" disabled>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-2">
                                                     <div class="col-md-6">
                                                         <label for="">Tanggal Pinjam</label>
-                                                        <input type="text"
-                                                            class="form-control @error('tanggal_pinjambuku') is-invalid @enderror"
-                                                            name="tanggal_pinjambuku" value="{{ $item->tanggal_pinjambuku }}" disabled>
+                                                        <input type="text" class="form-control" name="tanggal_pinjambuku"
+                                                            value="{{ $item->tanggal_pinjambuku }}" disabled>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="">Tanggal Kembali</label>
-                                                        <input type="text"
-                                                            class="form-control @error('tanggal_kembali') is-invalid @enderror"
-                                                            name="tanggal_kembali" value="{{ $item->tanggal_kembali }}"
+                                                        <label for="">Batas Pengembalian</label>
+                                                        <input type="text" class="form-control" name="tanggal_kembali"
+                                                            value="{{ $item->tanggal_kembali }}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-12">
+                                                        <label for="">Total Harga</label>
+                                                        <input type="text" class="form-control" name="total_harga"
+                                                            value="{{ number_format($item->total_harga, 2, ',', '.') }}"
                                                             disabled>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            {{-- <div style="display: flex; gap: 5px;">
-                                                <!-- In your Blade view file -->
-                                                <form action="{{ route('pinjambuku.menyetujui', $item->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-success">Setujui</button>
-                                                </form>
-
-                                                <form action="{{ route('pinjambuku.tolak', $item->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-danger">Tolak</button>
-                                                </form>
-                                            </div> --}}
                                             <button type="button" class="btn btn-sm btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
+                                                data-bs-dismiss="modal">Kembali</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {{-- end modal --}}
+                            <!-- end modal -->
                         @endforeach
                     </tbody>
                 </table>
@@ -169,30 +163,60 @@
 @endsection
 
 @push('scripts')
-    {{-- <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script> --}}
-    {{-- <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/2.1.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.bootstrap5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
     <script>
-        new DataTable('#example', {
-            layout: {
-                topStart: {
-                    buttons: ['excel', 'pdf', 'colvis']
+        $(document).ready(function() {
+            $('#example').DataTable({
+                dom: '<"row"<"col-sm-6"B><"col-sm-6"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+                buttons: [{
+                        extend: 'pdf',
+                        text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
+                        className: 'btn btn-danger',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="bi bi-file-earmark-excel"></i> Excel',
+                        className: 'btn btn-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="bi bi-printer"></i> Print',
+                        className: 'btn btn-primary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                ],
+                language: {
+                    search: "Mencari:", // Translations
+                    lengthMenu: "Tampilkan _MENU_ entri",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    infoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
+                    infoFiltered: "(difilter dari _MAX_ total entri)",
+                    zeroRecords: "Tidak ada data yang cocok",
+                    emptyTable: "Tidak ada data tersedia dalam tabel",
                 }
-            }
+            });
         });
     </script>
-
     <script>
         const myModal = document.getElementById('myModal')
         const myInput = document.getElementById('myInput')

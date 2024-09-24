@@ -6,7 +6,7 @@
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
             target="_blank">
             <img src="{{ asset('assets/img/assalaam.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold">PERPUSTAKAAN</span>
+            <span class="ms-1 font-weight-bold">Perpustakaan</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -31,6 +31,16 @@
                 <span class="nav-link-text ms-1">User</span>
             </a>
         </li>
+        {{-- <li class="nav-item">
+            <a class="nav-link " href="{{ url('admin/kontak') }}">
+                <div
+                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                    <i class="bi bi-person-lines-fill" style="color: black;"></i>
+                </div>
+                <span class="nav-link-text ms-1">Kontak</span>
+            </a>
+        </li> --}}
         <li class="nav-item mt-3">
             <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Tables</h6>
         </li>
@@ -41,7 +51,7 @@
                     {{-- <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10" style="color: black"></i> --}}
                     <i class="ni ni-calendar-grid-58 text-sm" style="color: blue;"></i>
                 </div>
-                <span class="nav-link-text ms-1">Kategori</span>
+                <span class="nav-link-text ms-1">kategori</span>
             </a>
         </li>
         <li class="nav-item">
@@ -88,7 +98,7 @@
                         </span>
                     @endif
                 </div>
-                <span class="nav-link-text ms-1">Permintaan Peminjaman</span>
+                <span class="nav-link-text ms-1">Pengajuan</span>
             </a>
         </li>
         
@@ -111,7 +121,7 @@
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center position-relative">
                     <i class="bi bi-book-half text-sm" style="color: blue"></i>
                 </div>
-                <span class="nav-link-text ms-1">Daftar Buku Dipinjam</span>
+                <span class="nav-link-text ms-1">Buku Yang dipinjam</span>
             </a>
         </li>
         
@@ -120,7 +130,7 @@
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center position-relative">
                     <i class="bi bi-book-half text-sm" style="color: black"></i>
                 </div>
-                <span class="nav-link-text ms-1">Riwayat Peminjaman & Tolak</span>
+                <span class="nav-link-text ms-1">Riwayat</span>
             </a>
         </li>
 

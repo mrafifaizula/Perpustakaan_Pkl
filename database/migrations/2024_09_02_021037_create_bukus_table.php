@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image_buku');
             $table->string('desc_buku');
             $table->string('code_buku');
+            $table->decimal('harga', 8, 2);
             $table->unsignedBigInteger('id_kategori');
             $table->unsignedBigInteger('id_penulis');
             $table->unsignedBigInteger('id_penerbit');

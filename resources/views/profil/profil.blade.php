@@ -1,5 +1,7 @@
 @extends('layouts.profil')
 
+@section('title', 'Profile')
+
 @section('content')
     <div class="container-fluid py-4">
         <div class="row">
@@ -7,7 +9,7 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <p class="mb-0">Edit Profile</p>
+                            <p class="mb-0">Mengedit Profile</p>
                         </div>
                     </div>
                     <div class="card-body">
@@ -19,7 +21,7 @@
                             <div class="col-md-6">
                                 <label for="name" class="form-label">Nama</label>
                                 <div class="position-relative">
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ $user->name }}" placeholder="Full Name" required>
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ $user->name }}" placeholder="Nama" required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -38,9 +40,9 @@
                         
                             <!-- Input Nomor Telepon -->
                             <div class="col-md-6">
-                                <label for="tlp" class="form-label">Nomor Telepon</label>
+                                <label for="tlp" class="form-label">Nomor Handphone</label>
                                 <div class="position-relative">
-                                    <input class="form-control mb-3 @error('tlp') is-invalid @enderror" type="tel" name="tlp" id="tlp" placeholder="Nomor Telepon" value="{{ $user->tlp }}" required>
+                                    <input class="form-control mb-3 @error('tlp') is-invalid @enderror" type="tel" name="tlp" id="tlp" placeholder="Nomor Handphone" value="{{ $user->tlp }}" required>
                                     @error('tlp')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -73,17 +75,17 @@
                             <!-- Tombol Update -->
                             <div class="col-md-12">
                                 <div class="d-md-flex d-grid align-items-center gap-3 float-end">
-                                    <button type="submit" class="btn btn-sm btn-primary px-4">Update Profil</button>
+                                    <button type="submit" class="btn btn-sm btn-primary px-4">Perbarui Profile</button>
                                 </div>
                             </div>
                         </form>                        
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" >
                 <div class="card card-profile">
-                    <img src="{{ asset('assets/img/assalaam.png') }}" alt="Image placeholder" class="card-img-top" style="height: 180px">
-                    <div class="row justify-content-center">
+                    <img src="{{ Auth::user()->image_user ? asset('images/user/' . Auth::user()->image_user) : asset('assets/img/user.jpg') }}" alt="Image placeholder" class="card-img-top" style="height: 250px;">
+                    {{-- <div class="row justify-content-center">
                         <div class="col-4 col-lg-4 order-lg-2">
                             <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
                                 <a href="javascript:;">
@@ -93,7 +95,7 @@
                                 </a>                                
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
                         <div class="d-flex justify-content-between">
                             <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-none d-lg-block">Connect</a>
@@ -110,20 +112,20 @@
                             <div class="col">
                                 <div class="d-flex justify-content-center">
                                     <div class="d-grid text-center mx-4">
-                                        <span class="text-lg font-weight-bolder">0</span>
-                                        <span class="text-sm opacity-8">Pinjam Buku</span>
+                                        <span class="text-lg font-weight-bolder">{{ $userPinjamBuku }}</span>
+                                        <span class="text-sm opacity-8">Buku yang Dipinjam</span>
                                     </div>
                                     <div class="d-grid text-center">
                                         <span
-                                            class="text-lg font-weight-bolder">{{ \App\Models\PinjamBuku::where('id_user', Auth::user()->id)->count() }}</span>
-                                        <span class="text-sm opacity-8">Judul Pinjam</span>
+                                            class="text-lg font-weight-bolder">{{ $jumlahBukuPinjam }}</span>
+                                        <span class="text-sm opacity-8">Jumlah Buku Yang Dipinjam</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="text-center mt-4">
                             <h5 style="font-size: 15px">
-                                Name: {{ Auth::user()->name }}
+                                {{ Auth::user()->name }}
                             </h5>
                             <div>
                                 <i class="ni education_hat mr-2"></i>Smk Assalaam Bandung

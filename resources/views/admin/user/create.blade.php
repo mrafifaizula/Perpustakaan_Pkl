@@ -1,5 +1,7 @@
 @extends('layouts.backend')
 
+@section('title', 'Create User')
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -73,7 +75,7 @@
                                         @enderror
                                     </div>
                                     <div class="mb-2">
-                                        <label for="isAdmin">IsAdmin</label>
+                                        <label for="isAdmin">Role</label>
                                         <select name="isAdmin"
                                             class="form-control select @error('isAdmin') is-invalid @enderror">
                                             <option value="">Pilih</option>

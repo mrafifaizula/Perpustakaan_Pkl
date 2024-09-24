@@ -1,5 +1,7 @@
 @extends('layouts.backend')
 
+@section('title', 'Create Kategori')
+
 @section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -13,7 +15,7 @@
                             @csrf
                             <div class="mb-2">
                                 <label for="nama_kategori">Kategori</label>
-                                <input type="text" placeholder="Judul kategori"
+                                <input type="text" placeholder="Kategori"
                                     class="form-control @error('nama_kategori') is-invalid @enderror" name="nama_kategori">
                                 @error('nama_kategori')
                                     <span class="invalid-feedback" role="alert">

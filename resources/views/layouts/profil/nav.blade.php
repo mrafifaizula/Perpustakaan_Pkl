@@ -31,7 +31,7 @@
         right: 0;
         background-color: #fff;
         min-width: 200px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         z-index: 1;
         border-radius: 10px;
     }
@@ -62,7 +62,6 @@
         cursor: pointer;
         display: inline-block;
         margin-right: 20px;
-        /* Jarak lebih dekat antara notifikasi dan profil */
         z-index: 1000;
     }
 
@@ -87,12 +86,19 @@
         position: absolute;
         top: 100%;
         right: 0;
-        background-color: #fff;
-        min-width: 250px;
+        background-color: #f9f9f9;
+        /* Warna latar belakang yang lebih cerah */
+        min-width: 300px;
+        /* Lebar minimum lebih besar */
+        width: 350px;
+        /* Lebar tetap untuk dropdown */
+        max-height: 300px;
+        overflow-y: auto;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 8px;
         z-index: 1000;
-        padding: 0;
+        padding: 15px;
+        /* Tambahkan padding untuk ruang di sekitar konten */
     }
 
     .notification-icon:hover .notification-dropdown {
@@ -103,9 +109,14 @@
         color: #333;
         text-decoration: none;
         display: block;
-        padding: 8px 12px;
-        /* Dekatkan jarak antar notifikasi */
-        border-bottom: 1px solid #ddd;
+        padding: 10px 15px;
+        /* Padding yang lebih besar untuk area klik yang lebih nyaman */
+        border-radius: 4px;
+        /* Rounded corners untuk setiap item */
+        margin-bottom: 8px;
+        /* Spacing antar notifikasi */
+        transition: background-color 0.3s;
+        /* Transisi halus untuk hover */
     }
 
     .notification-dropdown a:last-child {
@@ -118,10 +129,22 @@
 
     .notification-dropdown .d-flex {
         margin-bottom: 2px;
-        /* Dekatkan jarak antar konten dalam dropdown */
+    }
+
+    .notification-dropdown p {
+        font-size: 12px;
+        /* Ukuran font untuk teks tambahan */
+        margin: 0;
+        /* Menghapus margin default */
+    }
+
+    .notification-dropdown small {
+        font-size: 10px;
+        /* Ukuran font untuk waktu */
+        color: #888;
+        /* Warna lebih terang untuk waktu */
     }
 </style>
-
 
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
     data-scroll="false">
@@ -134,60 +157,31 @@
         </nav>
 
         <div class="d-flex align-items-center">
-            <!-- Notifications -->
+            <!-- notification -->
             <div class="notification-icon mx-3">
                 <i class="bi bi-bell" style="font-size: 24px; color: white;"></i>
-                @if ($notifications->count() > 0)
-                    <span class="badge">{{ $notifications->count() }}</span>
+                @if ($notification->count() > 0)
+                    <span class="badge">{{ $notification->count() }}</span>
                 @endif
                 <div class="notification-dropdown">
-                    @forelse ($notifications as $notification)
-                        <a href="#">
-                            <div class="d-flex py-1">
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="text-sm font-weight-normal mb-1">
-                                        <span class="font-weight-bold" style="color: black">
-                                            @switch($notification->status)
-                                                @case('diterima')
-                                                    Pinjam Buku Di Acc
-                                                    @break
-                                                @case('ditolak')
-                                                    Pengajuan Buku Ditolak
-                                                    @break
-                                                @case('pengembalian ditolak')
-                                                    Pengembalian Buku Ditolak
-                                                    @break
-                                                @case('dikembalikan')
-                                                    Buku Berhasil Dikembalikan
-                                                    @break
-                                                @default
-                                                    Status Tidak Dikenal
-                                            @endswitch
-                                        </span>
-                                    </h6>
-                                    <p class="text-xs text-secondary mb-0">
-                                        <i class="fa fa-clock me-1"></i>
-                                        {{ $notification->created_at->diffForHumans() }}
-                                    </p>
-                                    @if ($notification->pesan)
-                                        <p class="text-xs text-danger mb-0 mt-1">
-                                            <strong>Alasan: </strong> {{ $notification->pesan }}
-                                        </p>
-                                    @endif
-                                </div>
-                            </div>
-                        </a>
-                        <hr>
-                    @empty
+                    @if ($notification->count() > 0)
+                        @foreach ($notification as $item)
+                            <a href="#">
+                                <strong>{{ $item->type }}</strong>
+                                <p>{{ $item->pesan }}</p>
+                                <small>{{ $item->created_at->diffForHumans() }}</small>
+                            </a>
+                        @endforeach
+                    @else
                         <p class="text-center p-3">Tidak ada notifikasi</p>
-                    @endforelse
+                    @endif
                 </div>
-            </div>            
+            </div>
 
             <!-- Profile Menu -->
             <div class="profile-menu">
                 <button class="profile-button">
-                    <img src="{{ asset('images/user/' . (Auth::user()->image_user ?? 'default.png')) }}"
+                    <img src="{{ Auth::user()->image_user ? asset('images/user/' . Auth::user()->image_user) : asset('assets/img/user.jpg') }}"
                         alt="User Image">
                 </button>
 
@@ -195,7 +189,7 @@
                     <div style="padding: 20px; text-align: center;">
                         <div
                             style="width: 110px; height: 110px; background-color: #f1f1f1; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{ asset('images/user/' . (Auth::user()->image_user ?? 'default.png')) }}"
+                            <img src="{{ Auth::user()->image_user ? asset('images/user/' . Auth::user()->image_user) : asset('assets/img/user.jpg') }}"
                                 alt="Profile Image"
                                 style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;">
                         </div>
@@ -229,8 +223,10 @@
                             <a class="nav-link text-dark" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                 style="display: flex; align-items: center; text-decoration: none; color: #333; padding: 5px 0;">
-                                <i class="bi bi-box-arrow-left" style="margin-right: 10px;"></i> Logout
+                                <i class="bi bi-box-arrow-left" style="margin-right: 10px; color: #333;"></i> <span
+                                    style="color: black">Logout</span>
                             </a>
+
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
@@ -241,3 +237,30 @@
         </div>
     </div>
 </nav>
+@push('scripts')
+<script>
+    $(document).on('click', '.notification-item', function() {
+        const notificationId = $(this).data('id');
+
+        $.post(`/notification/${notificationId}/markAsRead`, {
+            _token: '{{ csrf_token() }}' // Menambahkan token CSRF untuk keamanan
+        }).done(function(response) {
+            if (response.success) {
+                // Hapus notifikasi dari tampilan atau tandai sebagai dibaca
+                $(this).fadeOut();
+
+                // Perbarui jumlah notifikasi
+                const badge = $('.notification-icon .badge');
+                const count = parseInt(badge.text()) - 1;
+
+                // Jika tidak ada notifikasi, sembunyikan badge
+                if (count <= 0) {
+                    badge.remove(); // Hapus badge jika jumlah notifikasi 0
+                } else {
+                    badge.text(count); // Perbarui angka pada badge
+                }
+            }
+        }.bind(this)); // Mengikat `this` ke konteks saat ini
+    });
+</script>
+@endpush

@@ -1,5 +1,8 @@
 @extends('layouts.backend')
 
+@section('title', 'Crate Buku')
+
+
 @section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -13,7 +16,7 @@
                             @csrf
                             <div class="mb-2">
                                 <label for="judul">Judul</label>
-                                <input type="text" placeholder="Judul Buku"
+                                <input type="text" placeholder="Judul"
                                     class="form-control @error('judul') is-invalid @enderror" name="judul">
                                 @error('judul')
                                     <span class="invalid-feedback" role="alert">
@@ -22,8 +25,8 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <label for="code_buku">Code Buku</label>
-                                <input type="text" placeholder="Code Buku"
+                                <label for="code_buku">Kode Buku</label>
+                                <input type="text" placeholder="Kode Buku"
                                     class="form-control @error('code_buku') is-invalid @enderror" name="code_buku">
                                 @error('code_buku')
                                     <span class="invalid-feedback" role="alert">
@@ -32,7 +35,7 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <label for="tahun_terbit">Tahun terbit</label>
+                                <label for="tahun_terbit">Tahun Terbit</label>
                                 <input type="date" placeholder="Tahun Terbit"
                                     class="form-control @error('tahun_terbit') is-invalid @enderror" name="tahun_terbit">
                                 @error('tahun_terbit')
@@ -42,8 +45,8 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <label for="jumlah_buku">Jumlah Buku</label>
-                                <input type="number" placeholder="Jumlah Buku"
+                                <label for="jumlah_buku">Stok</label>
+                                <input type="number" placeholder="Stok"
                                     class="form-control @error('jumlah_buku') is-invalid @enderror" name="jumlah_buku">
                                 @error('jumlah_buku')
                                     <span class="invalid-feedback" role="alert">
@@ -51,8 +54,21 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="mb-2">
+                                <label for="harga">Harga</label>
+                                <input type="text" name="harga" id="harga"
+                                    class="form-control @error('harga') is-invalid @enderror" placeholder="Harga"
+                                    oninput="formatHarga(this)">
+                                @error('harga')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+
                             <div class="mb-3">
-                                <label for="image_buku" class="form-label">Images</label>
+                                <label for="image_buku" class="form-label">Foto Buku</label>
                                 <input type="file" name="image_buku"
                                     class="form-control @error('image_buku') is-invalid @enderror">
                                 @error('image_buku')
@@ -76,7 +92,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="id_penulis" class="form-label">Name Penulis</label>
+                                <label for="id_penulis" class="form-label">Nama Penulis</label>
                                 <select name="id_penulis" class="form-control @error('id_penulis') is-invalid @enderror">
                                     <option value="" disabled selected>Pilih Penulis</option>
                                     @foreach ($penulis as $data)
@@ -90,7 +106,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="id_penerbit" class="form-label">Name Penerbit</label>
+                                <label for="id_penerbit" class="form-label">Nama Penerbit</label>
                                 <select name="id_penerbit" class="form-control @error('id_penerbit') is-invalid @enderror">
                                     <option value="" disabled selected>Pilih Penerbit</option>
                                     @foreach ($penerbit as $data)
@@ -123,3 +139,11 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        function formatHarga(input) {
+            let value = input.value.replace(/[Rp.]/g, ''); // Hilangkan simbol Rp dan titik
+            input.value = 'Rp ' + new Intl.NumberFormat('id-ID').format(value); // Format ulang
+        }
+    </script>
+@endpush

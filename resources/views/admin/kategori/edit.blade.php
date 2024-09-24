@@ -1,5 +1,7 @@
 @extends('layouts.backend')
 
+@section('title', 'Edit Buku')
+
 @section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -14,7 +16,7 @@
                             @method('PUT')
                             @csrf
                             <div class="mb-2">
-                                <label for="nama_kategori">Katgori</label>
+                                <label for="nama_kategori">Kategori</label>
                                 <input type="text" class="form-control @error('nama_kategori') is-invalid @enderror"
                                     name="nama_kategori" value="{{ $kategori->nama_kategori }}">
                                 @error('nama_kategori')
@@ -24,9 +26,7 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <button class="btn btn-sm btn-success" type="submit">
-                                    Simpan
-                                </button>
+                                <button class="btn btn-sm btn-success" type="submit">Simpan</button>
                                 <button class="btn btn-sm btn-warning" type="reset">Reset</button>
                             </div>
                         </form>

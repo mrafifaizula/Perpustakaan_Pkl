@@ -1,5 +1,7 @@
 @extends('layouts.backend')
 
+@section('title', 'Create Penerbit')
+
 @section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -7,15 +9,15 @@
                 <div class="card">
                     <div class="card-header">Data Penerbit
                         <a href="{{ route('penerbit.index') }}" class="btn btn-sm btn-primary" style="float: right">
-                            <i class="bi bi-backspace"></i>
+                            Kembali
                         </a>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('penerbit.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-2">
-                                <label for="nama_penerbit">Name Penerbit</label>
-                                <input type="text" placeholder="Judul penerbit"
+                                <label for="nama_penerbit">Nama Penerbit</label>
+                                <input type="text" placeholder="Nama Penerbit"
                                     class="form-control @error('nama_penerbit') is-invalid @enderror" name="nama_penerbit">
                                 @error('nama_penerbit')
                                     <span class="invalid-feedback" role="alert">

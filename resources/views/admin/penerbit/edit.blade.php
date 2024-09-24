@@ -1,13 +1,15 @@
 @extends('layouts.backend')
 
+@section('title', 'Edit Penerbit')
+
 @section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">Data Penerbit
+                    <div class="card-header"> Data Penerbit
                         <a href="{{ route('penerbit.index') }}" class="btn btn-sm btn-primary" style="float: right">
-                            <i class="bi bi-backspace"></i>
+                            Kembali
                         </a>
                     </div>
                     <div class="card-body">
@@ -16,7 +18,7 @@
                             @method('PUT')
                             @csrf
                             <div class="mb-2">
-                                <label for="nama_penerbit">Name Penerbit</label>
+                                <label for="nama_penerbit">Nama Penerbit</label>
                                 <input type="text" class="form-control @error('nama_penerbit') is-invalid @enderror"
                                     name="nama_penerbit" value="{{ $penerbit->nama_penerbit }}">
                                 @error('nama_penerbit')
@@ -26,9 +28,7 @@
                                 @enderror
                             </div>
                             <div class="mb-2">
-                                <button class="btn btn-sm btn-success" type="submit">
-                                    Simpan
-                                </button>
+                                <button class="btn btn-sm btn-success" type="submit">Simpan</button>
                                 <button class="btn btn-sm btn-warning" type="reset">Reset</button>
                             </div>
                         </form>
